@@ -24,24 +24,26 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-flex_target(MyScanner scanner.ll
-    ${CMAKE_CURRENT_BINARY_DIR}/scanner.cpp
-    COMPILE_FLAGS "-B -B"
-    )
+#flex_target(MyScanner scanner.ll
+#    ${CMAKE_CURRENT_BINARY_DIR}/scanner.cpp
+#    COMPILE_FLAGS "-B -B"
+#    )
+#
+#bison_target(MyParser
+#    yacc.yy
+#    ${CMAKE_CURRENT_BINARY_DIR}/yacc.cpp
+#    COMPILE_FLAGS "-d -t"
+#    )
 
-bison_target(MyParser
-    yacc.yy
-    ${CMAKE_CURRENT_BINARY_DIR}/yacc.cpp
-    COMPILE_FLAGS "-d -t"
-    )
-
-add_flex_bison_dependency(MyScanner MyParser)
+#add_flex_bison_dependency(MyScanner MyParser)
 
 add_executable(mcopidl
     mcopidl.cc
     namespace.cc
-    ${CMAKE_CURRENT_BINARY_DIR}/scanner.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/yacc.cpp
+    yacc.cc
+    scanner.cc
+    #${CMAKE_CURRENT_BINARY_DIR}/scanner.cpp
+    #${CMAKE_CURRENT_BINARY_DIR}/yacc.cpp
     )
 target_link_libraries(mcopidl kde2::mcop)
 

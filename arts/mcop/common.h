@@ -24,6 +24,18 @@
 #define COMMON_H
 
 #include <vector>
+#include <string>
+#include "buffer.h"
+#include "type.h"
+#include "dispatcher.h"
+#include "object.h"
+#include "connection.h"
+#include "objectmanager.h"
+#include "idlfilereg.h"
+#include "asyncstream.h"
+#include "mcoputils.h"
+#include "core.h"
+#include "anyref.h"
 
 namespace Arts {
 /* some marshalling helpers */
