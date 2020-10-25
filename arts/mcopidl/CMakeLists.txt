@@ -43,6 +43,7 @@ add_executable(mcopidl
     ${CMAKE_CURRENT_BINARY_DIR}/scanner.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/yacc.cpp
     )
+target_link_libraries(mcopidl kde2::mcop)
 
 target_include_directories(mcopidl
     PUBLIC
