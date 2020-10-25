@@ -71,7 +71,7 @@ if(ENABLE_THREAD_SUPPORT)
 endif()
 
 if(ENABLE_OPENGL)
-    find_package(OpenGL REQUIRED)
+    find_package(OpenGL REQUIRED COMPONENTS OpenGL)
     find_package(GLUT REQUIRED)
 endif()
 
