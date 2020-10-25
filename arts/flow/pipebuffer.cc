@@ -22,6 +22,7 @@
 
 #include "pipebuffer.h"
 #include <assert.h>
+#include <string.h>
 
 using namespace std;
 using namespace Arts;

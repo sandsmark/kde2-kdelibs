@@ -22,7 +22,7 @@
 
 #include "resample.h"
 #include "debug.h"
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
 #include <assert.h>
 #include <stdio.h>

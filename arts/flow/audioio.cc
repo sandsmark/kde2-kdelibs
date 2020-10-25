@@ -24,6 +24,7 @@
 #include <map>
 #include <list>
 #include <assert.h>
+#include <string.h>
 
 using namespace Arts;
 using namespace std;
