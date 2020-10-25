@@ -1,5 +1,5 @@
 [KDE Print Filter Entry]
-Name=imagetops
+Name=imagetops2
 Name[az]=rəsmlər
 Name[da]=billedtopper
 Name[eo]=Bildsuproj
@@ -8,7 +8,7 @@ Name[is]=Myndatoppar
 Name[sr]=slika u ps
 Name[sv]=Bildtoppar
 Name[xh]=imiphezulu yemifanekiso
-Require=exec:/imagetops
+Require=exec:/imagetops2
 Comment=Generic image to PS filter
 Comment[az]=PS üçün ümumi rəsm
 Comment[bg]=Преобразуване на картинки в PS

@@ -19,7 +19,7 @@ done
 temp=0
 if test -z "$FILE" -o ! -f "$FILE" ; then
 	ARGS="$ARGS $FILE"
-	FILE=`mktemp /tmp/imagetops.XXXXXX` || exit 1
+	FILE=`mktemp /tmp/imagetops2.XXXXXX` || exit 1
 	cat > $FILE
 	temp=1
 fi

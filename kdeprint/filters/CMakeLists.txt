@@ -35,7 +35,7 @@ install(FILES
     DESTINATION ${KDE2_DATADIR}/kdeprint/filters
     )
 
-install(FILES imagetops
+install(FILES imagetops2
     PERMISSIONS WORLD_EXECUTE
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     )

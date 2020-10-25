@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<kprintfilter name="imagetops" require="imagetops" description="Generic image to PS filter">
-	<filtercommand data="imagetops %filterargs %filterinput %filteroutput" />
+<kprintfilter name="imagetops2" require="imagetops2" description="Generic image to PS filter">
+	<filtercommand data="imagetops2 %filterargs %filterinput %filteroutput" />
 	<filterargs>
 		<filterarg name="center" description="Image centering" format="-nocenter" type="bool" default="true">
 			<value name="true" description="Yes" />
