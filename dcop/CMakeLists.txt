@@ -57,7 +57,7 @@ qt2_wrap_cpp(libdcop_SRCS
         dcopclient.h
     )
 
-kde2_library(libDCOP
+kde2_library(DCOP
     SOURCES
         ${libdcop_SRCS}
         $<TARGET_OBJECTS:kICE>
