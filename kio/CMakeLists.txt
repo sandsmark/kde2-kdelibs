@@ -135,7 +135,9 @@ set(kio_HEADERS
     jobclasses.h paste.h slavebase.h
     progressbase.h defaultprogress.h
     statusbarprogress.h uiserver.h
-    ${CMAKE_CURRENT_BINARY_DIR}/uiserver_stub.h tcpslavebase.h
+    ${CMAKE_CURRENT_BINARY_DIR}/uiserver_stub.h
+    ${CMAKE_CURRENT_BINARY_DIR}/kdirnotify_stub.h
+    tcpslavebase.h
     renamedlg.h skipdlg.h
     observer.h chmodjob.h
     kpac.h kmdbase.h authinfo.h
