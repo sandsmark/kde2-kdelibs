@@ -27,7 +27,7 @@
 # Make the include headers painless
 # Again not the desired or optimal solution, but is the fastest
 
-get_target_property(QT2_INCLUDES Qt::Qt2 INCLUDE_DIRECTORIES)
+get_target_property(QT2_INCLUDES Qt::Qt2 INTERFACE_INCLUDE_DIRECTORIES)
 get_target_property(KDECORE_INCLUDES kde2::kdecore INCLUDE_DIRECTORIES)
 get_target_property(KIO_INCLUDES kde2::kio INCLUDE_DIRECTORIES)
 get_target_property(KDEUI_INCLUDES kde2::kdeui INCLUDE_DIRECTORIES)
@@ -91,6 +91,7 @@ kde2_library(libkhtml
         $<TARGET_OBJECTS:libkhtmlmisc>
         $<TARGET_OBJECTS:libkhtmldom>
     LIBS
+        Qt::Qt2
         kde2::kio
         kde2::kparts
         kde2::kfile
