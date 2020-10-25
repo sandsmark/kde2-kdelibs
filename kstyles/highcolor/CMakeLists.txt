@@ -37,9 +37,9 @@ qt2_wrap_cpp(hcstyle_SRCS
         ${hcstyle_NOINST_HEADERS}
     )
 
-install(FILES ${hcstyle_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${hcstyle_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/hcstyle)
 
-kde2_library(hcstyle
+kde2_library(libhcstyle
     SOURCES
         ${hcstyle_SRCS}
 LIBS

@@ -80,7 +80,7 @@ qt2_wrap_cpp(libkdeui_SRCS
         ${libkdeui_NOINST_HEADERS}
     )
 
-install(FILES ${libkdeui_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${libkdeui_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kdeui)
 
 kde2_library(libkdeui
     SOURCES

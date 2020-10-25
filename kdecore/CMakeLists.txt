@@ -73,7 +73,7 @@ set(libkdecore_NOINST_HEADERS
     ksycocadict.h kextsocklookup.h
     )
 
-install(FILES ${libkdecore_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${libkdecore_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kdecore)
 install(FILES kmdcodec.h DESTINATION ${KDE2_INCLUDEDIR}/kio)
 
 qt2_wrap_cpp(kdecore_SRCS
@@ -88,7 +88,7 @@ qt2_wrap_moc(kdecore_SRCS
         kdesktopwidget.h
         )
 
-kde2_library(kdecore
+kde2_library(libkdecore
     SOURCES
         ${kdecore_SRCS}
     PRIVATE_LIBS

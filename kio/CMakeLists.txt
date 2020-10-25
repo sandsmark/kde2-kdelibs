@@ -157,7 +157,7 @@ set(kio_MOCABLE_HEADERS
 )
 
 install(FILES ${kio_HEADERS} job.h DESTINATION ${KDE2_INCLUDEDIR}/kio)
-install(FILES ${global_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${global_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kio)
 
 set(global_NOINST_HEADERS
     kservicetypefactory.h
@@ -185,7 +185,7 @@ qt2_wrap_cpp(kio_uiserver_SOURCES
         ${kio_uiserver_HEADERS}
     )
 
-kde2_library(kio
+kde2_library(libkio
     SOURCES
         ${moc_SOURCES}
         ${kio_SOURCES}
@@ -200,7 +200,7 @@ kde2_library(kio
         3.0.0
     )
 
-kde2_library(ksycoca
+kde2_library(libksycoca
     SOURCES
         ${moc_SOURCES}
         ${ksycoca_SOURCES}

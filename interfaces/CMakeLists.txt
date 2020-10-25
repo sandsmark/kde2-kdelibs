@@ -32,7 +32,7 @@ set(libktexteditor_HEADERS
     ktexteditor.h
     )
 
-install(FILES ${libktexteditor_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${libktexteditor_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/ktexteditor)
 
 qt2_wrap_cpp(libktexteditor_SRCS
     SOURCES

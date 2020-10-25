@@ -125,7 +125,7 @@ function(kde2_library library_name)
     install(EXPORT ${real_library_name}Targets
         FILE ${real_library_name}Targets.cmake
         NAMESPACE kde2::
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${library_name}
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${real_library_name}
     )
 
     install(FILES

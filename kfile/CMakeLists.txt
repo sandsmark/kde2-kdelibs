@@ -53,7 +53,7 @@ qt2_wrap_cpp(libkfile_SRCS
         ${libkfile_NOINST_HEADERS}
     )
 
-install(FILES ${libkfile_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${libkfile_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kfile)
 
 kde2_library(libkfile
     SOURCES

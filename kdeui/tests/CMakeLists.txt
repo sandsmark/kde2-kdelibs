@@ -37,7 +37,7 @@ qt2_wrap_cpp(moc_SRCS
         ${global_NOINST_HEADERS}
     )
 
-install(FILES ${global_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${global_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kdeui)
 
 set(kaboutdialogtest_SRCS
     kaboutdialogtest.cpp

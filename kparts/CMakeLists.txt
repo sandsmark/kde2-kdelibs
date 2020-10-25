@@ -37,7 +37,7 @@ set(KPARTS_HEADERS
 
 qt2_wrap_cpp(KPARTS_SOURCES SOURCES ${KPARTS_HEADERS})
 
-kde2_library(kparts
+kde2_library(libkparts
     SOURCES
         ${KPARTS_SOURCES}
     LIBS

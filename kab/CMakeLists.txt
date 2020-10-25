@@ -37,7 +37,7 @@ qt2_wrap_cpp(libkab_SRCS
         ${libkab_HEADERS}
     )
 
-install(FILES ${libkab_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${libkab_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kab)
 
 kde2_library(libkab
     SOURCES

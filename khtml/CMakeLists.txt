@@ -79,7 +79,7 @@ qt2_wrap_cpp(libkhtml_SRCS
         ${libkhtml_NOINST_HEADERS}
     )
 
-install(FILES ${libkhtml_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${libkhtml_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/khtml)
 
 kde2_library(libkhtml
     SOURCES
@@ -115,7 +115,7 @@ qt2_wrap_cpp(libkhtmlimage_SRCS
         ${libkhtmlimage_HEADERS}
     )
 
-install(FILES ${libkhtmlimage_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${libkhtmlimage_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/khtmlimage)
 
 kde2_library(libkhtmlimage
     SOURCES

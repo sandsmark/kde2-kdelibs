@@ -37,7 +37,7 @@ qt2_wrap_cpp(libkscreensaver_SRCS
         ${libkscreensaver_HEADERS}
     )
 
-install(FILES ${libkscreensaver_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${libkscreensaver_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kscreensaver)
 
 kde2_library(libkscreensaver
     SOURCES

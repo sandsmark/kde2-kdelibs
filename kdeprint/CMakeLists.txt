@@ -80,7 +80,7 @@ set(PRIVATE_HEADERS
 set(PUBLIC_HEADERS kprintdialogpage.h kpreloadobject.h)
 
 install(FILES ${PUBLIC_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kdeprint)
-install(FILES kprinter.h DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES kprinter.h DESTINATION ${KDE2_INCLUDEDIR}/kdeprint)
 
 qt2_wrap_cpp(KDEPRINT_SOURCES
     SOURCES
@@ -88,7 +88,7 @@ qt2_wrap_cpp(KDEPRINT_SOURCES
         ${PRIVATE_HEADERS}
     )
 
-kde2_library(kdeprint
+kde2_library(libkdeprint
     SOURCES
         ${KDEPRINT_SOURCES}
     LIBS

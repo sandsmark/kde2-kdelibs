@@ -42,7 +42,7 @@ qt2_wrap_cpp(libkspell_SRCS
         ${libkspell_NOINST_HEADERS}
     )
 
-install(FILES ${libkspell_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${libkspell_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kspell)
 
 kde2_library(libkspell
     SOURCES

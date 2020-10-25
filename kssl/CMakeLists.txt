@@ -69,11 +69,11 @@ qt2_wrap_cpp(kssl_SOURCES
         ${kssl_HEADERS}
     )
 
-kde2_library(kssl
+kde2_library(libkssl
     SOURCES
         ${kssl_SOURCES}
     LIBS
         kde2::kdeui
     )
 
-install(FILES ${kssl_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${kssl_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kssl)

@@ -57,7 +57,7 @@ qt2_wrap_cpp(libdcop_SRCS
         dcopclient.h
     )
 
-kde2_library(DCOP
+kde2_library(libDCOP
     SOURCES
         ${libdcop_SRCS}
         $<TARGET_OBJECTS:kICE>
@@ -67,7 +67,7 @@ kde2_library(DCOP
         1.0.0
     )
 
-install(FILES ${libdcop_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
+install(FILES ${libdcop_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/dcop)
 
 set(dcopserver_SRCS
     dcopserver.cpp
