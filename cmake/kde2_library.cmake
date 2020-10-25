@@ -118,7 +118,7 @@ function(kde2_library library_name)
     string(TOUPPER ${real_library_name} old_school_library_var)
     string(REPLACE "-" "_" old_school_library_var ${old_school_library_var})
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${library_name}/${real_library_name}Config.cmake
-    "include(\"\${CMAKE_CURRENT_LIST_DIR}/${reallibrary_name}Targets.cmake\")"
+    "include(\"\${CMAKE_CURRENT_LIST_DIR}/${real_library_name}Targets.cmake\")"
     "\n\nset(${old_school_library_var}_LIBRARIES kde2::${library_name})"
     )
 
