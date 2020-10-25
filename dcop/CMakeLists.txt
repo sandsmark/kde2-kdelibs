@@ -67,7 +67,7 @@ kde2_library(libDCOP
         1.0.0
     )
 
-install(FILES ${libdcop_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/dcop)
+install(FILES ${libdcop_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/DCOP)
 
 set(dcopserver_SRCS
     dcopserver.cpp
