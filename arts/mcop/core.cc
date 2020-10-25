@@ -4,6 +4,7 @@
 #include "core.h"
 #include "mcoputils.h"
 #include "idlfilereg.h"
+#include "common.cpp"
 
 // Implementation
 Arts::Header::Header()

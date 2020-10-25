@@ -30,6 +30,7 @@
 #include "anyref.h"
 #include "asyncstream.h"
 #include "mcoputils.h"
+#include "common.cpp"
 
 #include <cstdio>
 #include <cstdlib>
