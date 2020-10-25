@@ -157,7 +157,7 @@ set(kio_MOCABLE_HEADERS
 )
 
 install(FILES ${kio_HEADERS} job.h DESTINATION ${KDE2_INCLUDEDIR}/kio)
-install(FILES ${global_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kio)
+install(FILES ${global_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/ksycoca)
 
 set(global_NOINST_HEADERS
     kservicetypefactory.h
