@@ -306,7 +306,7 @@ direction:
 	  | T_OUT { $$ = streamOut; }
 	  | T_OUT T_MULTI { $$ = streamOut|streamMulti; }
 	  |	T_ASYNC T_IN { $$ = streamAsync|streamIn; }
-	  | T_ASYNC T_IN T_MULTI { $$ =streamAsync|streamIn|streamMulti  }
+	  | T_ASYNC T_IN T_MULTI { $$ =streamAsync|streamIn|streamMulti;  }
 	  | T_ASYNC T_OUT { $$ = streamAsync|streamOut; }
 	  | T_ASYNC T_OUT T_MULTI { $$ = streamAsync|streamOut|streamMulti; }
 	;
