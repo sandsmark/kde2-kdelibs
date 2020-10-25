@@ -158,5 +158,8 @@ install(FILES
     cmake/kde2_module.cmake
     cmake/kde2_utils.cmake
     cmake/kdelibs2Config.cmake
-    cmake/Findkdelibs2.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kde2)
+
+install(FILES
+    cmake/Findkdelibs2.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kdelibs2)
