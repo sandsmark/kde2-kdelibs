@@ -148,3 +148,14 @@ add_subdirectory(licenses)
 add_subdirectory(mimetypes)
 add_subdirectory(pics)
 add_subdirectory(doc)
+
+install(FILES
+    cmake/kde2.cmake
+    cmake/kde2_configure.cmake
+    cmake/kde2_icon.cmake
+    cmake/kde2_kidl.cmake
+    cmake/kde2_library.cmake
+    cmake/kde2_module.cmake
+    cmake/kde2_utils.cmake
+    cmake/kdelibs2Config.cmake
+    DESTINATION ${CMAKE_ROOT}/Modules)
