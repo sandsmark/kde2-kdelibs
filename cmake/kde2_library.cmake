@@ -108,9 +108,8 @@ function(kde2_library library_name)
         COMPATIBILITY AnyNewerVersion
         )
 
-    export(EXPORT ${real_library_name}Targets
+    export(TARGETS ${library_name}
         FILE ${CMAKE_CURRENT_BINARY_DIR}/${library_name}/${real_library_name}Targets.cmake
-        TARGETS ${library_name}
         NAMESPACE kde2::
         EXPORT_LINK_INTERFACE_LIBRARIES
         )
