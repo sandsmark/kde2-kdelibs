@@ -55,7 +55,7 @@ function(kde2_library library_name)
             $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
             ${build_interface_includes}
             $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${include_namespace_directory}>
-            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${include_namespace_directory}/${library_name}>
+            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${include_namespace_directory}/${real_library_name}>
         )
     target_compile_options(${library_name} PRIVATE
         ${_lib_COMPILE_OPTIONS}
