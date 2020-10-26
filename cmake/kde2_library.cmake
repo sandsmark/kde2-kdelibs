@@ -83,7 +83,7 @@ function(kde2_library library_name)
         VERSION ${library_version}
         SOVERSION ${library_soversion}
         LINK_FLAGS "-Wl,--as-needed ${link_flags}"
-        OUTPUT_NAME ${output_name}
+        OUTPUT_NAME ${output_name}-2
         EXPORT_NAME ${output_name}
         )
     add_library(kde2::${real_library_name} ALIAS ${library_name})
