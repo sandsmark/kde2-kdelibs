@@ -23,7 +23,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <iostream.h>
+#include <iostream>
 #include <string>
 
 #include <kdebug.h>
