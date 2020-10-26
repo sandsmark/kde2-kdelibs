@@ -117,6 +117,8 @@ execute <module.arts>
 #include "dispatcher.h"
 #include "artsversion.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 bool quiet = false;
 const char *filename = 0;

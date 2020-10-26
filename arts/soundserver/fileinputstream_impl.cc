@@ -30,6 +30,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 using namespace Arts;

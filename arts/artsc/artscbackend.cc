@@ -20,7 +20,6 @@
 
     */
 
-#include <iostream.h>
 #include <algorithm>
 #include "artsc.h"
 #include "soundserver.h"
@@ -33,6 +32,7 @@
 #include <math.h>
 #include <queue>
 #include <assert.h>
+#include <string.h>
 
 #define arts_backend_debug(x) ;
 

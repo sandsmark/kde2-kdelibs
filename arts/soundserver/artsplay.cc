@@ -30,7 +30,9 @@
 #include <unistd.h>
 #include <vector>
 #include <string>
+#include <string.h>
 #include <iostream>
+#include <linux/limits.h>
 
 using namespace std;
 using namespace Arts;

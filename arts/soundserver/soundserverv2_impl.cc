@@ -38,6 +38,8 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 #include <fstream>
 #include <set>
 
