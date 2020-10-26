@@ -22,7 +22,6 @@ kde2_library(libkmedia2
         kmedia2.cc
     HEADERS
         soundserver.idl
-        kmedia2.h
         kmedia2.idl
         artsversion.h
     LIBS
@@ -92,4 +91,5 @@ target_link_libraries(artsshell
 install(FILES
         ${CMAKE_CURRENT_BINARY_DIR}/artsversion.h
         ${CMAKE_CURRENT_BINARY_DIR}/soundserver.h
+        ${CMAKE_CURRENT_BINARY_DIR}/kmedia2.h
     DESTINATION ${KDE2_INCLUDEDIR}/kmedia2/)
