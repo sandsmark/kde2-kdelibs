@@ -23,7 +23,6 @@ kde2_library(libartskde
         kplayobject.h
         kplayobjectfactory.h
         kartsfloatwatch.h
-        artskde.h
         kartsdispatcher.h
     LIBS
         kde2::qtmcop
@@ -33,3 +32,4 @@ kde2_library(libartskde
         3.0.0
     )
 
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/artskde.h DESTINATION ${KDE2_INCLUDEDIR}/artskde/)
