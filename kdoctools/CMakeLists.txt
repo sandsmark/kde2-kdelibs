@@ -49,9 +49,13 @@ kde2_module(kio_help
         ${LIBXML2_INCLUDE_DIR}
     )
 
+set_property(TARGET module_kio_help PROPERTY CXX_STANDARD 11)
+
+
 #install(FILES help.protocol DESTINATION ${KDE2_SERVICESDIR})
 
 add_executable(meinproc xslt.cpp meinproc.cpp ${FILTER_SOURCES})
+set_property(TARGET meinproc PROPERTY CXX_STANDARD 11)
 target_compile_definitions(meinproc
     PRIVATE -DSIMPLE_XSLT -DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}"
     )
@@ -64,6 +68,7 @@ target_link_libraries(meinproc
     )
 
 add_executable(xml2man xml2man.cpp xslt.cpp ${FILTER_SOURCES})
+set_property(TARGET xml2man PROPERTY CXX_STANDARD 11)
 target_compile_definitions(xml2man
     PRIVATE -DSIMPLE_XSLT -DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}"
     )
