@@ -33,6 +33,7 @@
 #include "core.h"
 #include "namespace.h"
 #include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 using namespace Arts;
