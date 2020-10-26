@@ -32,7 +32,15 @@ add_subdirectory(knotify)
 add_subdirectory(qtmcop)
 add_subdirectory(message)
 add_subdirectory(artsc)
+add_subdirectory(kde)
+add_subdirectory(x11)
+
+if(ENABLE_THREAD_SUPPORT)
+    add_subdirectory(mcop_mt)
+endif()
+
 #add_subdirectory(examples)
 #add_subdirectory(tests)
 #add_subdirectory(doc)
+#add_subdirectory(gmcop)
 

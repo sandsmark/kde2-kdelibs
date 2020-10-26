@@ -1,0 +1,34 @@
+
+add_custom_command(
+    OUTPUT artskde.h artskde.cc
+    COMMAND mcopidl -I ${CMAKE_CURRENT_SOURCE_DIR}/../flow/ -I ${CMAKE_CURRENT_SOURCE_DIR}/../soundserver/ ${CMAKE_CURRENT_SOURCE_DIR}/artskde.idl
+    )
+set(artskde_SRC
+    artskde.cc kioinputstream_impl.cpp kplayobject.cc
+    kplayobjectfactory.cc kartsfloatwatch.cpp kartsdispatcher.cc
+    )
+
+qt2_wrap_cpp(artskde_SRC
+    SOURCES
+        kartsdispatcher.h
+        kartsfloatwatch.h
+        kioinputstream_impl.h
+        kplayobject.h
+    )
+
+kde2_library(libartskde
+    SOURCES
+        ${artskde_SRC}
+    LIBS
+        Qt::Qt2
+        kde2::mcop
+        kde2::artsflow
+        kde2::qtmcop
+        kde2::kio
+        kde2::kfile
+        kde2::kmedia2
+        kde2::kdecore
+    VERSION
+        3.0.0
+    )
+
