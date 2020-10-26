@@ -7,6 +7,8 @@ qt2_wrap_cpp(qtmcop_SRC
 kde2_library(libqtmcop
     SOURCES
         ${qtmcop_SRC}
+    HEADERS
+        qiomanager.h
     LIBS
         Qt::Qt2
         kde2::mcop

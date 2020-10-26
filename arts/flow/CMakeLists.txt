@@ -20,9 +20,23 @@ kde2_library(libartsflow
     SOURCES
         artsflow.cc
         ${artsflow_source}
+    HEADERS
+        artsflow.h
+        audiosubsys.h
+        cache.h
+        cachedwav.h
+        convert.h
+        pipebuffer.h
+        stdsynthmodule.h
+        synthschedule.h
+        fft.h
+        audioio.h
+        resample.h
+        cpuinfo.h
     LIBS
         kde2::mcop
     VERSION
         3.0.0
     )
 
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/artsflow.h DESTINATION ${KDE2_INCLUDEDIR}/artsflow/)

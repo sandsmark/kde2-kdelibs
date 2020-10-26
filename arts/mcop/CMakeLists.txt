@@ -40,6 +40,43 @@ set(libmcop_SRCS
 kde2_library(libmcop
     SOURCES
         ${libmcop_SRCS}
+    HEADERS
+        buffer.h
+        common.h
+        connection.h
+        core.h
+        dispatcher.h
+        factory.h
+        flowsystem.h
+        idlfilereg.h
+        ifacerepo_impl.h
+        iomanager.h
+        mcoputils.h
+        object.h
+        objectmanager.h
+        pool.h
+        socketconnection.h
+        startupmanager.h
+        tcpconnection.h
+        tcpserver.h
+        type.h
+        unixconnection.h
+        unixserver.h
+        referenceclean.h
+        datapacket.h
+        asyncstream.h
+        notification.h
+        extensionloader.h
+        mcopconfig.h
+        connect.h
+        reference.h
+        weakreference.h
+        dynamicrequest.h
+        anyref.h
+        debug.h
+        delayedreturn.h
+        dynamicskeleton.h
+        thread.h
     LIBS
         ltdl
         dl

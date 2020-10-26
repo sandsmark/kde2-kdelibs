@@ -20,6 +20,8 @@ kde2_library(libartsdsp_st
 kde2_library(libartsc
     SOURCES
         artsc.c
+    HEADERS
+        artsc.h
     LIBS
         kde2::artsflow
     VERSION

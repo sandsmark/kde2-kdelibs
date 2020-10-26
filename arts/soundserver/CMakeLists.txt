@@ -20,6 +20,12 @@ kde2_library(libkmedia2
         stdoutwriter_impl.cc
         soundserver.cc
         kmedia2.cc
+    HEADERS
+        soundserver.h
+        soundserver.idl
+        kmedia2.h
+        kmedia2.idl
+        artsversion.h
     LIBS
         kde2::mcop
         kde2::artsflow
@@ -82,3 +88,6 @@ target_link_libraries(artsshell
     kde2::artsflow
     kde2::soundserver
     )
+
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/artsversion.h DESTINATION ${KDE2_INCLUDEDIR}/kmedia2/)
