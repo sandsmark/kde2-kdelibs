@@ -21,7 +21,6 @@ kde2_library(libartsflow
         artsflow.cc
         ${artsflow_source}
     HEADERS
-        artsflow.h
         audiosubsys.h
         cache.h
         cachedwav.h
