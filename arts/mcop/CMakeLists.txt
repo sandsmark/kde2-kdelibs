@@ -25,7 +25,7 @@
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 set(libmcop_SRCS
-    common.cpp buffer.cc connection.cc core.cc dispatcher.cc
+    common.tcc buffer.cc connection.cc core.cc dispatcher.cc
     iomanager.cc object.cc socketconnection.cc tcpconnection.cc
     unixconnection.cc tcpserver.cc unixserver.cc objectmanager.cc
     factory.cc idlfilereg.cc ifacerepo_impl.cc mcoputils.cc

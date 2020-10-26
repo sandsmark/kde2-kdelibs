@@ -1,3 +1,5 @@
+#pragma once
+
 #include "buffer.h"
 #include "type.h"
 #include "dispatcher.h"

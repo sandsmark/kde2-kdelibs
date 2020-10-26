@@ -727,7 +727,6 @@ FILE *startHeader(string prefix)
 	fprintf(header,"#ifndef %s\n",mkdef(prefix).c_str());
 	fprintf(header,"#define %s\n\n",mkdef(prefix).c_str());
 	fprintf(header,"#include \"common.h\"\n\n");
-	fprintf(header,"#include \"common.cpp\"\n\n");
 	
 	list<string>::iterator cii;
 	for(cii=customIncludes.begin(); cii != customIncludes.end(); cii++)
@@ -751,6 +750,7 @@ FILE *startSource(string prefix)
 	FILE *source = fopen(source_name.c_str(),"w");
 	fprintf(source,generated_disclaimer);
 	fprintf(source,"#include \"%s\"\n\n",header_name.c_str());
+	fprintf(source,"#include \"common.tcc\"\n\n");
 
 	return source;
 }
