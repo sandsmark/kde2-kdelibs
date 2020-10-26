@@ -49,8 +49,11 @@ install(FILES ${libkjava_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
 kde2_library(libkjava
     SOURCES
         ${libkjava_SRCS}
-LIBS
-    kde2::kdecore kde2::kio
+    HEADERS
+        kjavaapplet.h kjavaappletcontext.h
+	kjavaappletserver.h kjavaappletwidget.h kjavaprocess.h
+    LIBS
+        kde2::kdecore kde2::kio
     )
 
 configure_file(kjava.policy.in ${CMAKE_CURRENT_BINARY_DIR}/kjava.policy @ONLY)
