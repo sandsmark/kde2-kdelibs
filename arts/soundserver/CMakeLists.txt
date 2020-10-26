@@ -20,10 +20,6 @@ kde2_library(libkmedia2
         stdoutwriter_impl.cc
         soundserver.cc
         kmedia2.cc
-    HEADERS
-        soundserver.idl
-        kmedia2.idl
-        artsversion.h
     LIBS
         kde2::mcop
         kde2::artsflow
