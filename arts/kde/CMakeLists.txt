@@ -20,14 +20,9 @@ kde2_library(libartskde
     SOURCES
         ${artskde_SRC}
     LIBS
-        Qt::Qt2
-        kde2::mcop
-        kde2::artsflow
         kde2::qtmcop
-        kde2::kio
         kde2::kfile
         kde2::kmedia2
-        kde2::kdecore
     VERSION
         3.0.0
     )
