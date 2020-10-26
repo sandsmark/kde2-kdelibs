@@ -68,5 +68,5 @@ install(FILES
         png.kimgio xpm.kimgio bmp.kimgio gif.kimgio pnm.kimgio xbm.kimgio
         jpeg.kimgio xv.kimgio krl.kimgio eps.kimgio ${TIFF_KIMGIO} ico.kimgio
     DESTINATION
-        ${CMAKE_INSTALL_DATADIR}/services/
+        ${KDE2_SERVICESDIR}
     )

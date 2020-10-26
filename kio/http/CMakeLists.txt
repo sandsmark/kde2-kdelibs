@@ -55,6 +55,6 @@ install(TARGETS kio_http_cache_cleaner
 
 install(FILES
     http_cache_cleaner.desktop http.protocol https.protocol
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/services
+    DESTINATION ${KDE2_SERVICESDIR}
     )
 

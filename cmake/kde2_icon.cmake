@@ -16,7 +16,7 @@ macro(KDE2_ICON app)
                 )
         else()
             install(FILES ${real_icon}
-                DESTINATION ${CMAKE_INSTALL_DATADIR}/apps/${app}/${icon_path}
+                DESTINATION ${KDE2_DATADIR}/${app}/${icon_path}
                 RENAME ${icon_name}
                 )
         endif()
