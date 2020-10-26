@@ -19,6 +19,12 @@ qt2_wrap_cpp(artskde_SRC
 kde2_library(libartskde
     SOURCES
         ${artskde_SRC}
+    HEADERS
+        kplayobject.h
+        kplayobjectfactory.h
+        kartsfloatwatch.h
+        artskde.h
+        kartsdispatcher.h
     LIBS
         kde2::qtmcop
         kde2::kfile
