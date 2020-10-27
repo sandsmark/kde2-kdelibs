@@ -1455,8 +1455,8 @@ void KApplication::applyGUIStyle(GUIStyle /* pointless */) {
             lt_dlinit();
         }
 
-        if(!locate("lib", styleStr).isNull()) {
-            styleStr = locate("lib", styleStr);
+        if(!locate("module", styleStr).isNull()) {
+            styleStr = locate("module", styleStr);
             styleHandle = lt_dlopen(QFile::encodeName(styleStr));
         }
         else {
