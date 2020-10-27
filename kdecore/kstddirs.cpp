@@ -690,39 +690,39 @@ static int tokenize( QStringList& tokens, const QString& str,
 
 QString KStandardDirs::kde_default(const char *type) {
     if (!strcmp(type, "data"))
-	return "share/kde2/apps/";
+	return "share/apps/";
     if (!strcmp(type, "html"))
 	return "share/doc/HTML/";
     if (!strcmp(type, "icon"))
 	return "share/icons/";
     if (!strcmp(type, "config"))
-	return "share/kde2/config/";
+	return "share/config/";
     if (!strcmp(type, "pixmap"))
 	return "share/pixmaps/";
     if (!strcmp(type, "apps"))
-	return "share/kde2/applnk/";
+	return "share/applnk/";
     if (!strcmp(type, "sound"))
 	return "share/sounds/";
     if (!strcmp(type, "locale"))
 	return "share/locale/";
     if (!strcmp(type, "services"))
-	return "share/kde2/services/";
+	return "share/services/";
     if (!strcmp(type, "servicetypes"))
-	return "share/kde2/servicetypes/";
+	return "share/servicetypes/";
     if (!strcmp(type, "mime"))
-	return "share/kde2/mimelnk/";
+	return "share/mimelnk/";
     if (!strcmp(type, "cgi"))
 	return "cgi-bin/";
     if (!strcmp(type, "wallpaper"))
 	return "share/wallpapers/";
     if (!strcmp(type, "templates"))
-	return "share/kde2/templates/";
+	return "share/templates/";
     if (!strcmp(type, "exe"))
 	return "bin/";
     if (!strcmp(type, "lib"))
 	return "lib/";
     if (!strcmp(type, "module"))
-	return "lib/kde2/";
+	return "lib/kde2";
     qFatal("unknown resource type %s", type);
     return QString::null;
 }
@@ -846,7 +846,7 @@ void KStandardDirs::addKDEDefaults()
     }
     else
     {
-       localKdeDir =  QDir::homeDirPath() + "/.kde/";
+       localKdeDir =  QDir::homeDirPath() + "/.kde2/";
     }
     fixHomeDir(localKdeDir);
     addPrefix(localKdeDir);
