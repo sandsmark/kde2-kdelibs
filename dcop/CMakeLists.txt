@@ -62,10 +62,11 @@ kde2_library(libDCOP
         ${libdcop_SRCS}
     LIBS
         Qt::Qt2
-        X11::ICE
     VERSION
         1.0.0
     )
+
+target_link_librarieS(libDCOP PRIVATE X11::ICE)
 
 install(FILES ${libdcop_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/DCOP)
 
@@ -79,7 +80,7 @@ qt2_wrap_cpp(dcopserver_SRCS
         dcopserver.h
     )
 add_executable(dcopserver ${dcopserver_SRCS})
-target_link_libraries(dcopserver kde2::DCOP)
+target_link_libraries(dcopserver kde2::DCOP X11::ICE)
 install(TARGETS dcopserver RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 set(testdcop_SRCS testdcop.cpp)
