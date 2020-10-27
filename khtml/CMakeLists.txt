@@ -98,10 +98,10 @@ kde2_library(libkhtml
         kde2::kssl
         kde2::kdeprint
         kde2::kjava
-        JPEG::JPEG
     VERSION
         3.0.0
     )
+target_link_libraries(libkhtml PRIVATE JPEG::JPEG)
 
 set(libkhtmlimage_SRCS
     khtmlimage.cpp
