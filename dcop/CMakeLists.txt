@@ -24,7 +24,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-add_subdirectory(KDE-ICE)
+#add_subdirectory(KDE-ICE)
 add_subdirectory(dcopidl)
 add_subdirectory(dcopidl2cpp)
 add_subdirectory(client)
@@ -60,9 +60,9 @@ qt2_wrap_cpp(libdcop_SRCS
 kde2_library(libDCOP
     SOURCES
         ${libdcop_SRCS}
-        $<TARGET_OBJECTS:kICE>
     LIBS
         Qt::Qt2
+        X11::ICE
     VERSION
         1.0.0
     )
@@ -97,3 +97,5 @@ target_link_libraries(testdcop kde2::kdecore)
 #    dcopc.c
 #    $<TARGET_OBJECTS:kICE>
 #    )
+
+#target_compile_definitions(dcopserver PRIVATE DCOP_DEBUG)
