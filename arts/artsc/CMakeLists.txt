@@ -1,12 +1,3 @@
-kde2_library(libartsdsp
-    SOURCES
-        artsdsp.c
-    LIBS
-        kde2::artsflow
-    VERSION
-        3.0.0
-    )
-
 kde2_library(libartsdsp_st
     SOURCES
         artsc.c artsdsp.c
@@ -27,6 +18,16 @@ kde2_library(libartsc
     VERSION
         3.0.0
     )
+
+kde2_library(libartsdsp
+    SOURCES
+        artsdsp.c
+    LIBS
+        kde2::artsc
+    VERSION
+        3.0.0
+    )
+
 
 kde2_library(libartscbackend
     SOURCES

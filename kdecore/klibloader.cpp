@@ -37,7 +37,7 @@ template class QAsciiDict<KLibrary>;
 #include <stdlib.h> //getenv
 
 
-#if HAVE_DLFCN_H
+#ifdef HAVE_DLFCN_H
 #  include <dlfcn.h>
 #endif
  

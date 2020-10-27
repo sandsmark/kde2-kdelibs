@@ -49,6 +49,9 @@ extern "C" {
 
 #include <sys/stat.h>
 #include <unistd.h>
+#include <limits.h>
+#include <stdlib.h>
+#include <string.h>
 
 using namespace std;
 using namespace Arts;

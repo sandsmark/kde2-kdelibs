@@ -40,6 +40,10 @@
 #include <ksavefile.h>
 #include <kurl.h>
 
+#ifdef HAVE_MMAP
+#include <sys/mman.h>
+#endif
+
 extern bool checkAccess(const QString& pathname, int mode);
 /* translate escaped escape sequences to their actual values. */
 static QCString printableToString(const char *str, int l)

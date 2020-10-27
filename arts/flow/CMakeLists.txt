@@ -32,8 +32,12 @@ kde2_library(libartsflow
         audioio.h
         resample.h
         cpuinfo.h
+    INCLUDE_DIRECTORIES
+        ${ALSA_INCLUDE_DIRS}
     LIBS
         kde2::mcop
+        PkgConfig::audiofile
+        ${ALSA_LIBRARY}
     VERSION
         3.0.0
     )

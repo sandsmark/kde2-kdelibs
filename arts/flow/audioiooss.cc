@@ -55,6 +55,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <algorithm>
+#include <string.h>
 
 #include "debug.h"
 #include "audioio.h"

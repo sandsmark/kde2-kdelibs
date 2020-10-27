@@ -445,6 +445,7 @@ static void fprintfhex (FILE *fp, unsigned int len, char *cp)
 static void
 write_iceauth (FILE *addfp, FILE *removefp, IceAuthDataEntry *entry)
 {
+    puts("Adding to iceauthority");
     fprintf (addfp,
 	     "add %s \"\" %s %s ",
 	     entry->protocol_name,
@@ -555,6 +556,7 @@ SetAuthentication (int count, IceListenObj *_listenObjs,
     if ((addAuthFile = unique_filename (path, "dcop")) == NULL)
 	goto bad;
 
+    printf("Writing to %s\n", addAuthFile);
     if (!(addfp = fopen (addAuthFile, "w")))
 	goto bad;
 
@@ -1167,6 +1169,7 @@ void DCOPServer::newClient( int /*socket*/ )
     }
 
     if (cstatus != IceConnectAccepted) {
+        printf("cstatus: %d\n", cstatus);
 	if (cstatus == IceConnectIOError)
 	    qWarning ("IO error opening ICE Connection!\n");
 	else
