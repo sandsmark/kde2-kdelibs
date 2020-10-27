@@ -36,10 +36,10 @@ kde2_library(libartsflow
         ${ALSA_INCLUDE_DIRS}
     LIBS
         kde2::mcop
-        PkgConfig::audiofile
         ${ALSA_LIBRARY}
     VERSION
         3.0.0
     )
+target_link_libraries(libartsflow PRIVATE PkgConfig::audiofile)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/artsflow.h DESTINATION ${KDE2_INCLUDEDIR}/artsflow/)
