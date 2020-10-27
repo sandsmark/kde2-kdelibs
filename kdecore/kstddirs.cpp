@@ -690,33 +690,33 @@ static int tokenize( QStringList& tokens, const QString& str,
 
 QString KStandardDirs::kde_default(const char *type) {
     if (!strcmp(type, "data"))
-	return "share/apps/";
+	return "share/kde2/apps/";
     if (!strcmp(type, "html"))
 	return "share/doc/HTML/";
     if (!strcmp(type, "icon"))
 	return "share/icons/";
     if (!strcmp(type, "config"))
-	return "share/config/";
+	return "share/kde2/config/";
     if (!strcmp(type, "pixmap"))
 	return "share/pixmaps/";
     if (!strcmp(type, "apps"))
-	return "share/applnk/";
+	return "share/kde2/applnk/";
     if (!strcmp(type, "sound"))
 	return "share/sounds/";
     if (!strcmp(type, "locale"))
 	return "share/locale/";
     if (!strcmp(type, "services"))
-	return "share/services/";
+	return "share/kde2/services/";
     if (!strcmp(type, "servicetypes"))
-	return "share/servicetypes/";
+	return "share/kde2/servicetypes/";
     if (!strcmp(type, "mime"))
-	return "share/mimelnk/";
+	return "share/kde2/mimelnk/";
     if (!strcmp(type, "cgi"))
 	return "cgi-bin/";
     if (!strcmp(type, "wallpaper"))
 	return "share/wallpapers/";
     if (!strcmp(type, "templates"))
-	return "share/templates/";
+	return "share/kde2/templates/";
     if (!strcmp(type, "exe"))
 	return "bin/";
     if (!strcmp(type, "lib"))
