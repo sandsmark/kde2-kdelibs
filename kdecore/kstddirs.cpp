@@ -846,7 +846,7 @@ void KStandardDirs::addKDEDefaults()
     }
     else
     {
-       localKdeDir =  QDir::homeDirPath() + "/.kde/";
+       localKdeDir =  QDir::homeDirPath() + "/.kde2/";
     }
     fixHomeDir(localKdeDir);
     addPrefix(localKdeDir);
