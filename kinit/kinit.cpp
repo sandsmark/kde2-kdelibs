@@ -90,7 +90,7 @@ static char sock_file[MAX_SOCK_FILE];
 static Atom net_current_desktop;
 
 /* Group data */
-struct {
+static struct {
   int maxname;
   int fd[2];
   int launcher[2]; /* socket pair for launcher communication */
