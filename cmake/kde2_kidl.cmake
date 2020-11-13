@@ -25,3 +25,17 @@ macro(KDE2_KIDL)
     endforeach()
 endmacro()
 
+function(kde2_wrap_kidl source_files)
+    set(options)
+    set(oneValueArgs)
+    set(multiValueArgs SOURCES)
+    cmake_parse_arguments(arg "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    foreach(header ${arg_SOURCES})
+        kde2_kidl(${header})
+        get_filename_component(outfileName ${header} NAME_WE)
+        list(APPEND ${source_files} ${CMAKE_CURRENT_BINARY_DIR}/${outfileName}_skel.cpp)
+    endforeach()
+
+    set(${source_files} ${${source_files}} PARENT_SCOPE)
+endfunction()
