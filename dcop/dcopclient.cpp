@@ -513,7 +513,7 @@ bool DCOPClient::attachInternal( bool registerAsAnonymous )
 				    const_cast<char *>("DUMMY"),
 				    const_cast<char *>("DUMMY"),
 				    1, DCOPClientVersions,
-				    DCOPAuthCount, const_cast<char **>(DCOPAuthNames),
+				    DCOPAuthCount, DCOPAuthNames,
 				    DCOPClientAuthProcs, 0);
     if (_IceLastMajorOpcode < 1 )
 	qWarning("DCOPClient Error: incorrect major opcode!");
@@ -523,7 +523,7 @@ bool DCOPClient::attachInternal( bool registerAsAnonymous )
 						      const_cast<char *>(DCOPReleaseString),
 						      1, DCOPClientVersions,
 						      DCOPAuthCount,
-						      const_cast<char **>(DCOPAuthNames),
+						      (DCOPAuthNames),
 						      DCOPClientAuthProcs, 0L)) < 0) {
 	emit attachFailed(QString::fromLatin1( "Communications could not be established." ));
 	return false;

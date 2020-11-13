@@ -1017,7 +1017,7 @@ DCOPServer::DCOPServer(bool _only_local, bool _suicide)
 				    const_cast<char *>("DUMMY"),
 				    const_cast<char *>("DUMMY"),
 				    1, DUMMYVersions,
-				    DCOPAuthCount, const_cast<char **>(DCOPAuthNames),
+				    DCOPAuthCount, DCOPAuthNames,
 				    DCOPClientAuthProcs, 0);
     if (_IceLastMajorOpcode < 1 )
 	qWarning("DCOPServer Error: incorrect major opcode!");
@@ -1027,7 +1027,7 @@ DCOPServer::DCOPServer(bool _only_local, bool _suicide)
 						     const_cast<char *>(DCOPVendorString),
 						     const_cast<char *>(DCOPReleaseString),
 						     1, DCOPServerVersions,
-						     1, const_cast<char **>(DCOPAuthNames),
+						     1, DCOPAuthNames,
 						     DCOPServerAuthProcs,
 						     HostBasedAuthProc,
 						     DCOPServerProtocolSetupProc,
