@@ -57,7 +57,7 @@ set(libkdeui_mocable_HEADERS
     kkeydialog.h kurllabel.h kruler.h kaccelmenu.h
     klineeditdlg.h kthemebase.h kthemestyle.h kcharselect.h
     kcolordrag.h qxembed.h kdialog.h kdialogbase.h
-    kjanuswidget.h kaboutdialog.h kauthicon.h 
+    kjanuswidget.h kaboutdialog.h kauthicon.h  kdialogbase_priv.h
     ksharedpixmap.h kdualcolorbtn.h ktoolbarbutton.h ktoolbarradiogroup.h ktextbrowser.h
     kaction.h khelpmenu.h kcmodule.h kcmenumngr.h kpanelmenu.h
     kcombobox.h kiconview.h klistview.h
@@ -78,7 +78,7 @@ set(libkdeui_HEADERS
     )
 
 set(libkdeui_mocable_NOINST_HEADERS
-    kdockwidget_private.h klistviewlineedit.h kkeybutton.h kdialogbase_priv.h
+    kdockwidget_private.h klistviewlineedit.h kkeybutton.h
     kaboutdialog_private.h kcursor_private.h
     )
 set(libkdeui_NOINST_HEADERS
