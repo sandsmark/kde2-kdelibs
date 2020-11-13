@@ -50,7 +50,7 @@ set(PRIVATE_HEADERS
 
 qt2_wrap_cpp(LIBKDEPRINT_RLPR_SOURCES
     SOURCES
-        ${PRIVATE_HEADERS}
+        kmwrlpr.h
     )
 
 kde2_module(libkdeprint_rlpr

@@ -38,8 +38,9 @@ set(libkspell_NOINST_HEADERS
 
 qt2_wrap_cpp(libkspell_SRCS
     SOURCES
-        ${libkspell_HEADERS}
-        ${libkspell_NOINST_HEADERS}
+        ksconfig.h
+        kspelldlg.h
+        kspell.h
     )
 
 install(FILES ${libkspell_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kspell)

@@ -38,7 +38,8 @@ set(kjs_html_HEADERS
 
 qt2_wrap_cpp(kjs_html_SRCS
     SOURCES
-        ${kjs_html_HEADERS}
+    kjs_debugwin.h
+    kjs_window.h
     )
 
 kde2_module(kjs_html

@@ -38,11 +38,6 @@ set(PRIVATE_HEADERS
     kmextuimanager.h
     )
 
-qt2_wrap_cpp(LIBKDEPRINT_EXT_SOURCES
-    SOURCES
-        ${PRIVATE_HEADERS}
-    )
-
 kde2_module(libkdeprint_ext
     SOURCES
         ${LIBKDEPRINT_EXT_SOURCES}

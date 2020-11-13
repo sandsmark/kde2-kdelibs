@@ -32,11 +32,6 @@ set(webstyle_HEADERS
     webstyle.h
     )
 
-qt2_wrap_cpp(webstyle_SRCS
-    SOURCES
-        ${webstyle_HEADERS}
-    )
-
 kde2_module(webstyle
     SOURCES
         ${webstyle_SRCS}

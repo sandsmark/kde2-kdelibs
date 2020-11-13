@@ -38,7 +38,8 @@ set(libkhtmlhtml_HEADERS
 
 qt2_wrap_cpp(libkhtmlhtml_SRCS
     SOURCES
-        ${libkhtmlhtml_HEADERS}
+        html_documentimpl.h
+        htmltokenizer.h
     )
 
 get_target_property(KJS_INCLUDES kde2::kjs INCLUDE_DIRECTORIES)

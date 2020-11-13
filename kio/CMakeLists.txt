@@ -147,15 +147,14 @@ set(kio_HEADERS
 set(kio_MOCABLE_HEADERS
     connection.h
     slaveinterface.h slave.h slaveconfig.h
-    sessiondata.h global.h passdlg.h
+    sessiondata.h passdlg.h
     netaccess.h scheduler.h
     jobclasses.h
     progressbase.h defaultprogress.h
     statusbarprogress.h uiserver.h
     renamedlg.h skipdlg.h
     observer.h chmodjob.h
-    authinfo.h
-    http_slave_defaults.h previewjob.h
+    previewjob.h
 )
 
 install(FILES ${kio_HEADERS} job.h DESTINATION ${KDE2_INCLUDEDIR}/kio)
@@ -173,8 +172,11 @@ set(global_NOINST_HEADERS
 
 qt2_wrap_cpp(moc_SOURCES
     SOURCES
-        ${global_HEADERS}
-        ${global_NOINST_HEADERS}
+    krun.h kdirwatch.h kautomount.h
+    kshred.h ktrader.h kurifilter.h kurlcompletion.h
+    kshellcompletion.h kdirlister.h
+    progressbase.h defaultprogress.h statusbarprogress.h
+    kfilterbase.h kscan.h
     )
 
 qt2_wrap_cpp(kio_SOURCES

@@ -32,9 +32,8 @@ set(kcookiejar_SRCS
     )
 qt2_wrap_cpp(kcookiejar_SRCS
     SOURCES
-        kcookiejar.h
-        kcookiewin.h
         kcookieserver.h
+        kcookiewin.h
     )
 
 kde2_wrap_kidl(kcookiejar_SRCS SOURCES kcookieserver.h)

@@ -80,15 +80,38 @@ kde2_wrap_kidl(kdecore_SRCS SOURCES ksycoca.h)
 
 qt2_wrap_cpp(kdecore_SRCS
     SOURCES
-        ${libkdecore_HEADERS}
-        ${libkdecore_NOINST_HEADERS}
+        kaccel.h
+        kapp.h
+        kaudioplayer.h
+        kbufferedio.h
+        kcompletion.h
+        kconfigbase.h
+        kconfig.h
+        kdesktopfile.h
+        kdestyle.h
+        kextsock.h
+        kextsocklookup.h
+        kglobalaccel.h
+        klibloader.h
+        kprocctrl.h
+        kprocess.h
+        kprocio.h
+        ksimpleconfig.h
+        ksockaddr.h
+        ksock.h
+        kstartupinfo.h
+        kstyle.h
+        ksycoca.h
+        kuniqueapp.h
+        kwinmodule.h
+        kxmessages.h
     )
 
 qt2_wrap_moc(kdecore_SRCS
     SOURCES
         kasyncio.h
         kdesktopwidget.h
-        )
+)
 
 kde2_library(libkdecore
     SOURCES

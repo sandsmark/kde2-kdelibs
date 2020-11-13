@@ -26,7 +26,8 @@
 
 qt2_wrap_cpp(ACL_SOURCES
     SOURCES
-        acl.h kaclmanipulation.h)
+        acl.h
+    )
 
 kde2_module(libkacl_prop_page
     SOURCES

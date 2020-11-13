@@ -45,11 +45,6 @@ set(libkhtmldom_HEADERS
     dom2_views.h
     )
 
-qt2_wrap_cpp(libkhtmldom_SRCS
-    SOURCES
-        ${libkhtmldom_HEADERS}
-    )
-
 install(FILES ${libkhtmldom_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/dom)
 
 add_library(libkhtmldom OBJECT ${libkhtmldom_SRCS})

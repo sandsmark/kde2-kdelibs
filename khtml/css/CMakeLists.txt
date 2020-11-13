@@ -34,11 +34,6 @@ set(libkhtmlcss_HEADERS
     cssstyleselector.h csshelper.h
     )
 
-qt2_wrap_cpp(libkhtmlcss_SRCS
-    SOURCES
-        ${libkhtmlcss_HEADERS}
-    )
-
 add_library(libkhtmlcss OBJECT ${libkhtmlcss_SRCS})
 
 install(FILES html4.css DESTINATION ${KDE2_DATADIR}/khtml/css)

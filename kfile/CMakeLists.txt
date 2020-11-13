@@ -49,8 +49,27 @@ set(libkfile_NOINST_HEADERS
 
 qt2_wrap_cpp(libkfile_SRCS
     SOURCES
-        ${libkfile_HEADERS}
-        ${libkfile_NOINST_HEADERS}
+        kcombiview.h
+        kdiroperator.h
+        kdirsize.h
+        kdiskfreesp.h
+        kfilebookmark.h
+        kfiledetailview.h
+        kfiledialogconf.h
+        kfiledialog.h
+        kfilefilter.h
+        kfileiconview.h
+        kfilepreview.h
+        kfilereader.h
+        kfileview.h
+        kicondialog.h
+        kimagefilepreview.h
+        kopenwith.h
+        kpreviewwidgetbase.h
+        kpropsdlg.h
+        kurlcombobox.h
+        kurlrequesterdlg.h
+        kurlrequester.h
     )
 
 install(FILES ${libkfile_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kfile)

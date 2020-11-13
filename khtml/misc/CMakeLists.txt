@@ -35,7 +35,7 @@ set(libkhtmlmisc_HEADERS
 
 qt2_wrap_cpp(libkhtmlmisc_SRCS
     SOURCES
-        ${libkhtmlmisc_HEADERS}
+        loader.h
     )
 
 add_library(libkhtmlmisc OBJECT ${libkhtmlmisc_SRCS})

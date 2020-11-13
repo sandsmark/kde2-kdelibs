@@ -26,15 +26,9 @@
 
 add_subdirectory(kcookiejar)
 
-qt2_wrap_cpp(MOC_SRCS
-    SOURCES
-        http.h
-    )
-
 kde2_module(kio_http
     SOURCES
         http.cc
-        ${MOC_SRCS}
     LIBS
         ZLIB::ZLIB
         kde2::kio

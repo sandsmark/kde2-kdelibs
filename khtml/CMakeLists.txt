@@ -75,8 +75,16 @@ set(libkhtml_NOINST_HEADERS
 
 qt2_wrap_cpp(libkhtml_SRCS
     SOURCES
-        ${libkhtml_HEADERS}
-        ${libkhtml_NOINST_HEADERS}
+    domtreeview.h
+        khtml_ext.h
+        khtml_factory.h
+        khtml_find.h
+        khtml_pagecache.h
+        khtml_part.h
+        khtml_run.h
+        khtmlview.h
+        testkhtml.h
+        testrender.h
     )
 
 install(FILES ${libkhtml_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/khtml)
@@ -113,7 +121,7 @@ set(libkhtmlimage_HEADERS
 
 qt2_wrap_cpp(libkhtmlimage_SRCS
     SOURCES
-        ${libkhtmlimage_HEADERS}
+        khtmlimage.h
     )
 
 install(FILES ${libkhtmlimage_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/khtmlimage)

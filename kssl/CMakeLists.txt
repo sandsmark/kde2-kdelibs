@@ -66,7 +66,8 @@ set(kssl_HEADERS
 
 qt2_wrap_cpp(kssl_SOURCES
     SOURCES
-        ${kssl_HEADERS}
+        ksslcertdlg.h
+        ksslinfodlg.h
     )
 
 kde2_library(libkssl

@@ -41,7 +41,8 @@ set(kpac_noinst_HEADERS
 
 qt2_wrap_cpp(libkpac_SOURCES
     SOURCES
-        ${kpac_noinst_HEADERS}
+        kpac_discovery.h
+        kpac_downloader.h
     )
 
 kde2_module(libkpac

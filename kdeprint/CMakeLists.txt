@@ -84,8 +84,18 @@ install(FILES kprinter.h DESTINATION ${KDE2_INCLUDEDIR}/kdeprint)
 
 qt2_wrap_cpp(KDEPRINT_SOURCES
     SOURCES
-        ${PUBLIC_HEADERS}
-        ${PRIVATE_HEADERS}
+        driverview.h
+        droptionview.h
+        kpcopiespage.h
+        kpfilterpage.h
+        kpgeneralpage.h
+        kpqtpage.h
+        kprintdialog.h
+        kprintdialogpage.h
+        kprinterimpl.h
+        kprinterpropertydialog.h
+        kprintpreview.h
+        plugincombobox.h
     )
 
 kde2_library(libkdeprint

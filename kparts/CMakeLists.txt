@@ -35,7 +35,18 @@ set(KPARTS_HEADERS
     browserextension.h factory.h  historyprovider.h browserinterface.h
     )
 
-qt2_wrap_cpp(KPARTS_SOURCES SOURCES ${KPARTS_HEADERS})
+qt2_wrap_cpp(KPARTS_SOURCES
+    SOURCES
+        browserextension.h
+        browserinterface.h
+        dockmainwindow.h
+        factory.h
+        historyprovider.h
+        mainwindow.h
+        part.h
+        partmanager.h
+        plugin.h
+    )
 
 kde2_library(libkparts
     SOURCES

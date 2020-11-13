@@ -39,7 +39,32 @@ set(global_NOINST_HEADERS
 
 qt2_wrap_cpp(moc_SRCS
     SOURCES
-        ${global_NOINST_HEADERS}
+        cjanuswidget.h
+        kmconfigdialog.h
+        kmconfiggeneral.h
+        kmconfigpage.h
+        kmdbcreator.h
+        kmdriverdb.h
+        kmdriverdbwidget.h
+        kmiconview.h
+        kminstancepage.h
+        kmjobviewer.h
+        kmlistview.h
+        kmmainview.h
+        kmprinterview.h
+        kmpropcontainer.h
+        kmpropertypage.h
+        kmpropwidget.h
+        kmspecialprinterdlg.h
+        kmwclass.h
+        kmwdrivertest.h
+        kmwizard.h
+        kmwizardpage.h
+        kmwlocal.h
+        kmwsmb.h
+        kmwsocket.h
+        kmwsocketutil.h
+        smbview.h
     )
 
 set(libkdeprint_management_SRCS
@@ -60,7 +85,7 @@ set(libkdeprint_management_HEADERS
 
 qt2_wrap_cpp(libkdeprint_management_SRCS
     SOURCES
-        ${libkdeprint_management_HEADERS}
+        kmmainview.h kmjobviewer.h
     )
 
 install(FILES ${libkdeprint_management_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kdeprint)

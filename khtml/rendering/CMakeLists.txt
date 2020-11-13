@@ -40,7 +40,9 @@ set(libkhtmlrender_HEADERS
 
 qt2_wrap_cpp(libkhtmlrender_SRCS
     SOURCES
-        ${libkhtmlrender_HEADERS}
+        render_form.h
+        render_frames.h
+        render_replaced.h
     )
 
 get_target_property(KFILE_INCLUDES kde2::kfile INCLUDE_DIRECTORIES)

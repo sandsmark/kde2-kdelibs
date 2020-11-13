@@ -38,7 +38,8 @@ set(libkhtmlxml_HEADERS
 
 qt2_wrap_cpp(libkhtmlxml_SRCS
     SOURCES
-        ${libkhtmlxml_HEADERS}
+        dom_docimpl.h
+        xml_tokenizer.h
     )
 
 add_library(libkhtmlxml OBJECT ${libkhtmlxml_SRCS})

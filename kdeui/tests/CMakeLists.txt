@@ -34,7 +34,25 @@ set(global_NOINST_HEADERS
 
 qt2_wrap_cpp(moc_SRCS
     SOURCES
-        ${global_NOINST_HEADERS}
+        itemcontainertest.h
+        kcomboboxtest.h
+        kcompletiontest.h
+        kcontainertest.h
+        kdesattest.h
+        kdocktabctltest.h
+        kdockwidgetdemo.h
+        kdockwidgettest.h
+        kdualcolortest.h
+        khashtest.h
+        kledtest.h
+        klineedittest.h
+        knuminputtest.h
+        kpanelmenutest.h
+        krulertest.h
+        kstatusbartest.h
+        ktabctltest.h
+        kunbalancedgrdtest.h
+        kwindowtest.h
     )
 
 install(FILES ${global_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kdeui)

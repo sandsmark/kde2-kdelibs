@@ -36,11 +36,6 @@ set(PRIVATE_HEADERS
     klpdunixprinterimpl.h
     )
 
-qt2_wrap_cpp(LIBKDEPRINT_LPDUNIX_SOURCES
-    SOURCES
-        ${PRIVATE_HEADERS}
-    )
-
 kde2_module(libkdeprint_lpdunix
     SOURCES
         ${LIBKDEPRINT_LPDUNIX_SOURCES}

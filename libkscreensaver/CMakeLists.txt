@@ -29,7 +29,7 @@ set(libkscreensaver_SRCS
     )
 
 set(libkscreensaver_HEADERS
-    kscreensaver.h kscreensaver_vroot.h
+    kscreensaver.h
     )
 
 qt2_wrap_cpp(libkscreensaver_SRCS

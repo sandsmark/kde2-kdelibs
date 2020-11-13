@@ -34,11 +34,6 @@ set(libkdesu_HEADERS
     su.h ssh.h stub.h
     )
 
-qt2_wrap_cpp(libkdesu_SRCS
-    SOURCES
-        ${libkdesu_HEADERS}
-    )
-
 install(
     FILES ${libkdesu_HEADERS}
     DESTINATION ${KDE2_INCLUDEDIR}/kdesu
