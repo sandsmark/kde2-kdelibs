@@ -36,7 +36,7 @@ class QPixmap;
  * Used internally by @ref KDialogBase.
  * @internal
  */
-class KDialogBaseButton;
+#include <kdialogbase_priv.h>
 
 /**
  * Used internally by @ref KDialogBase.
