@@ -72,8 +72,7 @@ static const char textareaEnd [] = "</textarea";
 // full list http://www.bbsinc.com/iso8859.html
 // There may be better equivalents
 #define fixUpChar(x) \
-            if (!(x).row() ) { \
-                switch ((x).cell()) \
+                switch ((x).unicode()) \
                 { \
                 case 0x82: (x) = ','; break; \
                 case 0x84: (x) = '"'; break; \
@@ -93,8 +92,7 @@ static const char textareaEnd [] = "</textarea";
                 case 0x201c: (x) = '"'; break; \
                 case 0x201d: (x) = '"'; break; \
                 default: break; \
-                } \
-            }
+                }
 
 // ----------------------------------------------------------------------------
 
