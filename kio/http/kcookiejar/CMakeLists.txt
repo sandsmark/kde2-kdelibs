@@ -24,19 +24,22 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-qt2_wrap_cpp(MOC_SRCS
+set(kcookiejar_SRCS
+    kcookiejar.cpp
+    kcookieserver.cpp
+    kcookiewin.cpp
+    main.cpp
+    )
+qt2_wrap_cpp(kcookiejar_SRCS
     SOURCES
         kcookiejar.h
         kcookiewin.h
         kcookieserver.h
     )
 
+kde2_wrap_kidl(kcookiejar_SRCS SOURCES kcookieserver.h)
 add_executable(kcookiejar
-    kcookiejar.cpp
-    kcookieserver.cpp
-    kcookiewin.cpp
-    main.cpp
-    ${MOC_SRCS}
+    ${kcookiejar_SRCS}
 )
 
 target_link_libraries(kcookiejar

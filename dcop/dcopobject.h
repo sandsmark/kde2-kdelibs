@@ -36,7 +36,7 @@ typedef QValueList<QCString> QCStringList;
 
 #define K_DCOP \
 public:        \
-  bool process(const QCString &fun, const QByteArray &data, QCString& replyType, QByteArray &replyData); \
+  virtual bool process(const QCString &fun, const QByteArray &data, QCString& replyType, QByteArray &replyData); \
   QCStringList functions(); \
   QCStringList interfaces(); \
 private:
@@ -100,7 +100,7 @@ public:
    *
    * @see DCOPClient::normalizeFunctionSignature(), functions()
    */
-  bool process(const QCString &fun, const QByteArray &data,
+  virtual bool process(const QCString &fun, const QByteArray &data,
 		       QCString& replyType, QByteArray &replyData);
 
 
@@ -115,7 +115,7 @@ public:
    *
    * @see process(), DCOPClient::normalizeFunctionSignature(), functions(),
    */
-   bool processDynamic(const QCString &fun, const QByteArray &data,
+   virtual bool processDynamic(const QCString &fun, const QByteArray &data,
 			      QCString& replyType, QByteArray &replyData);
 
 
@@ -127,7 +127,7 @@ public:
    *
    * @see functions()
    */
-  QCStringList interfaces();
+  virtual QCStringList interfaces();
 
   /**
    * Returns the list of functions understood by the object. It gets
@@ -143,7 +143,7 @@ public:
    *
    * @see process(), processDynamic(), DCOPClient::normalizeFunctionSignature()
    */
-  QCStringList functions();
+  virtual QCStringList functions();
 
   /**
    * Emit @p signal as DCOP signal from this object with @p data as

@@ -4,6 +4,7 @@ qt2_wrap_cpp(knotify_SRCS
     SOURCES
         knotify.h
     )
+kde2_wrap_kidl(knotify_SRCS SOURCES knotify.h)
 
 add_executable(knotify ${knotify_SRCS})
 target_link_libraries(knotify

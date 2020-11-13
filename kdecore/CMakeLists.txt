@@ -76,6 +76,8 @@ set(libkdecore_NOINST_HEADERS
 install(FILES ${libkdecore_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kdecore)
 install(FILES kmdcodec.h DESTINATION ${KDE2_INCLUDEDIR}/kio)
 
+kde2_wrap_kidl(kdecore_SRCS SOURCES ksycoca.h)
+
 qt2_wrap_cpp(kdecore_SRCS
     SOURCES
         ${libkdecore_HEADERS}
