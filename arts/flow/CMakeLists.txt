@@ -41,5 +41,6 @@ kde2_library(libartsflow
         3.0.0
     )
 target_link_libraries(libartsflow PRIVATE PkgConfig::audiofile)
+target_compile_definitions(libartsflow PUBLIC -DALSA_PCM_OLD_SW_PARAMS_API -DALSA_PCM_OLD_HW_PARAMS_API)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/artsflow.h DESTINATION ${KDE2_INCLUDEDIR}/artsflow/)
