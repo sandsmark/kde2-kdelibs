@@ -28,13 +28,12 @@ qt2_wrap_cpp(MOC_SOURCES
     SOURCES
         klauncher.h)
 
-add_executable(klauncher
-    klauncher.cpp
-    main.cpp
-    autostart.cpp
-    ${MOC_SOURCES}
+kde2_module(klauncher
+    SOURCES
+        klauncher.cpp
+        main.cpp
+        autostart.cpp
+        ${MOC_SOURCES}
+    LIBS
+        kde2::ksycoca
     )
-
-target_link_libraries(klauncher kde2::ksycoca)
-
-install(TARGETS klauncher RUNTIME DESTINATION ${KDE2_BINDIR})

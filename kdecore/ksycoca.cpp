@@ -73,7 +73,7 @@ bool KSycoca::openDatabase( bool openDummyIfNotFound )
 {
    m_sycoca_mmap = 0;
    m_str = 0;
-   QString path = KGlobal::dirs()->saveLocation("tmp") + "ksycoca";
+   QString path = KGlobal::dirs()->saveLocation("tmp", "", true) + "ksycoca";
    //kdDebug(7011) << "Trying to open ksycoca from " << path << endl;
    delete d->database;
    d->database = 0L;
