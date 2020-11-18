@@ -206,6 +206,7 @@ add_subdirectory(pics)
 add_subdirectory(doc)
 
 install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/kdelibs2Config.cmake
     cmake/kde2.cmake
     cmake/kde2_configure.cmake
     cmake/kde2_icon.cmake
