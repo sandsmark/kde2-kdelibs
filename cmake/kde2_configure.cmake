@@ -113,6 +113,11 @@ function(create_kde2_config_header)
     check_struct_has_member("struct sockaddr" sa_len "sys/socket.h" HAVE_SOCKADDR_SA_LEN LANGUAGE C)
     check_struct_has_member("struct tm" tm_sec "time.h;sys/time.h" TIME_WITH_SYS_TIME LANGUAGE C)
 
+    # Couldn't get the more automatic things to work
+    check_cxx_source_compiles("#include <sys/socket.h>
+                                int main(int argc, char *argv[]) { struct ucred cred; }"
+                                HAVE_STRUCT_UCRED)
+
     if(ACL_H AND HAVE_ACL_GET_TAG_TYPE)
         set(USE_POSIX_ACL TRUE CACHE BOOL "Using posix ACL")
     endif()
