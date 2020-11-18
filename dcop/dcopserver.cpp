@@ -78,17 +78,9 @@ static Bool HostBasedAuthProc ( char* /*hostname*/)
     return only_local; // no host based authentication
 }
 
-typedef void (*IceWriteHandler) (
-#if NeedFunctionPrototypes
-    IceConn 		/* iceConn */,
-    unsigned long 	/* nbytes */,
-    char *              /* ptr */
-#endif
-);
-
 extern "C" {
-//extern IceWriteHandler _IceWrite;
-extern IceIOErrorHandler _IceIOErrorHandler;
+extern IceWriteHandler _KDE_IceWriteHandler;
+extern IceIOErrorHandler _KDE_IceIOErrorHandler;
 void DCOPIceWriteChar(register IceConn iceConn, unsigned long nbytes, char *ptr);
 }
 
@@ -190,7 +182,7 @@ static unsigned long writeIceData(IceConn iceConn, unsigned long nbytes, char *p
 		}
 	    }
 
-	    (*_IceIOErrorHandler) (iceConn);
+	    (*_KDE_IceIOErrorHandler) (iceConn);
 	    return 0;
 	}
 
@@ -315,7 +307,7 @@ qWarning("DCOPServer: slotOutputReady() %d bytes written", nwritten);
    {
       if ((e == EINTR) || (e == EAGAIN))
          return;
-      (*_IceIOErrorHandler) (iceConn);
+      (*_KDE_IceIOErrorHandler) (iceConn);
       return;
    }
    outputBufferStart += nwritten;
@@ -585,7 +577,6 @@ SetAuthentication (int count, IceListenObj *_listenObjs,
 
     if (!(removefp = fdopen(fd, "wb")))
 	goto bad;
-    printf("Writing to %s\n", addAuthFile);
 #endif
 
     if ((*_authDataEntries = static_cast<IceAuthDataEntry *>(malloc (count * 2 * sizeof (IceAuthDataEntry)))) == NULL)
@@ -947,7 +938,7 @@ static Status DCOPServerProtocolSetupProc ( IceConn iceConn,
 					    int majorVersion, int minorVersion,
 					    char* vendor, char* release,
 					    IcePointer *clientDataRet,
-					    char ** /*failureReasonRet*/)
+					    char **/*failureReasonRet*/)
 {
     DCOPServerConn serverConn;
 
@@ -1011,15 +1002,15 @@ DCOPServer::DCOPServer(bool _only_local, bool _suicide)
 
     dcopSignals = new DCOPSignals;
 
-    extern int _IceLastMajorOpcode; // from libICE
-    if (_IceLastMajorOpcode < 1 )
+    extern int _KDE_IceLastMajorOpcode; // from libICE
+    if (_KDE_IceLastMajorOpcode < 1 )
         IceRegisterForProtocolSetup(const_cast<char *>("DUMMY"),
 				    const_cast<char *>("DUMMY"),
 				    const_cast<char *>("DUMMY"),
 				    1, DUMMYVersions,
 				    DCOPAuthCount, DCOPAuthNames,
 				    DCOPClientAuthProcs, 0);
-    if (_IceLastMajorOpcode < 1 )
+    if (_KDE_IceLastMajorOpcode < 1 )
 	qWarning("DCOPServer Error: incorrect major opcode!");
 
     the_server = this;
@@ -1080,7 +1071,7 @@ DCOPServer::DCOPServer(bool _only_local, bool _suicide)
     }
 
     IceAddConnectionWatch (DCOPWatchProc, static_cast<IcePointer>(this));
-    //_IceWrite = DCOPIceWriteChar;
+    _IceWriteHandler = DCOPIceWriteChar;
 
     listener.setAutoDelete( TRUE );
     DCOPListener* con;
