@@ -33,9 +33,28 @@ project(kdelibs
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
-include(GNUInstallDirs)
 include(kde2)
 include(kde2_configure)
+
+include(GNUInstallDirs)
+set(KDE2_APPSDIR ${CMAKE_INSTALL_FULL_DATADIR}/applnk CACHE STRING "KDE2 Apps dir")
+set(KDE2_CONFDIR ${CMAKE_INSTALL_FULL_DATADIR}/config CACHE STRING "KDE2 CONFIG dir")
+set(KDE2_DATADIR ${CMAKE_INSTALL_FULL_DATADIR}/apps CACHE STRING "KDE2 Data dir")
+set(KDE2_BINDIR ${CMAKE_INSTALL_FULL_BINDIR} CACHE STRING "KDE2 Bin dir")
+set(KDE2_ICONDIR ${CMAKE_INSTALL_FULL_DATADIR}/icons CACHE STRING "KDE2 Icons dir")
+set(KDE2_LOCALE ${CMAKE_INSTALL_FULL_LOCALEDIR} CACHE STRING "KDE2 Locale dir")
+set(KDE2_MIMEDIR ${CMAKE_INSTALL_FULL_DATADIR}/mimelnk CACHE STRING "KDE2 Mime dir")
+set(KDE2_SERVICESDIR ${CMAKE_INSTALL_FULL_DATADIR}/services CACHE STRING "KDE2 Services dir")
+set(KDE2_SERVICETYPESDIR ${CMAKE_INSTALL_FULL_DATADIR}/servicetypes CACHE STRING "KDE2 ServiceTypes dir")
+set(KDE2_SOUNDDIR ${CMAKE_INSTALL_FULL_DATADIR}/sound CACHE STRING "KDE2 Sound dir")
+set(KDE2_TEMPLATESDIR ${CMAKE_INSTALL_FULL_DATADIR}/templates CACHE STRING "KDE2 Templates dir")
+set(KDE2_WALLPAPERDIR ${CMAKE_INSTALL_FULL_DATADIR}/wallpapers CACHE STRING "KDE2 wallpapers dir")
+set(KDE2_HTMLDIR ${CMAKE_INSTALL_FULL_DOCDIR}/HTML CACHE STRING "KDE2 Doc dir")
+set(KDE2_INCLUDEDIR ${CMAKE_INSTALL_FULL_INCLUDEDIR}/kde2 CACHE STRING "KDE2 include dir")
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(cmake/kdelibs2Config.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/kdelibs2Config.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kdelibs2)
 
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -194,5 +213,4 @@ install(FILES
     cmake/kde2_library.cmake
     cmake/kde2_module.cmake
     cmake/kde2_utils.cmake
-    cmake/kdelibs2Config.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kdelibs2)
