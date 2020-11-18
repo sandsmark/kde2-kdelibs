@@ -754,10 +754,12 @@ QString KStandardDirs::saveLocation(const char *type,
     }
     struct stat st;
     if (stat(QFile::encodeName(fullPath), &st) != 0 || !(S_ISDIR(st.st_mode))) {
+#if 0 // MARTIN: noone seems to actually create the dirs?
 	if(!create) {
 	    kdDebug() << "save location " << fullPath << " doesn't exist" << endl;
 	    return localkdedir()+suffix;
 	}
+#endif
 	if(!makeDir(fullPath, 0700)) {
 	    kdDebug() << "failed to create " << fullPath << endl;
 	    return localkdedir()+suffix;
