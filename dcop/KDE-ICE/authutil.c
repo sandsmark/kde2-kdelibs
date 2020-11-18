@@ -77,54 +77,70 @@ char *
 IceAuthFileName ()
 
 {
-    static char slashDotICEauthority[] = "/.ICEauthority";
+    const char  *ICEauthority_name = ".ICEauthority";
     char    	*name;
     static char	*buf;
-    static int	bsize;
-    int	    	size;
-#if defined(WIN32) || defined(__EMX__)
-    char    	dir[128];
+    static size_t bsize;
+    size_t    	size;
+#ifdef WIN32
+#ifndef PATH_MAX
+#define PATH_MAX 512
+#endif
+    char    	dir[PATH_MAX];
 #endif
 
-    name = getenv ("ICEAUTHORITY");
-    if ( name )
+    if ((name = getenv ("ICEAUTHORITY")))
 	return (name);
 
-    name = getenv ("HOME");
+    /* If it's in the XDG_RUNTIME_DIR, don't use a dotfile */
+    if ((name = getenv ("XDG_RUNTIME_DIR")))
+	ICEauthority_name++;
 
-    if (!name)
+    if (!name || !name[0])
+	name = getenv ("HOME");
+
+    if (!name || !name[0])
     {
 #ifdef WIN32
-	strcpy (dir, "/users/");
-	if (name = getenv ("USERNAME"))
-	{
-	    strcat (dir, name);
-	    name = dir;
-	}
-	if (!name)
-#endif
-#ifdef __EMX__
-	strcpy (dir,"c:");
+    register char *ptr1;
+    register char *ptr2;
+    int len1 = 0, len2 = 0;
+
+    if ((ptr1 = getenv("HOMEDRIVE")) && (ptr2 = getenv("HOMEDIR"))) {
+	len1 = strlen (ptr1);
+	len2 = strlen (ptr2);
+    } else if ((ptr2 = getenv("USERNAME"))) {
+	len1 = strlen (ptr1 = "/users/");
+	len2 = strlen (ptr2);
+    }
+    if ((len1 + len2 + 1) < PATH_MAX) {
+	snprintf (dir, sizeof(dir), "%s%s", ptr1, (ptr2) ? ptr2 : "");
 	name = dir;
-	if (!name)
+    }
+    if (!name || !name[0])
 #endif
 	return (NULL);
     }
 
-    size = strlen (name) + strlen (&slashDotICEauthority[1]) + 2;
+    /* Special case for "/".  We will add our own '/' later. */
+    if (name[1] == '\0')
+	name++;
+
+    size = strlen (name) + 1 + strlen (ICEauthority_name) + 1;
 
     if (size > bsize)
     {
-	if (buf)
-	    free (buf);
-	buf = malloc ((unsigned) size);
-	if (!buf)
+
+	free (buf);
+	buf = malloc (size);
+	if (!buf) {
+	    bsize = 0;
 	    return (NULL);
+	}
 	bsize = size;
     }
 
-    strcpy (buf, name);
-    strcat (buf, slashDotICEauthority + (name[1] == '\0' ? 1 : 0));
+    snprintf (buf, bsize, "%s/%s", name, ICEauthority_name);
 
     return (buf);
 }
