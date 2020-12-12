@@ -130,7 +130,7 @@ KCrash::defaultCrashHandler (int signal)
         int i = 0;
 
         // argument 0 has to be drkonqi
-        argv[i++] = qstrdup("drkonqi");
+        argv[i++] = qstrdup("drkonqi2");
 
         // start up on the correct display
         argv[i++] = qstrdup("-display");
@@ -190,7 +190,7 @@ KCrash::defaultCrashHandler (int signal)
         setgid(getgid());
         setuid(getuid());
 
-        execvp("drkonqi", argv);
+        execvp("drkonqi2", argv);
 
         // we could clean up here
         // i = 0;
