@@ -28,22 +28,19 @@ set(libkscreensaver_SRCS
     main.cpp kscreensaver.cpp
     )
 
-set(libkscreensaver_HEADERS
-    kscreensaver.h
-    )
-
 qt2_wrap_cpp(libkscreensaver_SRCS
     SOURCES
-        ${libkscreensaver_HEADERS}
+        kscreensaver.h
     )
-
-install(FILES ${libkscreensaver_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kscreensaver)
 
 kde2_library(libkscreensaver
     SOURCES
         ${libkscreensaver_SRCS}
     LIBS
         kde2::ksycoca
+    HEADERS
+        kscreensaver.h
+        kscreensaver_vroot.h
     VERSION
         3.0.0
     ALLOW_UNDEFINED
