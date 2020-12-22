@@ -111,6 +111,17 @@ kde2_library(libkhtml
     )
 target_link_libraries(libkhtml PRIVATE JPEG::JPEG)
 
+set(LAPROP_SONAME libkhtml)
+get_target_property(LAPROP_DEPENDENCY_LIBS libkhtml INTERFACE_LINK_LIBRARIES)
+configure_file(${PROJECT_SOURCE_DIR}/cmake/kde2_libtool_template.la.in
+    ${CMAKE_CURRENT_BINARY_DIR}/libkhtml.la
+    @ONLY
+    )
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libkhtml.la
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/kde2"
+    )
+
 set(libkhtmlimage_SRCS
     khtmlimage.cpp
     )

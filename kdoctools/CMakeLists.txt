@@ -51,9 +51,6 @@ kde2_module(kio_help
 
 set_property(TARGET module_kio_help PROPERTY CXX_STANDARD 11)
 
-
-#install(FILES help.protocol DESTINATION ${KDE2_SERVICESDIR})
-
 add_executable(meinproc xslt.cpp meinproc.cpp ${FILTER_SOURCES})
 set_property(TARGET meinproc PROPERTY CXX_STANDARD 11)
 target_compile_definitions(meinproc
