@@ -132,6 +132,8 @@ kde2_library(libkdecore
 kde2_library(libkdefakes
     SOURCES
         fakes.c vsnprintf.c
+    HEADERS
+        kdefakes.h # Just a dummy file
     VERSION
         3.0.0
     )
