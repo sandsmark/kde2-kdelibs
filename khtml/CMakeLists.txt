@@ -126,11 +126,11 @@ qt2_wrap_cpp(libkhtmlimage_SRCS
 
 install(FILES ${libkhtmlimage_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/khtmlimage)
 
-kde2_library(libkhtmlimage
+kde2_module(libkhtmlimage
     SOURCES
         ${libkhtmlimage_SRCS}
-LIBS
-    kde2::khtml
+    LIBS
+        kde2::khtml
     )
 
 install(FILES
