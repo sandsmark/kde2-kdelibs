@@ -129,6 +129,13 @@ kde2_library(libkdecore
         3.0.0
     )
 
+kde2_library(libkdefakes
+    SOURCES
+        fakes.c vsnprintf.c
+    VERSION
+        3.0.0
+    )
+
 install(FILES kdebugrc DESTINATION ${KDE2_CONFDIR})
 install(FILES kdebug.areas DESTINATION ${KDE2_CONFDIR} RENAME kdebug2.areas)
 install(FILES charsets.config DESTINATION ${KDE2_CONFDIR} RENAME kde2-charsets)
