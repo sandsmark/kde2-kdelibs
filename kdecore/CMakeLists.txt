@@ -129,8 +129,9 @@ kde2_library(libkdecore
         3.0.0
     )
 
-install(FILES kdebug.areas kdebugrc DESTINATION ${KDE2_CONFDIR})
-install(FILES charsets.config DESTINATION ${KDE2_CONFDIR} RENAME charsets)
+install(FILES kdebugrc DESTINATION ${KDE2_CONFDIR})
+install(FILES kdebug.areas DESTINATION ${KDE2_CONFDIR} RENAME kdebug2.areas)
+install(FILES charsets.config DESTINATION ${KDE2_CONFDIR} RENAME kde2-charsets)
 install(FILES eventsrc DESTINATION ${KDE2_CONFDIR}/knotify)
 install(FILES 40.colors DESTINATION ${KDE2_CONFDIR}/colors RENAME "40 Colors")
 install(FILES Web.colors DESTINATION ${KDE2_CONFDIR}/colors RENAME "Web")

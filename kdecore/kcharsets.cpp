@@ -197,7 +197,7 @@ public:
     KConfig* conf()
 	{
 	if( _conf == NULL )
-            _conf = new KConfig( "charsets", true, false );
+            _conf = new KConfig( "kde2-charsets", true, false );
 	return _conf;
 	}
     QFontDatabase *db;

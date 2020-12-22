@@ -234,7 +234,7 @@ target_link_libraries(kio_uiserver
     )
 install(TARGETS kio_uiserver RUNTIME DESTINATION ${KDE2_BINDIR})
 
-install(FILES magic DESTINATION ${KDE2_MIMEDIR})
+install(FILES magic DESTINATION ${KDE2_MIMEDIR} RENAME kde2-magic)
 
 install(FILES
     application.desktop kurifilterplugin.desktop kcomprfilter.desktop kscan.desktop
