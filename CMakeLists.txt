@@ -69,7 +69,8 @@ option(SYSTEM_LIBMNG "Use libmng from the operating system." ON)
 option(SYSTEM_JPEG "Use jpeglib from the operating system." ON)
 option(BUILD_TUTORIAL "Build tutorials." OFF)
 option(BUILD_EXAMPLES "Build examples." OFF)
-set(KDEDIR /opt/kde2 CACHE STRING "Default path ofr KDEDIR install")
+option(BUILD_TESTS "Build tests." OFF)
+set(KDEDIR ${CMAKE_INSTALL_PREFIX} CACHE STRING "Default path ofr KDEDIR install")
 
 find_package(PkgConfig REQUIRED)
 

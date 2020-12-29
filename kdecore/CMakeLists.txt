@@ -151,3 +151,7 @@ configure_file(kde-config.cpp.in ${CMAKE_CURRENT_BINARY_DIR}/kde-config.cpp @ONL
 add_executable(kde-config ${CMAKE_CURRENT_BINARY_DIR}/kde-config.cpp)
 target_link_libraries(kde-config kde2::kdecore)
 install(TARGETS kde-config  RUNTIME DESTINATION ${KDE2_BINDIR})
+
+if(BUILD_TESTS)
+    add_subdirectory(tests)
+endif()

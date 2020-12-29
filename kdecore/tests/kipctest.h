@@ -2,6 +2,7 @@
 #define __blah__h__
 
 #include <qobject.h>
+#include <stdio.h>
 
 class MyObject: public QObject
 {
