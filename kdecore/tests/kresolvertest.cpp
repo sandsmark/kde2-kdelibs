@@ -405,6 +405,7 @@ void go()
 int TestApp::newInstance(QValueList<QCString> params)
 {
   go();
+  return 0;
 }
 
 int main(int argc, char **argv)
