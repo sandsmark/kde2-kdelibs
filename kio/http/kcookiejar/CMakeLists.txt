@@ -37,17 +37,12 @@ qt2_wrap_cpp(kcookiejar_SRCS
     )
 
 kde2_wrap_kidl(kcookiejar_SRCS SOURCES kcookieserver.h)
-add_executable(kcookiejar
-    ${kcookiejar_SRCS}
+kde2_kinit_executable(kcookiejar
+    SOURCES
+        ${kcookiejar_SRCS}
+    LIBS
+        kde2::kio
 )
-
-target_link_libraries(kcookiejar
-    kde2::kio
-    )
-
-install(TARGETS kcookiejar
-    RUNTIME DESTINATION ${KDE2_BINDIR}
-    )
 
 install(FILES
     kcookiejar.desktop

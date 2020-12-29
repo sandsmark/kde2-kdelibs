@@ -60,45 +60,33 @@ qt2_wrap_cpp(kbuildsycoca_module_SOURCES
         kbuildsycoca.h
     )
 
-kde2_module(kded_module
+kde2_kinit_executable(kded
     SOURCES
         ${kded_module_SOURCES}
-    PRIVATE_LIBS
+    LIBS
         Qt::Qt2
         kde2::DCOP
         kde2::ksycoca
-    OUTPUT_NAME
-        kded
     )
 
-kde2_module(kbuildsycoca_module
+kde2_kinit_executable(kbuildsycoca
     SOURCES
         ${kbuildsycoca_module_SOURCES}
-    PRIVATE_LIBS
+    LIBS
         Qt::Qt2
         kde2::ksycoca
     OUTPUT_NAME
         kbuildsycoca
     )
 
-add_executable(kbuildsycoca ${kbuildsycoca_module_SOURCES})
-target_link_libraries(kbuildsycoca
-    Qt::Qt2
-    kde2::ksycoca
+kde2_kinit_executable(kdontchangethehostname
+    SOURCES
+        khostname.cpp
+    LIBS
+        kde2::kdecore
     )
-
-add_executable(kded ${kded_module_SOURCES})
-target_link_libraries(kded
-    Qt::Qt2
-    kde2::DCOP
-    kde2::ksycoca
-    )
-
-add_executable(kdontchangethehostname khostname.cpp)
 target_link_libraries(kdontchangethehostname
     kde2::kdecore
     )
 
-install(TARGETS kbuildsycoca kded kdontchangethehostname
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES kdedmodule.desktop DESTINATION ${KDE2_SERVICETYPESDIR})

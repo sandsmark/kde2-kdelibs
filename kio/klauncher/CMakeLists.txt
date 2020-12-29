@@ -28,7 +28,7 @@ qt2_wrap_cpp(MOC_SOURCES
     SOURCES
         klauncher.h)
 
-kde2_module(klauncher
+kde2_kinit_executable(klauncher
     SOURCES
         klauncher.cpp
         main.cpp

@@ -35,16 +35,11 @@ kde2_module(kio_http
     )
 
 
-add_executable(kio_http_cache_cleaner
-    http_cache_cleaner.cpp
-    )
-
-target_link_libraries(kio_http_cache_cleaner
-    kde2::kio
-    )
-
-install(TARGETS kio_http_cache_cleaner
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+kde2_kinit_executable(kio_http_cache_cleaner
+    SOURCES
+        http_cache_cleaner.cpp
+    LIBS
+        kde2::kio
     )
 
 install(FILES
