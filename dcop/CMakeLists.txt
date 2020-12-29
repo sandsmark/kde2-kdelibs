@@ -79,9 +79,12 @@ qt2_wrap_cpp(dcopserver_SRCS
     SOURCES
         dcopserver.h
     )
-add_executable(dcopserver ${dcopserver_SRCS})
-target_link_libraries(dcopserver kde2::DCOP X11::ICE)
-install(TARGETS dcopserver RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+kde2_kinit_executable(dcopserver
+    SOURCES
+        ${dcopserver_SRCS}
+    LIBS
+        kde2::DCOP X11::ICE
+    )
 
 set(testdcop_SRCS testdcop.cpp)
 qt2_wrap_cpp(testdcop_SRCS

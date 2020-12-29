@@ -1,6 +1,7 @@
 include("${CMAKE_CURRENT_LIST_DIR}/kde2_library.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/kde2_kidl.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/kde2_module.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/kde2_kinit_executable.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/kde2_icon.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/kde2_utils.cmake")
 

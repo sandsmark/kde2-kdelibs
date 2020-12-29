@@ -213,5 +213,6 @@ install(FILES
     cmake/kde2_kidl.cmake
     cmake/kde2_library.cmake
     cmake/kde2_module.cmake
+    cmake/kde2_kinit_executable.cmake
     cmake/kde2_utils.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kdelibs2)
