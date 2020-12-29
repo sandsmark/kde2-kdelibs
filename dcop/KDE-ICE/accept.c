@@ -89,6 +89,8 @@ IceAcceptStatus	*statusRet;
     iceConn->trans_conn = newconn;
     iceConn->send_sequence = 0;
     iceConn->receive_sequence = 0;
+    iceConn->unused1 = 0;
+    iceConn->unused2 = 0;
 
     iceConn->connection_string = (char *) malloc (
 	strlen (listenObj->network_id) + 1);
@@ -167,6 +169,8 @@ IceAcceptStatus	*statusRet;
 	pMsg->byteOrder = IceLSBfirst;
     else
 	pMsg->byteOrder = IceMSBfirst;
+
+    pMsg->unused = 0; // avoid writing junk data
 
     IceFlush (iceConn);
 

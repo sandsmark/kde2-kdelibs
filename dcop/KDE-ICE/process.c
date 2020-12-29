@@ -387,6 +387,8 @@ IcePointer	authData;
     pMsg->authIndex = authIndex;
     pMsg->authDataLength = authDataLen;
     pMsg->length += WORD64COUNT (authDataLen);
+    pMsg->unused1 = 0;
+    bzero(pMsg->unused2, sizeof(pMsg->unused2));
 
     IceWriteData (iceConn, authDataLen, (char *) authData);
 
@@ -467,7 +469,10 @@ int 	versionIndex;
 	SIZEOF (iceConnectionReplyMsg), WORD64COUNT (extra),
 	iceConnectionReplyMsg, pMsg, pData);
 
+    pMsg->unused = 0;
     pMsg->versionIndex = versionIndex;
+
+    bzero(pData, extra);
 
     STORE_STRING (pData, IceVendorString);
     STORE_STRING (pData, IceReleaseString);
@@ -1703,6 +1708,8 @@ IceReplyWaitInfo 	*replyWait;
 
     IceReadCompleteMessage (iceConn, SIZEOF (iceConnectionReplyMsg),
 	iceConnectionReplyMsg, message, pStart);
+
+    message->unused = 0;
 
     if (!IceValidIO (iceConn))
     {
