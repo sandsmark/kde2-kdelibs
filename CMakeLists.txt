@@ -59,6 +59,14 @@ configure_package_config_file(cmake/kdelibs2Config.cmake.in ${CMAKE_CURRENT_BINA
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+option(ENABLE_SANITIZERS "Enable runtime sanitizing (for development)")
+if (ENABLE_SANITIZERS)
+    message("Enabling asan and ubsan")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined")
+endif()
+
+
 option(ENABLE_XFT "Enable support for Anti-Aliased fonts." ON)
 option(ENABLE_SESSION_MANAGEMENT "Support X Session Management, links in -lSM -lICE" ON)
 option(ENABLE_THREAD_SUPPORT "Compile with Threading Support" ON)
