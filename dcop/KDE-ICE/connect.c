@@ -258,6 +258,8 @@ char 	   *errorStringRet;
     else
 	pByteOrderMsg->byteOrder = IceMSBfirst;
 
+    pByteOrderMsg->unused = 0;
+
     IceFlush (iceConn);
 
 
@@ -338,6 +340,9 @@ char 	   *errorStringRet;
     pSetupMsg->versionCount = _IceVersionCount;
     pSetupMsg->authCount = authUsableCount;
     pSetupMsg->mustAuthenticate = mustAuthenticate;
+
+    bzero(pSetupMsg->unused, sizeof pSetupMsg->unused);
+    bzero(pData, extra);
 
     STORE_STRING (pData, IceVendorString);
     STORE_STRING (pData, IceReleaseString);
