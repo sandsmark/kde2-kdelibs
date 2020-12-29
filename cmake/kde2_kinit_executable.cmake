@@ -105,4 +105,9 @@ function(kde2_kinit_executable library_name)
     target_link_libraries(${output_name} kinit_${library_name})
     install(TARGETS ${output_name} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
+    # Make sure it can find the module .so
+    set_property(TARGET ${output_name}
+        PROPERTY INSTALL_RPATH
+        "${CMAKE_INSTALL_FULL_LIBDIR}/kde2"
+    )
 endfunction()
