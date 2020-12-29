@@ -53,10 +53,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <X11/Xmd.h>
 extern "C" {
-#include <X11//ICE/ICElib.h>
-#include <X11//ICE/ICEutil.h>
-#include <X11//ICE/ICEmsg.h>
-#include <X11//ICE/ICEproto.h>
+#include <KDE-ICE/ICElib.h>
+#include <KDE-ICE/ICEutil.h>
+#include <KDE-ICE/ICEmsg.h>
+#include <KDE-ICE/ICEproto.h>
 
 
 #include <sys/time.h>
@@ -507,15 +507,15 @@ bool DCOPClient::attachInternal( bool registerAsAnonymous )
     if ( isAttached() )
 	detach();
 
-    extern int _IceLastMajorOpcode; // from libICE
-    if (_IceLastMajorOpcode < 1 )
+    extern int _KDE_IceLastMajorOpcode; // from libICE
+    if (_KDE_IceLastMajorOpcode < 1 )
         IceRegisterForProtocolSetup(const_cast<char *>("DUMMY"),
 				    const_cast<char *>("DUMMY"),
 				    const_cast<char *>("DUMMY"),
 				    1, DCOPClientVersions,
 				    DCOPAuthCount, DCOPAuthNames,
 				    DCOPClientAuthProcs, 0);
-    if (_IceLastMajorOpcode < 1 )
+    if (_KDE_IceLastMajorOpcode < 1 )
 	qWarning("DCOPClient Error: incorrect major opcode!");
 
     if ((d->majorOpcode = IceRegisterForProtocolSetup(const_cast<char *>("DCOP"),
