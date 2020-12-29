@@ -507,15 +507,15 @@ bool DCOPClient::attachInternal( bool registerAsAnonymous )
     if ( isAttached() )
 	detach();
 
-    extern int _KDE_IceLastMajorOpcode; // from libICE
-    if (_KDE_IceLastMajorOpcode < 1 )
+    extern int _kde_IceLastMajorOpcode; // from libICE
+    if (_kde_IceLastMajorOpcode < 1 )
         IceRegisterForProtocolSetup(const_cast<char *>("DUMMY"),
 				    const_cast<char *>("DUMMY"),
 				    const_cast<char *>("DUMMY"),
 				    1, DCOPClientVersions,
 				    DCOPAuthCount, DCOPAuthNames,
 				    DCOPClientAuthProcs, 0);
-    if (_KDE_IceLastMajorOpcode < 1 )
+    if (_kde_IceLastMajorOpcode < 1 )
 	qWarning("DCOPClient Error: incorrect major opcode!");
 
     if ((d->majorOpcode = IceRegisterForProtocolSetup(const_cast<char *>("DCOP"),

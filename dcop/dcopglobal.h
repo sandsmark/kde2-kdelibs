@@ -100,13 +100,13 @@ const char *DCOPAuthNames[] = {"MIT-MAGIC-COOKIE-1"};
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern IcePoAuthStatus _KDE_IcePoMagicCookie1Proc (IceConn, void **, int, int, int, void *, int *, void **, char **);
-extern IcePaAuthStatus _KDE_IcePaMagicCookie1Proc (IceConn, void **, int, int, void *, int *, void **, char **);
+extern IcePoAuthStatus _kde_IcePoMagicCookie1Proc (IceConn, void **, int, int, int, void *, int *, void **, char **);
+extern IcePaAuthStatus _kde_IcePaMagicCookie1Proc (IceConn, void **, int, int, void *, int *, void **, char **);
 #ifdef __cplusplus
 }
 #endif
-IcePoAuthProc DCOPClientAuthProcs[] = {_KDE_IcePoMagicCookie1Proc};
-IcePaAuthProc DCOPServerAuthProcs[] = {_KDE_IcePaMagicCookie1Proc};
+IcePoAuthProc DCOPClientAuthProcs[] = {_kde_IcePoMagicCookie1Proc};
+IcePaAuthProc DCOPServerAuthProcs[] = {_kde_IcePaMagicCookie1Proc};
 
 /**
  * @internal
