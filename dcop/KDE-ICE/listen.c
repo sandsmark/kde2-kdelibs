@@ -33,6 +33,7 @@ Author: Ralph Mor, X Consortium
 #include "KDE-ICE/Xtrans.h"
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 
 Status
@@ -52,11 +53,16 @@ char		*errorStringRet;
     Status			status = 1;
     XtransConnInfo		*transConns = NULL;
 
-    while ((result < 0) && (count < 5)) 
+    while ((result < 0) && (count < 5))
     {
-       char buf[128];
-       sprintf(buf, "dcop%d-%d", getpid(), time(NULL)+count);
-       result = _KDE_IceTransMakeAllCOTSServerListeners (buf, &partial,
+       char port[128];
+#ifdef _WIN32
+       int nTCPPort = ((getpid() + time(NULL) + count) % 32768) + 1024;
+       sprintf(port, "%d", nTCPPort);
+#else
+       sprintf(port, "dcop%d-%ld", getpid(), time(NULL)+count);
+#endif
+       result = _kde_IceTransMakeAllCOTSServerListeners (port, &partial,
                                               &transCount, &transConns);
        count++;
     }
@@ -76,7 +82,7 @@ char		*errorStringRet;
 	transCount * sizeof (struct _IceListenObj))) == NULL)
     {
 	for (i = 0; i < transCount; i++)
-	    _KDE_IceTransClose (transConns[i]);
+	    _kde_IceTransClose (transConns[i]);
 	free ((char *) transConns);
 	return (0);
     }
@@ -85,13 +91,13 @@ char		*errorStringRet;
 
     for (i = 0; i < transCount; i++)
     {
-	networkId = (char*)_KDE_IceTransGetMyNetworkId (transConns[i]);
+	networkId = (char*)_kde_IceTransGetMyNetworkId (transConns[i]);
 
 	if (networkId)
 	{
 	    listenObjs[*countRet].trans_conn = transConns[i];
 	    listenObjs[*countRet].network_id = networkId;
-		
+
 	    (*countRet)++;
 	}
     }
@@ -146,7 +152,7 @@ char		*errorStringRet;
     {
 	if (errorStringRet && errorLength > 0)
 	    *errorStringRet = '\0';
-	
+
 	for (i = 0; i < *countRet; i++)
 	{
 	    (*listenObjsRet)[i]->host_based_auth_proc = NULL;
@@ -155,7 +161,7 @@ char		*errorStringRet;
     else
     {
 	for (i = 0; i < transCount; i++)
-	    _KDE_IceTransClose (transConns[i]);
+	    _kde_IceTransClose (transConns[i]);
     }
 
     free ((char *) listenObjs);
@@ -172,7 +178,7 @@ IceGetListenConnectionNumber (listenObj)
 IceListenObj listenObj;
 
 {
-    return (_KDE_IceTransGetConnectionNumber (listenObj->trans_conn));
+    return (_kde_IceTransGetConnectionNumber (listenObj->trans_conn));
 }
 
 
@@ -224,7 +230,7 @@ IceListenObj	*listenObjs;
 
 	for (i = 0; i < count; i++)
 	{
-	    if (_KDE_IceTransIsLocal (listenObjs[i]->trans_conn))
+	    if (_kde_IceTransIsLocal (listenObjs[i]->trans_conn))
 	    {
 		strcat (list, listenObjs[i]->network_id);
 		doneCount++;
@@ -237,7 +243,7 @@ IceListenObj	*listenObjs;
 	{
 	    for (i = 0; i < count; i++)
 	    {
-		if (!_KDE_IceTransIsLocal (listenObjs[i]->trans_conn))
+		if (!_kde_IceTransIsLocal (listenObjs[i]->trans_conn))
 		{
 		    strcat (list, listenObjs[i]->network_id);
 		    doneCount++;
@@ -265,7 +271,7 @@ IceListenObj *listenObjs;
     for (i = 0; i < count; i++)
     {
 	free (listenObjs[i]->network_id);
-	_KDE_IceTransClose (listenObjs[i]->trans_conn);
+	_kde_IceTransClose (listenObjs[i]->trans_conn);
 	free ((char *) listenObjs[i]);
     }
 

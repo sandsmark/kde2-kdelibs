@@ -32,8 +32,12 @@ Author: Ralph Mor, X Consortium
 #include <KDE-ICE/ICElib.h>
 #include "KDE-ICE/ICElibint.h"
 #include <KDE-ICE/ICEutil.h>
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
 #include <errno.h>
+#include <string.h>
 
 #if defined(X_NOT_STDC_ENV) && !defined(__EMX__)
 extern int errno;
@@ -51,8 +55,8 @@ extern char* getenv(const char*);
 #ifndef X_NOT_POSIX
 #include <unistd.h>
 #else
-#ifndef WIN32
-extern unsigned	sleep ();
+#ifndef _WIN32
+extern unsigned sleep ();
 #else
 #define link rename
 #endif
@@ -66,7 +70,7 @@ static Status write_string (FILE *file, char *string);
 static Status write_counted_string (FILE *file, unsigned short count, char *string);
 
 
-
+
 /*
  * The following routines are for manipulating the .ICEauthority file
  * These are utility functions - they are not part of the standard
@@ -77,76 +81,104 @@ char *
 IceAuthFileName ()
 
 {
-    const char  *ICEauthority_name = ".ICEauthority";
+    static char baseICEauthority[] = "ICEauthority";
+#ifdef _WIN32
+    static char pathSep[] = "\\";
+#else
+    static char pathSep[] = "/";
+#endif
+    char	fileSep[2];
     char    	*name;
     static char	*buf;
-    static size_t bsize;
-    size_t    	size;
-#ifdef WIN32
-#ifndef PATH_MAX
-#define PATH_MAX 512
-#endif
-    char    	dir[PATH_MAX];
+    static int	bsize;
+    int	    	size;
+#if defined(_WIN32) || defined(__EMX__)
+    char    	dir[128];
 #endif
 
-    if ((name = getenv ("ICEAUTHORITY")))
+    name = getenv ("ICEAUTHORITY");
+    if (name && name[0])
 	return (name);
 
-    /* If it's in the XDG_RUNTIME_DIR, don't use a dotfile */
-    if ((name = getenv ("XDG_RUNTIME_DIR")))
-	ICEauthority_name++;
-
-    if (!name || !name[0])
-	name = getenv ("HOME");
+    name = getenv("XDG_RUNTIME_DIR");
+    if (name && name[0])
+    {
+	char	*testBuf;
+	strcpy(fileSep, "");
+	size = strlen(name) + strlen(pathSep) + strlen(fileSep) + strlen(baseICEauthority) + 1;
+	testBuf = malloc(size);
+	if (!testBuf)
+	{
+	    return (NULL);
+	}
+	snprintf(testBuf, size, "%s%s%s%s", name, pathSep, fileSep, baseICEauthority);
+	if (access(testBuf, F_OK))
+	{
+	    name = NULL;
+	}
+	free(testBuf);
+    }
 
     if (!name || !name[0])
     {
-#ifdef WIN32
-    register char *ptr1;
-    register char *ptr2;
-    int len1 = 0, len2 = 0;
-
-    if ((ptr1 = getenv("HOMEDRIVE")) && (ptr2 = getenv("HOMEDIR"))) {
-	len1 = strlen (ptr1);
-	len2 = strlen (ptr2);
-    } else if ((ptr2 = getenv("USERNAME"))) {
-	len1 = strlen (ptr1 = "/users/");
-	len2 = strlen (ptr2);
-    }
-    if ((len1 + len2 + 1) < PATH_MAX) {
-	snprintf (dir, sizeof(dir), "%s%s", ptr1, (ptr2) ? ptr2 : "");
-	name = dir;
+	name = getenv ("HOME");
+	strcpy(fileSep, ".");
+#ifdef _WIN32
+	if (!name || !name[0])
+	{
+	    if(name = getenv ("HOMEDRIVE"))
+	    {
+		strcpy (dir, name);
+		if(name = getenv ("HOMEPATH"))
+		{
+		    strcat (dir, name);
+		}
+		name = dir;
+	    }
+	    else
+	    {
+		name = getenv ("USERPROFILE");
+	    }
+	}
+#endif
+#ifdef __EMX__
+	if (!name || !name[0])
+	{
+	    strcpy (dir,"c:");
+	    name = dir;
+	}
+#endif
     }
     if (!name || !name[0])
-#endif
+    {
 	return (NULL);
     }
 
     /* Special case for "/".  We will add our own '/' later. */
-    if (name[1] == '\0')
+    if (strcmp(name, pathSep) == 0)
+    {
 	name++;
+    }
 
-    size = strlen (name) + 1 + strlen (ICEauthority_name) + 1;
+    size = strlen(name) + strlen(pathSep) + strlen(fileSep) + strlen(baseICEauthority) + 1;
 
     if (size > bsize)
     {
-
-	free (buf);
-	buf = malloc (size);
-	if (!buf) {
-	    bsize = 0;
+	if (buf)
+	    free (buf);
+	buf = malloc ((unsigned) size);
+	if (!buf)
 	    return (NULL);
-	}
 	bsize = size;
     }
 
-    snprintf (buf, bsize, "%s/%s", name, ICEauthority_name);
+    snprintf(buf, bsize, "%s%s%s%s", name, pathSep, fileSep, baseICEauthority);
 
     return (buf);
 }
 
 
-
+
 int
 IceLockAuthFile (file_name, retries, timeout, dead)
 
@@ -184,7 +216,7 @@ long	dead;
 	    unlink (link_name);
 	}
     }
-    
+
     while (retries > 0)
     {
 	if (creat_fd == -1)
@@ -223,36 +255,36 @@ long	dead;
 }
 
 
-
+
 void
 IceUnlockAuthFile (file_name)
 
 char	*file_name;
 
 {
-#ifndef WIN32
-    char	creat_name[1025];
+#ifndef _WIN32
+    char creat_name[1025];
 #endif
-    char	link_name[1025];
+    char link_name[1025];
 
     if ((int) strlen (file_name) > 1022)
 	return;
 
-#ifndef WIN32
+#ifndef _WIN32
     strcpy (creat_name, file_name);
     strcat (creat_name, "-c");
 #endif
     strcpy (link_name, file_name);
     strcat (link_name, "-l");
 
-#ifndef WIN32
+#ifndef _WIN32
     unlink (creat_name);
 #endif
     unlink (link_name);
 }
 
 
-
+
 IceAuthFileEntry *
 IceReadAuthFileEntry (auth_file)
 
@@ -304,7 +336,7 @@ FILE	*auth_file;
 }
 
 
-
+
 void
 IceFreeAuthFileEntry (auth)
 
@@ -323,7 +355,7 @@ IceAuthFileEntry	*auth;
 }
 
 
-
+
 Status
 IceWriteAuthFileEntry (auth_file, auth)
 
@@ -352,7 +384,7 @@ IceAuthFileEntry	*auth;
 }
 
 
-
+
 IceAuthFileEntry *
 IceGetAuthFileEntry (protocol_name, network_id, auth_name)
 
@@ -395,7 +427,7 @@ const char	*auth_name;
 }
 
 
-
+
 /*
  * local routines
  */
@@ -424,7 +456,8 @@ read_string (FILE *file, char **stringp)
 
     if (len == 0)
     {
-	data = 0;
+	data = malloc ( 1 );
+	*data = 0;
     }
     else
     {

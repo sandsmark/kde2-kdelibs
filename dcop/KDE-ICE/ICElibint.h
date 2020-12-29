@@ -4,7 +4,7 @@
 
 Copyright (c) 1993, 1998  The Open Group
 
-All Rights Reserved. 
+All Rights Reserved.
 
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
@@ -26,9 +26,15 @@ Author: Ralph Mor, X Consortium
 #ifndef _ICELIBINT_H_
 #define _ICELIBINT_H_
 
+#include "config.h"
+#if defined Q_WS_X11 && ! defined K_WS_QTONLY
 #include <X11/Xos.h>
 #include <X11/Xfuncs.h>
-#include <X11/Xmd.h>
+#include <X11/Xmd.h> //schroder
+#else
+#define _SIZEOF(x) sz_##x
+#define SIZEOF(x) _SIZEOF(x)
+#endif
 #include <KDE-ICE/ICEproto.h>
 #include <KDE-ICE/ICEconn.h>
 #include <KDE-ICE/ICEmsg.h>
@@ -291,7 +297,7 @@ typedef struct {
     if (_pBuf > _end) { \
        _bail; \
     } \
-} 
+}
 
 #define SKIP_LISTOF_STRING(_pBuf, _swap, _count, _end, _bail) \
 { \
@@ -402,7 +408,7 @@ extern IcePaAuthProc	_IcePaAuthProcs[];
 
 extern int		_IceVersionCount;
 
-#define _IceErrorBadMajor _KDE_IceErrorBadMajor
+#define _IceErrorBadMajor _kde_IceErrorBadMajor
 
 
 extern void _IceErrorBadMajor (
@@ -414,7 +420,7 @@ extern void _IceErrorBadMajor (
 #endif
 );
 
-#define _IceErrorNoAuthentication _KDE_IceErrorNoAuthentication
+#define _IceErrorNoAuthentication _kde_IceErrorNoAuthentication
 
 extern void _IceErrorNoAuthentication (
 #if NeedFunctionPrototypes
@@ -423,7 +429,7 @@ extern void _IceErrorNoAuthentication (
 #endif
 );
 
-#define _IceErrorNoVersion _KDE_IceErrorNoVersion
+#define _IceErrorNoVersion _kde_IceErrorNoVersion
 
 extern void _IceErrorNoVersion (
 #if NeedFunctionPrototypes
@@ -432,7 +438,7 @@ extern void _IceErrorNoVersion (
 #endif
 );
 
-#define _IceErrorSetupFailed _KDE_IceErrorSetupFailed
+#define _IceErrorSetupFailed _kde_IceErrorSetupFailed
 
 extern void _IceErrorSetupFailed (
 #if NeedFunctionPrototypes
@@ -442,7 +448,7 @@ extern void _IceErrorSetupFailed (
 #endif
 );
 
-#define _IceErrorAuthenticationRejected _KDE_IceErrorAuthenticationRejected
+#define _IceErrorAuthenticationRejected _kde_IceErrorAuthenticationRejected
 
 extern void _IceErrorAuthenticationRejected (
 #if NeedFunctionPrototypes
@@ -452,7 +458,7 @@ extern void _IceErrorAuthenticationRejected (
 #endif
 );
 
-#define _IceErrorAuthenticationFailed _KDE_IceErrorAuthenticationFailed
+#define _IceErrorAuthenticationFailed _kde_IceErrorAuthenticationFailed
 
 extern void _IceErrorAuthenticationFailed (
 #if NeedFunctionPrototypes
@@ -462,7 +468,7 @@ extern void _IceErrorAuthenticationFailed (
 #endif
 );
 
-#define _IceErrorProtocolDuplicate _KDE_IceErrorProtocolDuplicate
+#define _IceErrorProtocolDuplicate _kde_IceErrorProtocolDuplicate
 
 extern void _IceErrorProtocolDuplicate (
 #if NeedFunctionPrototypes
@@ -471,7 +477,7 @@ extern void _IceErrorProtocolDuplicate (
 #endif
 );
 
-#define _IceErrorMajorOpcodeDuplicate _KDE_IceErrorMajorOpcodeDuplicate
+#define _IceErrorMajorOpcodeDuplicate _kde_IceErrorMajorOpcodeDuplicate
 
 extern void _IceErrorMajorOpcodeDuplicate (
 #if NeedFunctionPrototypes
@@ -480,7 +486,7 @@ extern void _IceErrorMajorOpcodeDuplicate (
 #endif
 );
 
-#define _IceErrorUnknownProtocol _KDE_IceErrorUnknownProtocol
+#define _IceErrorUnknownProtocol _kde_IceErrorUnknownProtocol
 
 extern void _IceErrorUnknownProtocol (
 #if NeedFunctionPrototypes
@@ -489,7 +495,7 @@ extern void _IceErrorUnknownProtocol (
 #endif
 );
 
-#define _IceAddOpcodeMapping _KDE_IceAddOpcodeMapping
+#define _IceAddOpcodeMapping _kde_IceAddOpcodeMapping
 
 extern void _IceAddOpcodeMapping (
 #if NeedFunctionPrototypes
@@ -499,7 +505,7 @@ extern void _IceAddOpcodeMapping (
 #endif
 );
 
-#define _IceGetPeerName _KDE_IceGetPeerName
+#define _IceGetPeerName _kde_IceGetPeerName
 
 extern char *_IceGetPeerName (
 #if NeedFunctionPrototypes
@@ -507,7 +513,7 @@ extern char *_IceGetPeerName (
 #endif
 );
 
-#define _IceFreeConnection _KDE_IceFreeConnection
+#define _IceFreeConnection _kde_IceFreeConnection
 
 extern void _IceFreeConnection (
 #if NeedFunctionPrototypes
@@ -515,7 +521,7 @@ extern void _IceFreeConnection (
 #endif
 );
 
-#define _IceAddReplyWait _KDE_IceAddReplyWait
+#define _IceAddReplyWait _kde_IceAddReplyWait
 
 extern void _IceAddReplyWait (
 #if NeedFunctionPrototypes
@@ -524,7 +530,7 @@ extern void _IceAddReplyWait (
 #endif
 );
 
-#define _IceSearchReplyWaits _KDE_IceSearchReplyWaits
+#define _IceSearchReplyWaits _kde_IceSearchReplyWaits
 
 extern IceReplyWaitInfo *_IceSearchReplyWaits (
 #if NeedFunctionPrototypes
@@ -533,7 +539,7 @@ extern IceReplyWaitInfo *_IceSearchReplyWaits (
 #endif
 );
 
-#define _IceSetReplyReady _KDE_IceSetReplyReady
+#define _IceSetReplyReady _kde_IceSetReplyReady
 
 extern void _IceSetReplyReady (
 #if NeedFunctionPrototypes
@@ -542,7 +548,7 @@ extern void _IceSetReplyReady (
 #endif
 );
 
-#define _IceCheckReplyReady _KDE_IceCheckReplyReady
+#define _IceCheckReplyReady _kde_IceCheckReplyReady
 
 extern Bool _IceCheckReplyReady (
 #if NeedFunctionPrototypes
@@ -551,7 +557,7 @@ extern Bool _IceCheckReplyReady (
 #endif
 );
 
-#define _IceConnectionOpened _KDE_IceConnectionOpened
+#define _IceConnectionOpened _kde_IceConnectionOpened
 
 extern void _IceConnectionOpened (
 #if NeedFunctionPrototypes
@@ -559,7 +565,7 @@ extern void _IceConnectionOpened (
 #endif
 );
 
-#define _IceConnectionClosed _KDE_IceConnectionClosed
+#define _IceConnectionClosed _kde_IceConnectionClosed
 
 extern void _IceConnectionClosed (
 #if NeedFunctionPrototypes
@@ -567,7 +573,7 @@ extern void _IceConnectionClosed (
 #endif
 );
 
-#define _IceGetPoAuthData _KDE_IceGetPoAuthData
+#define _IceGetPoAuthData _kde_IceGetPoAuthData
 
 extern void _IceGetPoAuthData (
 #if NeedFunctionPrototypes
@@ -579,7 +585,7 @@ extern void _IceGetPoAuthData (
 #endif
 );
 
-#define _IceGetPaAuthData _KDE_IceGetPaAuthData
+#define _IceGetPaAuthData _kde_IceGetPaAuthData
 
 extern void _IceGetPaAuthData (
 #if NeedFunctionPrototypes
@@ -591,7 +597,7 @@ extern void _IceGetPaAuthData (
 #endif
 );
 
-#define _IceGetPoValidAuthIndices _KDE_IceGetPoValidAuthIndices
+#define _IceGetPoValidAuthIndices _kde_IceGetPoValidAuthIndices
 
 extern void _IceGetPoValidAuthIndices (
 #if NeedFunctionPrototypes
@@ -604,7 +610,7 @@ extern void _IceGetPoValidAuthIndices (
 #endif
 );
 
-#define _IceGetPaValidAuthIndices _KDE_IceGetPaValidAuthIndices
+#define _IceGetPaValidAuthIndices _kde_IceGetPaValidAuthIndices
 
 extern void _IceGetPaValidAuthIndices (
 #if NeedFunctionPrototypes

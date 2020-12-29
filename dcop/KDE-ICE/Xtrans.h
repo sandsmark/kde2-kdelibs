@@ -50,9 +50,14 @@ from The Open Group.
 #ifndef _XTRANS_H_
 #define _XTRANS_H_
 
+#include "config.h"
+#if defined Q_WS_X11 && ! defined K_WS_QTONLY
 #include <X11/Xfuncproto.h>
 #include <X11/Xos.h>
-
+#else
+#include <KDE-ICE/Xfuncproto.h>
+#include <fcntl.h>
+#endif
 
 /*
  * Set the functions names according to where this code is being compiled.
@@ -116,12 +121,12 @@ static char* __xtransname = "_FontTrans";
 
 #ifdef ICE_t
 #if (defined(__STDC__) && !defined(UNIXCPP)) || defined(ANSICPP)
-#define TRANS(func) _KDE_IceTrans##func
+#define TRANS(func) _kde_IceTrans##func
 #else
-#define TRANS(func) _KDE_IceTrans/**/func
+#define TRANS(func) _kde_IceTrans/**/func
 #endif
 #ifdef XTRANSDEBUG
-static char* __xtransname = "_KDE_IceTrans";
+static char* __xtransname = (char *)"_kde_IceTrans";
 #endif
 #endif /* ICE_t */
 
@@ -183,7 +188,7 @@ typedef long BytesReadable_t;
 #endif
 
 
-#if defined(WIN32) || (defined(USG) && !defined(CRAY) && !defined(umips) && !defined(MOTOROLA) && !defined(uniosu) && !defined(__sxg__)) || defined(MINIX)
+#if defined(_WIN32) || (defined(USG) && !defined(CRAY) && !defined(umips) && !defined(MOTOROLA) && !defined(uniosu) && !defined(__sxg__)) || defined(MINIX)
 
 /*
  *      TRANS(Readv) and TRANS(Writev) use struct iovec, normally found
@@ -461,13 +466,13 @@ TRANS(GetPeerNetworkId)(
 
 #endif /* ICE_t */
 
-int 
+int
 TRANS(GetHostname) (
     char *	/* buf */,
     int 	/* maxlen */
 );
 
-#if defined(WIN32) && (defined(TCPCONN) || defined(DNETCONN))
+#if defined(_WIN32) && (defined(TCPCONN) || defined(DNETCONN))
 int TRANS(WSAStartup)();
 #endif
 

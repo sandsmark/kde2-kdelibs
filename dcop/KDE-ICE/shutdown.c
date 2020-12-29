@@ -143,7 +143,7 @@ IceConn     iceConn;
 
     IO	       free-      dispatch   protocol   shutdown
     error      asap bit   level      refcount   negotiation     ACTION
-    occured    set        reached 0  reached 0
+    occurred    set        reached 0  reached 0
     
         0          0          0          0          0		N
         0          0          0          0          1		N
@@ -280,7 +280,7 @@ IceConn iceConn;
     }
 
     if (iceConn->trans_conn)
-	_KDE_IceTransClose (iceConn->trans_conn);
+	_kde_IceTransClose (iceConn->trans_conn);
 
     if (iceConn->connection_string)
 	free (iceConn->connection_string);

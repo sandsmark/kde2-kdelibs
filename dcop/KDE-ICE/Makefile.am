@@ -1,5 +1,5 @@
 
-AM_CFLAGS = $(STD_DEFINES) -DICE_t -DTRANS_SERVER -DTRANS_CLIENT -DUNIXCONN -DANSICPP
+AM_CFLAGS = -DICE_t -DTRANS_SERVER -DTRANS_CLIENT -DUNIXCONN -DANSICPP
 INCLUDES = $(all_includes)
 
 noinst_LTLIBRARIES = libkICE.la
@@ -13,6 +13,7 @@ noinst_HEADERS =  ICE.h \
 	ICEutil.h \
 	Xtrans.h \
 	Xtransint.h \
+	Xfuncproto.h \
 	globals.h 
 
 libkICE_la_SOURCES = accept.c \

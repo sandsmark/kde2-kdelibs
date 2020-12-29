@@ -61,9 +61,10 @@ from The Open Group.
  * of these values are also defined by the ChangeHost protocol message.
  */
 
-#define FamilyInternet		0
+#define FamilyInternet		0	/* IPv4 */
 #define FamilyDECnet		1
 #define FamilyChaos		2
+#define FamilyInternet6		6
 #define FamilyAmoeba		33
 #define FamilyLocalHost		252
 #define FamilyKrb5Principal	253
@@ -175,7 +176,7 @@ TRANS(ConvertAddress)(int *familyp, int *addrlenp, Xtransaddr **addrp)
 	 * In the case of a local connection, we need to get the
 	 * host name for authentication.
 	 */
-	
+
 	char hostnamebuf[256];
 	int len = TRANS(GetHostname) (hostnamebuf, sizeof hostnamebuf);
 
@@ -226,6 +227,7 @@ TRANS(GetMyNetworkId) (XtransConnInfo ciptr)
     {
 	return (NULL);
     }
+    hostnamebuf[sizeof(hostnamebuf)-1] = '\0';
 
     switch (family)
     {
@@ -280,9 +282,9 @@ TRANS(GetMyNetworkId) (XtransConnInfo ciptr)
 static jmp_buf env;
 
 #ifdef SIGALRM
-static int nameserver_timedout = 0;
+static volatile int nameserver_timedout = 0;
 
-static 
+static
 #ifdef SIGNALRETURNSINT
 int
 #else
@@ -290,6 +292,7 @@ void
 #endif
 nameserver_lost(int sig)
 {
+  (void)sig;/*unused*/
   nameserver_timedout = 1;
   longjmp (env, -1);
   /* NOTREACHED */
@@ -315,8 +318,10 @@ TRANS(GetPeerNetworkId) (XtransConnInfo ciptr)
 #if defined(UNIXCONN) || defined(STREAMSCONN) || defined(LOCALCONN) || defined(OS2PIPECONN)
     case AF_UNIX:
     {
-	if (gethostname (addrbuf, sizeof (addrbuf)) == 0)
+	if (gethostname (addrbuf, sizeof (addrbuf)) == 0) {
+	    addrbuf[sizeof(addrbuf)-1] = '\0';
 	    addr = addrbuf;
+	}
 	break;
     }
 #endif /* defined(UNIXCONN) || defined(STREAMSCONN) || defined(LOCALCONN) || defined(OS2PIPECONN)
@@ -329,13 +334,13 @@ TRANS(GetPeerNetworkId) (XtransConnInfo ciptr)
 	struct sockaddr_in *saddr = (struct sockaddr_in *) peer_addr;
 	struct hostent * hostp = NULL;
 
-#ifdef SIGALRM
+#if defined(SIGALRM) && !defined(_WIN32)
 	/*
 	 * gethostbyaddr can take a LONG time if the host does not exist.
 	 * Assume that if it does not respond in NAMESERVER_TIMEOUT seconds
 	 * that something is wrong and do not make the user wait.
 	 * gethostbyaddr will continue after a signal, so we have to
-	 * jump out of it. 
+	 * jump out of it.
 	 */
 
 	nameserver_timedout = 0;
@@ -345,7 +350,7 @@ TRANS(GetPeerNetworkId) (XtransConnInfo ciptr)
 #endif
 	    hostp = gethostbyaddr ((char *) &saddr->sin_addr,
 		sizeof (saddr->sin_addr), AF_INET);
-#ifdef SIGALRM
+#if defined(SIGALRM) && !defined(_WIN32)
 	}
 	alarm (0);
 #endif
@@ -367,9 +372,9 @@ TRANS(GetPeerNetworkId) (XtransConnInfo ciptr)
 
 	if (np = getnodebyaddr(saddr->sdn_add.a_addr,
 	    saddr->sdn_add.a_len, AF_DECnet)) {
-	    sprintf(addrbuf, "%s:", np->n_name);
+	    snprintf(addrbuf, sizeof(addrbuf), "%s:", np->n_name);
 	} else {
-	    sprintf(addrbuf, "%s:", dnet_htoa(&saddr->sdn_add));
+	    snprintf(addrbuf, sizeof(addrbuf), "%s:", dnet_htoa(&saddr->sdn_add));
 	}
 	addr = addrbuf;
 	break;
@@ -387,6 +392,7 @@ TRANS(GetPeerNetworkId) (XtransConnInfo ciptr)
     case AF_INET:
     {
 	if (gethostname (addrbuf, sizeof (addrbuf)) == 0) {
+	    addrbuf[sizeof(addrbuf)-1] = '\0';
 	    addr = addrbuf;
 	} else {
 	    addr = "";
@@ -413,7 +419,7 @@ TRANS(GetPeerNetworkId) (XtransConnInfo ciptr)
 #endif /* ICE_t */
 
 
-#if defined(WIN32) && (defined(TCPCONN) || defined(DNETCONN))
+#if defined(_WIN32) && (defined(TCPCONN) || defined(DNETCONN))
 int
 TRANS(WSAStartup) (void)
 {
@@ -450,7 +456,7 @@ is_numeric (char *str)
 #define lstat(a,b) stat(a,b)
 #endif
 
-static int 
+static int
 trans_mkdir(char *path, int mode)
 {
     struct stat buf;
@@ -459,7 +465,7 @@ trans_mkdir(char *path, int mode)
 	chmod(path, mode);
 	return 0;
     }
-    /* If mkdir failed with EEXIST, test if it is a directory with 
+    /* If mkdir failed with EEXIST, test if it is a directory with
        the right modes, else fail */
     if (errno == EEXIST) {
 	if (lstat(path, &buf) != 0) {
@@ -498,6 +504,7 @@ trans_mkdir(char *path, int mode)
 		    if (fstat(fd, &fbuf) == -1) {
 			PRMSG(1, "mkdir: fstat failed for %s (%d)\n",
 			      path, errno, 0);
+			close(fd);
 			return -1;
 		    }
 		    /*
@@ -509,6 +516,7 @@ trans_mkdir(char *path, int mode)
 			buf.st_ino != fbuf.st_ino) {
 			PRMSG(1, "mkdir: inode for %s changed\n",
 			      path, 0, 0);
+			close(fd);
 			return -1;
 		    }
 		    if (updateOwner && fchown(fd, 0, 0) == 0)
@@ -519,6 +527,7 @@ trans_mkdir(char *path, int mode)
 		}
 	    }
 #endif
+#ifndef __CYGWIN__
 	    if (updateOwner && !updatedOwner) {
 	  	PRMSG(1, "mkdir: Owner of %s should be set to root\n",
 		      path, 0, 0);
@@ -529,6 +538,7 @@ trans_mkdir(char *path, int mode)
 		      path, mode, 0);
 /*		sleep(5); */
 	    }
+#endif 
 	    return 0;
 	}
     }

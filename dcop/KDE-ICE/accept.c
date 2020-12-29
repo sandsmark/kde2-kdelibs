@@ -28,6 +28,8 @@ in this Software without prior written authorization from the X Consortium.
 Author: Ralph Mor, X Consortium
 ******************************************************************************/
 
+#include <string.h>
+
 #include "KDE-ICE/ICElib.h"
 #include "KDE-ICE/ICElibint.h"
 #include "KDE-ICE/Xtrans.h"
@@ -49,7 +51,7 @@ IceAcceptStatus	*statusRet;
      * Accept the connection.
      */
 
-    if ((newconn = (XtransConnInfo)_KDE_IceTransAccept (listenObj->trans_conn, &status)) == 0)
+    if ((newconn = (XtransConnInfo)_kde_IceTransAccept (listenObj->trans_conn, &status)) == 0)
     {
 	if (status == TRANS_ACCEPT_BAD_MALLOC)
 	    *statusRet = IceAcceptBadMalloc;
@@ -63,7 +65,7 @@ IceAcceptStatus	*statusRet;
      * Set close-on-exec so that programs that fork() don't get confused.
      */
 
-    _KDE_IceTransSetOption (newconn, TRANS_CLOSEONEXEC, 1);
+    _kde_IceTransSetOption (newconn, TRANS_CLOSEONEXEC, 1);
 
 
     /*
@@ -72,7 +74,7 @@ IceAcceptStatus	*statusRet;
 
     if ((iceConn = (IceConn) malloc (sizeof (struct _IceConn))) == NULL)
     {
-	_KDE_IceTransClose (newconn);
+	_kde_IceTransClose (newconn);
 	*statusRet = IceAcceptBadMalloc;
 	return (NULL);
     }
@@ -89,15 +91,13 @@ IceAcceptStatus	*statusRet;
     iceConn->trans_conn = newconn;
     iceConn->send_sequence = 0;
     iceConn->receive_sequence = 0;
-    iceConn->unused1 = 0;
-    iceConn->unused2 = 0;
 
     iceConn->connection_string = (char *) malloc (
 	strlen (listenObj->network_id) + 1);
 
     if (iceConn->connection_string == NULL)
     {
-	_KDE_IceTransClose (newconn);
+	_kde_IceTransClose (newconn);
 	free ((char *) iceConn);
 	*statusRet = IceAcceptBadMalloc;
 	return (NULL);
@@ -115,7 +115,7 @@ IceAcceptStatus	*statusRet;
     }
     else
     {
-	_KDE_IceTransClose (newconn);
+	_kde_IceTransClose (newconn);
 	free ((char *) iceConn);
 	*statusRet = IceAcceptBadMalloc;
 	return (NULL);
@@ -124,11 +124,12 @@ IceAcceptStatus	*statusRet;
     if ((iceConn->outbuf = iceConn->outbufptr =
 	(char *) malloc (ICE_OUTBUFSIZE)) != NULL)
     {
+	memset(iceConn->outbuf, 0, ICE_OUTBUFSIZE);
 	iceConn->outbufmax = iceConn->outbuf + ICE_OUTBUFSIZE;
     }
     else
     {
-	_KDE_IceTransClose (newconn);
+	_kde_IceTransClose (newconn);
 	free (iceConn->inbuf);
 	free ((char *) iceConn);
 	*statusRet = IceAcceptBadMalloc;
@@ -169,8 +170,6 @@ IceAcceptStatus	*statusRet;
 	pMsg->byteOrder = IceLSBfirst;
     else
 	pMsg->byteOrder = IceMSBfirst;
-
-    pMsg->unused = 0; // avoid writing junk data
 
     IceFlush (iceConn);
 

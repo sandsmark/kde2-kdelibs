@@ -32,6 +32,10 @@ Author: Ralph Mor, X Consortium
 #include "KDE-ICE/ICElibint.h"
 #include "KDE-ICE/ICEutil.h"
 #include "KDE-ICE/globals.h"
+#include <string.h>
+#ifdef _AIX
+#include <sys/access.h>
+#endif
 
 static Bool auth_valid (const char *auth_name, int num_auth_names, const char **auth_names, int *index_ret);
 
@@ -99,7 +103,7 @@ unsigned short	*authDataLenRet;
 char		**authDataRet;
 
 {
-    IceAuthDataEntry	*entry;
+    IceAuthDataEntry	*entry = NULL;
     int			found = 0;
     int			i;
 
@@ -254,7 +258,7 @@ auth_valid (const char *auth_name, int num_auth_names, const char **auth_names, 
 	{
 	    break;
 	}
-   
+
     if (i < num_auth_names)
     {
 	*index_ret = i;

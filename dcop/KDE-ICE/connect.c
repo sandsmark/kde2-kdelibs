@@ -33,6 +33,7 @@ Author: Ralph Mor, X Consortium
 #include "KDE-ICE/ICElibint.h"
 #include "KDE-ICE/Xtrans.h"
 #include "globals.h"
+#include <string.h>
 
 static XtransConnInfo ConnectToPeer(char *networkIdsList, char **actualConnectionRet);
 
@@ -49,7 +50,7 @@ static char *Strstr(s1, s2)
     for ( ; n1 >= n2; s1++, n1--) {
 	if (!strncmp(s1, s2, n2))
 	    return s1;
-    }	
+    }
     return NULL;
 }
 #endif
@@ -100,7 +101,7 @@ char 	   *errorStringRet;
      * connection if the specified 'context' is equal to the context
      * associated with the ICE connection, or if the context associated
      * with the ICE connection is NULL.
-     * 
+     *
      * If 'majorOpcodeCheck' is non-zero, it will contain a protocol major
      * opcode that we should make sure is not already active on the ICE
      * connection.  Some clients will want two seperate connections for the
@@ -184,7 +185,7 @@ char 	   *errorStringRet;
      * Set close-on-exec so that programs that fork() don't get confused.
      */
 
-    _KDE_IceTransSetOption (iceConn->trans_conn, TRANS_CLOSEONEXEC, 1);
+    _kde_IceTransSetOption (iceConn->trans_conn, TRANS_CLOSEONEXEC, 1);
 
     iceConn->listen_obj = NULL;
 
@@ -218,6 +219,7 @@ char 	   *errorStringRet;
 	strncpy (errorStringRet, "Can't malloc", errorLength);
 	return (NULL);
     }
+    memset (iceConn->inbuf, 0, ICE_INBUFSIZE);
 
     iceConn->inbufmax = iceConn->inbuf + ICE_INBUFSIZE;
 
@@ -228,6 +230,7 @@ char 	   *errorStringRet;
 	strncpy (errorStringRet, "Can't malloc", errorLength);
 	return (NULL);
     }
+    memset (iceConn->outbuf, 0, ICE_OUTBUFSIZE);
 
     iceConn->outbufmax = iceConn->outbuf + ICE_OUTBUFSIZE;
 
@@ -258,8 +261,6 @@ char 	   *errorStringRet;
     else
 	pByteOrderMsg->byteOrder = IceMSBfirst;
 
-    pByteOrderMsg->unused = 0;
-
     IceFlush (iceConn);
 
 
@@ -281,7 +282,7 @@ char 	   *errorStringRet;
     if (ioErrorOccured)
     {
 	_IceFreeConnection (iceConn);
-	strncpy (errorStringRet, "IO error occured opening connection",
+	strncpy (errorStringRet, "IO error occurred opening connection",
 	     errorLength);
 	return (NULL);
     }
@@ -341,9 +342,6 @@ char 	   *errorStringRet;
     pSetupMsg->authCount = authUsableCount;
     pSetupMsg->mustAuthenticate = mustAuthenticate;
 
-    bzero(pSetupMsg->unused, sizeof pSetupMsg->unused);
-    bzero(pData, extra);
-
     STORE_STRING (pData, IceVendorString);
     STORE_STRING (pData, IceReleaseString);
 
@@ -382,7 +380,7 @@ char 	   *errorStringRet;
 
 	if (ioErrorOccured)
 	{
-	    strncpy (errorStringRet, "IO error occured opening connection",
+	    strncpy (errorStringRet, "IO error occurred opening connection",
 		errorLength);
 	    _IceFreeConnection (iceConn);
 	    iceConn = NULL;
@@ -438,7 +436,7 @@ char 	   *errorStringRet;
     if (iceConn && _IceWatchProcs)
     {
 #ifdef MINIX
-    _KDE_IceTransSetOption(iceConn->trans_conn, TRANS_NONBLOCKING, 1);
+    _kde_IceTransSetOption(iceConn->trans_conn, TRANS_NONBLOCKING, 1);
 #endif
 	/*
 	 * Notify the watch procedures that an iceConn was opened.
@@ -500,14 +498,14 @@ ConnectToPeer (char *networkIdsList, char **actualConnectionRet)
 
 	for (retry = ICE_CONNECTION_RETRIES; retry >= 0; retry--)
 	{
-	    if ((trans_conn = (XtransConnInfo)_KDE_IceTransOpenCOTSClient (address)) == NULL)
+	    if ((trans_conn = (XtransConnInfo)_kde_IceTransOpenCOTSClient (address)) == NULL)
 	    {
 		break;
 	    }
 
-	    if ((connect_stat = _KDE_IceTransConnect (trans_conn, address)) < 0)
+	    if ((connect_stat = _kde_IceTransConnect (trans_conn, address)) < 0)
 	    {
-		_KDE_IceTransClose (trans_conn);
+		_kde_IceTransClose (trans_conn);
 
 		if (connect_stat == TRANS_TRY_CONNECT_AGAIN)
 		{
@@ -535,7 +533,7 @@ ConnectToPeer (char *networkIdsList, char **actualConnectionRet)
 	*actualConnectionRet = (char *) malloc (strlen (address) + 1);
 	strcpy (*actualConnectionRet, address);
 
-	
+
 	/*
 	 * Return the file descriptor
 	 */

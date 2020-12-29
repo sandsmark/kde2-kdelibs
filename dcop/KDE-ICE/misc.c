@@ -34,6 +34,7 @@ Author: Ralph Mor, X Consortium
 #include "KDE-ICE/globals.h"
 #include <stdio.h>
 #include <errno.h>
+#include <string.h>
 
 
 /*
@@ -166,7 +167,7 @@ IceConnectionNumber (iceConn)
 IceConn iceConn;
 
 {
-    return (_KDE_IceTransGetConnectionNumber (iceConn->trans_conn));
+    return (_kde_IceTransGetConnectionNumber (iceConn->trans_conn));
 }
 
 
@@ -232,12 +233,12 @@ IceConn iceConn;
 Status
 _IceRead (iceConn, nbytes, ptr)
 
-register IceConn iceConn;
+IceConn iceConn;
 unsigned long	 nbytes;
-register char	 *ptr;
+char	 *ptr;
 
 {
-    register unsigned long nleft;
+    unsigned long nleft;
 
     nleft = nbytes;
     while (nleft > 0)
@@ -245,13 +246,13 @@ register char	 *ptr;
 	int nread;
 
 	if (iceConn->io_ok)
-	    nread = _KDE_IceTransRead (iceConn->trans_conn, ptr, (int) nleft);
+	    nread = _kde_IceTransRead (iceConn->trans_conn, ptr, (int) nleft);
 	else
 	    return (1);
 
 	if (nread <= 0)
 	{
-#ifdef WIN32
+#ifdef _WIN32
 	    errno = WSAGetLastError();
 #endif
             if( nread < 0 && errno == EINTR )
@@ -268,7 +269,7 @@ register char	 *ptr;
 
 		return (0);
 	    }
-	    else 
+	    else
 	    {
 		/*
 		 * Fatal IO error.  First notify each protocol's IceIOErrorProc
@@ -334,8 +335,8 @@ register char	 *ptr;
 void
 _IceReadSkip (iceConn, nbytes)
 
-register IceConn	iceConn;
-register unsigned long	nbytes;
+IceConn	iceConn;
+unsigned long	nbytes;
 
 {
     char temp[512];
@@ -358,12 +359,12 @@ register unsigned long	nbytes;
 void
 _IceWrite (iceConn, nbytes, ptr)
 
-register IceConn iceConn;
+IceConn iceConn;
 unsigned long	 nbytes;
-register char	 *ptr;
+char	 *ptr;
 
 {
-    register unsigned long nleft;
+    unsigned long nleft;
 
     nleft = nbytes;
     while (nleft > 0)
@@ -371,14 +372,14 @@ register char	 *ptr;
 	int nwritten;
 
 	if (iceConn->io_ok)
-	    nwritten = _KDE_IceTransWrite (iceConn->trans_conn, ptr, (int) nleft);
+	    nwritten = _kde_IceTransWrite (iceConn->trans_conn, ptr, (int) nleft);
 	else
 	    return;
 
 
 	if (nwritten <= 0)
 	{
-#ifdef WIN32
+#ifdef _WIN32
 	    errno = WSAGetLastError();
 #endif
             if( nwritten < 0 && errno == EINTR )
@@ -614,5 +615,5 @@ _IceGetPeerName (iceConn)
 IceConn iceConn;
 
 {
-    return ((char*)_KDE_IceTransGetPeerNetworkId (iceConn->trans_conn));
+    return ((char*)_kde_IceTransGetPeerNetworkId (iceConn->trans_conn));
 }

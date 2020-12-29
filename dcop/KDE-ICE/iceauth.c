@@ -34,6 +34,9 @@ Author: Ralph Mor, X Consortium
 #include "KDE-ICE/ICEutil.h"
 #include "KDE-ICE/globals.h"
 
+#include <sys/time.h>
+#include <string.h>
+
 #if defined(X_NOT_STDC_ENV) && !defined(__EMX__)
 #define Time_t long
 extern Time_t time ();
@@ -42,7 +45,7 @@ extern Time_t time ();
 #define Time_t time_t
 #endif
 
-static int binaryEqual (register const char *a, register const char *b, register unsigned len);
+static int binaryEqual (const char *a, const char *b, unsigned len);
 
 static int was_called_state;
 
@@ -63,26 +66,16 @@ int len;
     int	    seed;
     int	    value;
     int	    i;
-    
+
     if ((auth = (char *) malloc (len + 1)) == NULL)
 	return (NULL);
 
-#ifdef ITIMER_REAL
     {
 	struct timeval  now;
-	X_GETTIMEOFDAY (&now);
+	gettimeofday(&now, 0);
 	ldata[0] = now.tv_sec;
 	ldata[1] = now.tv_usec;
     }
-#else
-    {
-#ifndef __EMX__
-	long    time ();
-#endif
-	ldata[0] = time ((long *) 0);
-	ldata[1] = getpid ();
-    }
-#endif
     seed = (ldata[0]) + (ldata[1] << 16);
     srand (seed);
     for (i = 0; i < len; i++)
@@ -111,6 +104,9 @@ IcePointer	*replyDataRet;
 char    	**errorStringRet;
 
 {
+    (void)swap;/*unused*/
+    (void)authDataLen;/*unused*/
+    (void)authData;/*unused*/
     if (cleanUp)
     {
 	/*
@@ -126,7 +122,7 @@ char    	**errorStringRet;
     {
 	/*
 	 * This is the first time we're being called.  Search the
-	 * authentication data for the first occurence of
+	 * authentication data for the first occurrence of
 	 * MIT-MAGIC-COOKIE-1 that matches iceConn->connection_string.
 	 */
 
@@ -190,6 +186,7 @@ IcePointer	*replyDataRet;
 char    	**errorStringRet;
 
 {
+    (void)swap;/*unused*/
     *errorStringRet = NULL;
     *replyDataLenRet = 0;
     *replyDataRet = NULL;
@@ -208,7 +205,7 @@ char    	**errorStringRet;
     else
     {
 	/*
-	 * Search the authentication data for the first occurence of
+	 * Search the authentication data for the first occurrence of
 	 * MIT-MAGIC-COOKIE-1 that matches iceConn->connection_string.
 	 */
 
@@ -267,7 +264,7 @@ char    	**errorStringRet;
  * local routines
  */
 
-static int binaryEqual (register const char *a, register const char *b, register unsigned len)
+static int binaryEqual (const char *a, const char *b, unsigned len)
 {
     while (len--)
 	if (*a++ != *b++)

@@ -26,6 +26,7 @@ Author: Ralph Mor, X Consortium
 #include "KDE-ICE/ICElib.h"
 #include "KDE-ICE/ICElibint.h"
 #include "KDE-ICE/globals.h"
+#include <string.h>
 
 
 IceProtocolSetupStatus
@@ -55,7 +56,7 @@ char 	   *errorStringRet;
     unsigned long	setup_sequence;
     IceReplyWaitInfo 	replyWait;
     _IceReply		reply;
-    IcePoVersionRec	*versionRec;
+    IcePoVersionRec	*versionRec = NULL;
     int			authCount;
     int			*authIndices;
 
@@ -116,7 +117,7 @@ char 	   *errorStringRet;
 	_IceGetPoValidAuthIndices (myProtocol->protocol_name,
 	    iceConn->connection_string,
 	    myProtocol->orig_client->auth_count,
-	    myProtocol->orig_client->auth_names,
+	    (const char**)myProtocol->orig_client->auth_names,
             &authCount, authIndices);
 
     }
@@ -198,7 +199,7 @@ char 	   *errorStringRet;
 	if (ioErrorOccured)
 	{
 	    strncpy (errorStringRet,
-		"IO error occured doing Protocol Setup on connection",
+		"IO error occurred doing Protocol Setup on connection",
 		errorLength);
 	    return (IceProtocolSetupIOError);
 	}
@@ -227,7 +228,7 @@ char 	   *errorStringRet;
 	    else /* reply.type == ICE_PROTOCOL_ERROR */
 	    {
 		/* Protocol Setup failed */
-		
+
 		strncpy (errorStringRet, reply.protocol_error.error_message,
 		    errorLength);
 
@@ -249,7 +250,7 @@ char 	   *errorStringRet;
 	*minorVersionRet = versionRec->minor_version;
 	*vendorRet = reply.protocol_reply.vendor;
 	*releaseRet = reply.protocol_reply.release;
-	
+
 
 	/*
 	 * Increase the reference count for the number of active protocols.
