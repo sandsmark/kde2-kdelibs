@@ -128,6 +128,16 @@ KUniqueApplication::start()
      // We'll call newInstance in the constructor. Do nothing here.
      return true;
   }
+
+#ifdef QT_THREAD_SUPPORT
+#warning "KDE 2 is not very good with threads, it's better to turn it off"
+  if (qApp) {
+    // QApp starts with its lock locked, so we need to forcibly unlock it here
+    qApp->unlock();
+  }
+#endif
+
+
   DCOPClient *dc;
   int fd[2];
   char result;
