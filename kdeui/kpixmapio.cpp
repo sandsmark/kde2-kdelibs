@@ -398,7 +398,7 @@ QImage KPixmapIO::convertFromXImage()
 	image.setNumColors(ncells);
         if (!image.numColors()) {
             kdWarning(290) << "No colors!" << endl;
-            return;
+            return image;
         }
 	for (i=0; i<ncells; i++)
 	    image.setColor(i, qRgb(cmap[i].red, cmap[i].green, cmap[i].blue >> 8));
