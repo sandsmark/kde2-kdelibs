@@ -396,6 +396,10 @@ QImage KPixmapIO::convertFromXImage()
 	XQueryColors(qt_xdisplay(), QPaintDevice::x11AppColormap(),
 		cmap, ncells);
 	image.setNumColors(ncells);
+        if (!image.numColors()) {
+            kdWarning(290) << "No colors!" << endl;
+            return;
+        }
 	for (i=0; i<ncells; i++)
 	    image.setColor(i, qRgb(cmap[i].red, cmap[i].green, cmap[i].blue >> 8));
     } else

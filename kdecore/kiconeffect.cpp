@@ -491,6 +491,11 @@ void KIconEffect::overlay(QImage &src, QImage &overlay)
 	    kdDebug(265) << "Too many colors in src + overlay!\n";
 	    return;
 	}
+	if (!src.numColors())
+	{
+	    kdDebug(265) << "Not an indexed image!!\n";
+	    return;
+	}
 
 	// Find transparent pixel in overlay
 	int trans;
