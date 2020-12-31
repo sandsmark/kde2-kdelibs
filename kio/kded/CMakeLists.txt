@@ -24,8 +24,11 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-set(kded_module_SOURCES
+set(kded_SOURCES
     kded.cpp
+    )
+
+set(kdedmodule_SOURCES
     kbuildservicetypefactory.cpp
     kbuildservicefactory.cpp
     kbuildservicegroupfactory.cpp
@@ -42,18 +45,26 @@ set(kbuildsycoca_module_SOURCES
     kctimefactory.cpp
     )
 
-set(global_HEADERS
-    kdedmodule.h
+qt2_wrap_cpp(kdedmodule_SOURCES
+    SOURCES
+        kdedmodule.h
     )
 
-install(FILES ${global_HEADERS} DESTINATION ${KDE2_INCLUDEDIR})
-
-qt2_wrap_cpp(kded_module_SOURCES
+qt2_wrap_cpp(kded_SOURCES
     SOURCES
-        ${global_HEADERS}
-        kdedmodule.h
         kded.h
     )
+
+kde2_library(kdedmodule
+    SOURCES
+        ${kdedmodule_SOURCES}
+    LIBS
+        Qt::Qt2
+        kde2::DCOP
+        kde2::ksycoca
+    HEADERS
+        kdedmodule.h
+)
 
 qt2_wrap_cpp(kbuildsycoca_module_SOURCES
     SOURCES
@@ -62,11 +73,9 @@ qt2_wrap_cpp(kbuildsycoca_module_SOURCES
 
 kde2_kinit_executable(kded
     SOURCES
-        ${kded_module_SOURCES}
+        ${kded_SOURCES}
     LIBS
-        Qt::Qt2
-        kde2::DCOP
-        kde2::ksycoca
+        kde2::kdedmodule
     )
 
 kde2_kinit_executable(kbuildsycoca
