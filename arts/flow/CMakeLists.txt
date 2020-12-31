@@ -32,6 +32,7 @@ kde2_library(libartsflow
         audioio.h
         resample.h
         cpuinfo.h
+        artsflow.idl
     INCLUDE_DIRECTORIES
         ${ALSA_INCLUDE_DIRS}
     LIBS
