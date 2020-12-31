@@ -43,6 +43,7 @@ kde2_library(libmcop
     HEADERS
         buffer.h
         common.h
+        common.tcc
         connection.h
         core.h
         dispatcher.h
