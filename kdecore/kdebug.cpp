@@ -88,7 +88,7 @@ static QString getDescrFromNum(unsigned int _num)
   QString filename(locate("config","kdebug2.areas"));
   QFile file(filename);
   if (!file.open(IO_ReadOnly)) {
-    qWarning("Couldn't open %s", filename.local8Bit().data());
+    qWarning("Couldn't open debug areas %s", filename.local8Bit().data());
     file.close();
     return "";
   }
