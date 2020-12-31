@@ -23,6 +23,8 @@ kde2_library(libkmedia2
     LIBS
         kde2::mcop
         kde2::artsflow
+    HEADERS
+        soundserver.h
     VERSION
         3.0.0
     )
