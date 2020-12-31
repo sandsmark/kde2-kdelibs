@@ -117,7 +117,7 @@ bool KdeprintChecker::checkService(const KURL& url)
 {
 	QString	serv(url.path().mid(1));
 	KExtendedSocket	sock;
-        sock.setTimeout(1);
+        sock.setTimeout(0, 50000);
 
 	bool	ok;
 	int	port = serv.toInt(&ok);
