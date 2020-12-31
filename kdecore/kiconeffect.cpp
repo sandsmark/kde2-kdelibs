@@ -435,6 +435,7 @@ QImage KIconEffect::doublePixels(QImage src)
 	}
     } else
     {
+        dst.setNumColors(src.numColors());
 	for (x=0; x<src.numColors(); x++)
 	    dst.setColor(x, src.color(x));
 
