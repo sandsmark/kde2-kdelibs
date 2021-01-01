@@ -49,14 +49,15 @@ kde2_library(libartswavplayobject
         3.0.0
     )
 
-add_executable(artsd
-    soundserverv2_impl.cc soundserver_impl.cc simplesoundserver_impl.cc
-    artsd.cc cpuusage.cc samplestorage_impl.cc
-    )
-target_link_libraries(artsd
-    kde2::mcop
-    kde2::artsflow
-    kde2::soundserver
+kde2_kinit_executable(artsd
+    SOURCES
+        soundserverv2_impl.cc soundserver_impl.cc
+        simplesoundserver_impl.cc artsd.cc cpuusage.cc
+        samplestorage_impl.cc
+    LIBS
+        kde2::mcop
+        kde2::artsflow
+        kde2::soundserver
     )
 
 add_executable(artsplay artsplay.cc)
@@ -85,6 +86,7 @@ target_link_libraries(artsshell
     kde2::soundserver
     )
 
+install(TARGETS artsplay artscat artswrapper artsshell)
 
 install(FILES
         ${CMAKE_CURRENT_BINARY_DIR}/artsversion.h
