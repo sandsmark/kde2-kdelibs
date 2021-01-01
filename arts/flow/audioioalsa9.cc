@@ -98,7 +98,7 @@ AudioIOALSA::AudioIOALSA()
 {
  	param(samplingRate) = 44100;
 	paramStr(deviceName) = "default"; // ALSA pcm device name - not file name
-	requestedFragmentSize = param(fragmentSize) = 1024;
+	requestedFragmentSize = param(fragmentSize) = 2048;
 	requestedFragmentCount = param(fragmentCount) = 7;
 	param(channels) = 2;
 	param(direction) = directionWrite;
