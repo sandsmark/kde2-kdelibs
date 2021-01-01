@@ -140,7 +140,7 @@ kde2_library(libkdefakes
 
 install(FILES kdebugrc DESTINATION ${KDE2_CONFDIR})
 install(FILES kdebug.areas DESTINATION ${KDE2_CONFDIR} RENAME kdebug2.areas)
-install(FILES charsets.config DESTINATION ${KDE2_CONFDIR})
+install(FILES charsets.config DESTINATION ${KDE2_CONFDIR} RENAME charsets)
 install(FILES eventsrc DESTINATION ${KDE2_CONFDIR}/knotify)
 install(FILES 40.colors DESTINATION ${KDE2_CONFDIR}/colors RENAME "40 Colors")
 install(FILES Web.colors DESTINATION ${KDE2_CONFDIR}/colors RENAME "Web")
