@@ -5,16 +5,59 @@ add_custom_command(
     )
 
 set(artsflow_source
-    synth_play_impl.cc synthschedule.cc audiosubsys.cc pipebuffer.cc convert.cc
-    synth_wave_sin_impl.cc synth_frequency_impl.cc synth_multi_add_impl.cc
-    synth_add_impl.cc synth_mul_impl.cc synth_play_wav_impl.cc
-    stdsynthmodule.cc cache.cc asyncschedule.cc bytestreamtoaudio_impl.cc
-    stereovolumecontrol_impl.cc stereoeffectstack_impl.cc fft.c
-    stereofftscope_impl.cc virtualports.cc bus.cc audiomanager_impl.cc
-    synth_record_impl.cc resample.cc audioio.cc audioiooss.cc audioioalsa.cc
-    audioionull.cc audioiolibaudioio.cc audioiosun.cc audioioaix.cc
-    audioionas.cc audioioalsa9.cc cpuinfo.cc
+        asyncschedule.cc
+        audioio.cc
+
+        audiomanager_impl.cc
+        audiosubsys.cc
+        bus.cc
+        bytestreamtoaudio_impl.cc
+        cache.cc
+        convert.cc
+        cpuinfo.cc
+        fft.c
+        pipebuffer.cc
+        resample.cc
+        stdsynthmodule.cc
+        stereoeffectstack_impl.cc
+        stereofftscope_impl.cc
+        stereovolumecontrol_impl.cc
+        synth_add_impl.cc
+        synth_frequency_impl.cc
+        synth_mul_impl.cc
+        synth_multi_add_impl.cc
+        synth_play_impl.cc
+        synth_play_wav_impl.cc
+        synth_record_impl.cc
+        synth_wave_sin_impl.cc
+        synthschedule.cc
+        virtualports.cc
+
+        audioionull.cc
     )
+
+if(ENABLE_NAS)
+    set(artsflow_source audioionas.cc ${artsflow_source})
+endif()
+
+if(ENABLE_AUDIO_SUN)
+    set(artsflow_source audioiosun.cc ${artsflow_source})
+endif()
+
+if(ENABLE_AUDIO_AIX)
+    set(artsflow_source audioioaix.cc ${artsflow_source})
+endif()
+if(ENABLE_AUDIOIO)
+    set(artsflow_source audioiolibaudioio.cc ${artsflow_source})
+endif()
+
+if(ENABLE_OSS)
+    set(artsflow_source audioiooss.cc ${artsflow_source})
+endif()
+
+if(ENABLE_ALSA)
+    set(artsflow_source audioioalsa9.cc audioioalsa.cc ${artsflow_source})
+endif()
 
 kde2_library(libartsflow
     SOURCES
