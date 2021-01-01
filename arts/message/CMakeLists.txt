@@ -4,3 +4,4 @@ target_link_libraries(artsmessage
     kde2::kdecore
     kde2::kdeui
     )
+install(TARGETS artsmessage)
