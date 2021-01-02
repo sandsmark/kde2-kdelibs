@@ -1483,7 +1483,8 @@ void DCOPClient::processSocketData(int)
     }
 
     if (!d->iceConn) {
-        qWarning("received an error processing data from the DCOP server!");
+        d->notifier->setEnabled(false);
+        qWarning("Lost connection to the DCOP server!");
         return;
     }
 
@@ -1491,7 +1492,9 @@ void DCOPClient::processSocketData(int)
 
     if (s == IceProcessMessagesIOError) {
 	IceCloseConnection(d->iceConn);
+        d->iceConn = NULL;
 	qWarning("received an error processing data from the DCOP server!");
+        d->notifier->setEnabled(false);
 	return;
     }
 }
