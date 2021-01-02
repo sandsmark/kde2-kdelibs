@@ -432,11 +432,11 @@ pid_t KRun::run( const QString& _cmd )
 pid_t KRun::runOldApplication( const QString& app, const KURL::List& _urls, bool _allow_multiple )
 {
   // find kfmexec in $PATH
-  QString kfmexec = KStandardDirs::findExe( "kfmexec" );
+  QString kfmexec = KStandardDirs::findExe( "kfmexec2" );
   if (kfmexec.isEmpty())
   {
     // this is written this way to avoid a new string to translate
-    KMessageBox::sorry( 0L, i18n("Couldn't launch %1").arg( "kfmexec" ) );
+    KMessageBox::sorry( 0L, i18n("Couldn't launch %1").arg( "kfmexec2" ) );
     return 0;
   }
 
