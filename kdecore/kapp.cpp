@@ -1808,7 +1808,7 @@ void KApplication::invokeMailer(const KURL &mailtoURL)
    // has to be executed by the terminal has to be supplied (e.g. something
    // like '/opt/kde2/bin/konsole -e %p'). - Frerich
    if (config.readBoolEntry("TerminalClient", false))
-      command = "konsole -e " + command;
+      command = "konsole2 -e " + command;
 
    QString address = KURL::decode_string(mailtoURL.path()), subject, cc, bcc, body, attach;
    QStringList queries = QStringList::split('&', mailtoURL.query().mid(1));

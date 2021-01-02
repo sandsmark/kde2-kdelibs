@@ -113,12 +113,12 @@ pid_t KRun::run( const KService& _service, const KURL::List& _urls )
   if (_service.substituteUid() && !user.isEmpty())
   {
     if (_service.terminal())
-      exec = QString("konsole %1 -e su %2 -c %3").arg(_service.terminalOptions()).arg(user).arg(exec);
+      exec = QString("konsole2 %1 -e su %2 -c %3").arg(_service.terminalOptions()).arg(user).arg(exec);
     else
       exec = QString("kdesu -u %1 -- %2").arg(user).arg(exec);
   } else if (_service.terminal())
      // Keep in mind that exec could include spaces. No quotes around %2, then.
-     exec = QString("konsole %1 -e %2").arg(_service.terminalOptions()).arg(exec);
+     exec = QString("konsole2 %1 -e %2").arg(_service.terminalOptions()).arg(exec);
   else
   {
   QString error;

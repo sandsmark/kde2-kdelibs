@@ -502,7 +502,7 @@ void KOpenWithDlg::slotOK()
   if (terminal->isChecked()) {
     KSimpleConfig conf(QString::fromLatin1("konquerorrc"), true);
     conf.setGroup(QString::fromLatin1("Misc Defaults"));
-    m_command = conf.readEntry(QString::fromLatin1("Terminal"), QString::fromLatin1("konsole"));
+    m_command = conf.readEntry(QString::fromLatin1("Terminal"), QString::fromLatin1("konsole2"));
 
     m_command += QString::fromLatin1(" -e ");
     m_command += edit->url();
