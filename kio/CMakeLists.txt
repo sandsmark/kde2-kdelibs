@@ -224,7 +224,7 @@ kde2_kinit_executable(kio_uiserver
         kde2::kdesu
     )
 
-install(FILES magic DESTINATION ${KDE2_MIMEDIR})
+install(FILES magic DESTINATION ${KDE2_MIMEDIR} RENAME magic2)
 
 install(FILES
     application.desktop kurifilterplugin.desktop kcomprfilter.desktop kscan.desktop

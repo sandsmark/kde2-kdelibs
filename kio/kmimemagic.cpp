@@ -37,7 +37,7 @@ KMimeMagic* KMimeMagic::self()
 void KMimeMagic::initStatic()
 {
   // Magic file detection init
-  QString mimefile = locate( "mime", "magic" );
+  QString mimefile = locate( "mime", "magic2" );
   s_pSelf = kmimemagicsd.setObject( new KMimeMagic( mimefile ) );
   s_pSelf->setFollowLinks( TRUE );
 }

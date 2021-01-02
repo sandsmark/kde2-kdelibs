@@ -345,7 +345,7 @@ void Kded::readDirectory( const QString& _path, KDirWatch *dirWatch )
   unsigned int count = d.count();
   for( i = 0; i < count; i++ )                        // check all entries
   {
-     if (d[i] == "." || d[i] == ".." || d[i] == "magic")
+     if (d[i] == "." || d[i] == ".." || d[i] == "magic" || d[i] == "magic2")
        continue;                          // discard those ".", "..", "magic"...
 
      file = path;                           // set full path
