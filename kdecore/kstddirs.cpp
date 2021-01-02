@@ -700,7 +700,7 @@ QString KStandardDirs::kde_default(const char *type) {
     if (!strcmp(type, "pixmap"))
 	return "share/pixmaps/";
     if (!strcmp(type, "apps"))
-	return "share/applnk/";
+	return "share/applications/";
     if (!strcmp(type, "sound"))
 	return "share/sounds/";
     if (!strcmp(type, "locale"))
