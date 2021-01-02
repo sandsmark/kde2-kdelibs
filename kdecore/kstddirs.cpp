@@ -690,7 +690,7 @@ static int tokenize( QStringList& tokens, const QString& str,
 
 QString KStandardDirs::kde_default(const char *type) {
     if (!strcmp(type, "data"))
-	return "share/apps/";
+	return "share/";
     if (!strcmp(type, "html"))
 	return "share/doc/HTML/";
     if (!strcmp(type, "icon"))

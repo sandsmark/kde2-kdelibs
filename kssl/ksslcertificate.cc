@@ -79,7 +79,7 @@ public:
 KSSLCertificate::KSSLCertificate() {
   d = new KSSLCertificatePrivate;
   d->m_stateCached = false;
-  KGlobal::dirs()->addResourceType("kssl", "share/apps/kssl");
+  KGlobal::dirs()->addResourceType("kssl", "share/kssl");
 #ifdef HAVE_SSL
   d->m_cert = NULL;
 #endif
@@ -433,7 +433,7 @@ int operator==(KSSLCertificate &x, KSSLCertificate &y) {
 KSSLCertificate::KSSLCertificate(const KSSLCertificate& x) {
   d = new KSSLCertificatePrivate;
   d->m_stateCached = false;
-  KGlobal::dirs()->addResourceType("kssl", "share/apps/kssl");
+  KGlobal::dirs()->addResourceType("kssl", "share/kssl");
 #ifdef HAVE_SSL
   d->m_cert = NULL;
   setCert(KOSSL::self()->X509_dup(const_cast<KSSLCertificate&>(x).getCert()));
