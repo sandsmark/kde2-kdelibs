@@ -68,7 +68,7 @@ set(KDEPRINT_SOURCES
     )
 
 set(PRIVATE_HEADERS
-    kmdbentry.h kmjob.h kmjobmanager.h kmobject.h
+    kmdbentry.h kmjob.h kmjobmanager.h
     kmuimanager.h kmvirtualmanager.h driver.h driveritem.h
     droptionview.h driverview.h matic.h kprintpreview.h kprinterimpl.h
     kprintdialog.h kpcopiespage.h kpdriverpage.h kprinterpropertydialog.h
@@ -77,7 +77,7 @@ set(PRIVATE_HEADERS
     kdeprintcheck.h plugincombobox.h
     )
 
-set(PUBLIC_HEADERS kprintdialogpage.h kpreloadobject.h kmprinter.h kmfactory.h kmmanager.h)
+set(PUBLIC_HEADERS kprintdialogpage.h kpreloadobject.h kmprinter.h kmfactory.h kmmanager.h kmobject.h)
 
 install(FILES ${PUBLIC_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kdeprint)
 install(FILES kprinter.h DESTINATION ${KDE2_INCLUDEDIR}/kdeprint)
