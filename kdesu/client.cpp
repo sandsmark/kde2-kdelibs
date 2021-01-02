@@ -359,6 +359,11 @@ static QString findDaemon()
 
 bool KDEsuClient::isServerSGID()
 {
+#ifdef __linux__
+    // This is used to ensure that kdesud is setgid, which disallows ptrace.
+    // But Linux has proper ptrace limitations, so just skip it.
+    return true;
+#else
     if (d->daemon.isEmpty())
        d->daemon = findDaemon();
     if (d->daemon.isEmpty())
@@ -371,6 +376,7 @@ bool KDEsuClient::isServerSGID()
 	return false;
     }
     return (sbuf.st_mode & S_ISGID);
+#endif//__linux__
 }
 
 int KDEsuClient::startServer()
