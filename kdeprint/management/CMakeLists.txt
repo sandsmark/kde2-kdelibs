@@ -88,13 +88,13 @@ qt2_wrap_cpp(libkdeprint_management_SRCS
         kmmainview.h kmjobviewer.h
     )
 
-install(FILES ${libkdeprint_management_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kdeprint)
-
 kde2_library(libkdeprint_management
     SOURCES
         ${libkdeprint_management_HEADERS}
         ${moc_SRCS}
         ${libkdeprint_management_SRCS}
+    HEADERS
+        ${libkdeprint_management_HEADERS}
     LIBS
         kde2::kdeprint
     )
