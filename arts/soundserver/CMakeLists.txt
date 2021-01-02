@@ -26,6 +26,7 @@ kde2_library(libkmedia2
     HEADERS
         ${CMAKE_CURRENT_BINARY_DIR}/soundserver.h
         kmedia2.idl
+        soundserver.idl
     VERSION
         3.0.0
     )

@@ -78,6 +78,7 @@ kde2_library(libmcop
         delayedreturn.h
         dynamicskeleton.h
         thread.h
+        core.idl
     LIBS
         ltdl
         dl

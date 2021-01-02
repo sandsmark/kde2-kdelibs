@@ -10,6 +10,8 @@ set(x11globalcomm_source
 kde2_library(libx11globalcomm
     SOURCES
         ${x11globalcomm_source}
+    HEADERS
+        x11globalcomm.idl
     LIBS
         kde2::mcop
         X11::X11

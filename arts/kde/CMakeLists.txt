@@ -24,6 +24,7 @@ kde2_library(libartskde
         kplayobjectfactory.h
         kartsfloatwatch.h
         kartsdispatcher.h
+        artskde.idl
     LIBS
         kde2::qtmcop
         kde2::kfile
