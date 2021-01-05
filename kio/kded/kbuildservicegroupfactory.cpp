@@ -27,6 +27,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <assert.h>
+#include <stdio.h>
 
 KBuildServiceGroupFactory::KBuildServiceGroupFactory() :
   KServiceGroupFactory()
