@@ -36,6 +36,13 @@ install(FILES
     )
 
 install(FILES imagetops RENAME imagetops2
-    PERMISSIONS WORLD_EXECUTE
+    PERMISSIONS
+        WORLD_EXECUTE
+        WORLD_READ
+        GROUP_EXECUTE
+        GROUP_READ
+        OWNER_EXECUTE
+        OWNER_READ
+        OWNER_WRITE
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
