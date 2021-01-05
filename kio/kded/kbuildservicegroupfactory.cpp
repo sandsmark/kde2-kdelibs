@@ -55,6 +55,71 @@ KBuildServiceGroupFactory::addNewEntry( const QString& file, const char *resourc
   int pos = name.findRev('/');
   if (pos != -1) {
      name = name.left(pos+1);
+
+#ifdef XDG_COMPAT
+  } else if (newEntry && newEntry->sycocaType() == KST_KService) {
+     KDesktopFile desktopFile(locate(resource, file), true);
+     desktopFile.setDesktopGroup();
+     const QStringList categories = desktopFile.readListEntry("Categories", ';');
+     if (!categories.isEmpty()) {
+         // Has category, but maybe not a known one, so to avoid filling the
+         // entire popup menu with random apps just stuff it in the generic
+         // subfolder
+         name = "Applications/";
+     } else {
+         name = "/";
+     }
+     // Reverse iteration, the most specific ones are at the end
+     for (int i=categories.count() - 1; i >= 0; i--) {
+         QString category = categories[i];
+         if (category == "Translation") {
+             name = "Development/";
+             break;
+         } else if (category == "WebDevelopment") {
+             name = "Development/";
+             break;
+         } else if (category == "AudioVideo") {
+             name = "Multimedia/";
+             break;
+         } else if (category == "TextEditor") {
+             name = "Editors/";
+             break;
+         } else if (category == "Game") {
+             name = "Games/";
+             break;
+         } else if (category == "StrategyGame") {
+             name = "Games/TacticStrategy/";
+             break;
+         } else if (category == "ArcadeGame") {
+             name = "Games/Arcade/";
+             break;
+         } else if (category == "ActionGame") {
+             name = "Games/Arcade/";
+             break;
+         } else if (category == "Network") {
+             name = "Internet/";
+             break;
+         } else if (category == "Utility") {
+             name = "Utilities/";
+             break;
+         } else if (category == "WordProcessor") {
+             name = "WordProcessing/";
+             break;
+         } else if (category == "Application") {
+             continue;
+         }
+         QString fullPath = locate( resource, category + "/.directory");
+         if (fullPath.isEmpty() || fullPath == "/") {
+             continue;
+         }
+         name = category + "/";
+         break;
+     }
+
+     if (name == "Applications/") {
+         printf("Missing category for %s\n", file.ascii());
+     }
+#endif
   } else {
      name = "/";
   }

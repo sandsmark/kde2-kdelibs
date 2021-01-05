@@ -59,6 +59,11 @@ configure_package_config_file(cmake/kdelibs2Config.cmake.in ${CMAKE_CURRENT_BINA
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+option(XDG_COMPAT "Enable some compatibility with modern desktop standards" TRUE)
+if(XDG_COMPAT)
+    add_definitions(-DXDG_COMPAT)
+endif()
+
 option(ENABLE_SANITIZERS "Enable runtime sanitizing (for development)")
 if (ENABLE_SANITIZERS)
     message("Enabling asan and ubsan")
