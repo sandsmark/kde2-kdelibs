@@ -487,31 +487,41 @@ QStringList KStandardDirs::resourceDirs(const char *type) const
     if (!candidates) { // filling cache
         if (strcmp(type, "socket") == 0)
         {
-          char hostname[256];
-          hostname[0] = 0;
-          gethostname(hostname, 255);
-          QString dir = QString("%1socket-%2").arg(localkdedir()).arg(hostname);
-          char link[1024];
-          link[1023] = 0;
-          int result = readlink(QFile::encodeName(dir).data(), link, 1023);
-          if ((result == -1) && (errno == ENOENT))
+          QString dir;
+#ifdef XDG_COMPAT
+          if (getenv("XDG_RUNTIME_DIR") && access(getenv("XDG_RUNTIME_DIR"), W_OK) == 0)
           {
-             QString srv = findExe(QString::fromLatin1("lnusertemp"), KDEDIR+QString::fromLatin1("/bin"));
-             if (srv.isEmpty())
-                srv = findExe(QString::fromLatin1("lnusertemp"));
-             if (!srv.isEmpty())
-             {
-                system(QFile::encodeName(srv)+" socket");
-                result = readlink(QFile::encodeName(dir).data(), link, 1023);
-             }
+              dir = getenv("XDG_RUNTIME_DIR");
           }
-          if (result > 0)
+          else
+#endif
           {
-             link[result] = 0;
-             if (link[0] == '/')
-                dir = QFile::decodeName(link);
-             else
-                dir = QDir::cleanDirPath(dir+QFile::decodeName(link));
+              char hostname[256];
+              hostname[0] = 0;
+              gethostname(hostname, 255);
+              dir = QString("%1socket-%2").arg(localkdedir()).arg(hostname);
+              char link[1024];
+              link[1023] = 0;
+              int result = readlink(QFile::encodeName(dir).data(), link, 1023);
+              if ((result == -1) && (errno == ENOENT))
+              {
+                  QString srv = findExe(QString::fromLatin1("lnusertemp"), KDEDIR+QString::fromLatin1("/bin"));
+                  if (srv.isEmpty())
+                      srv = findExe(QString::fromLatin1("lnusertemp"));
+                  if (!srv.isEmpty())
+                  {
+                      system(QFile::encodeName(srv)+" socket");
+                      result = readlink(QFile::encodeName(dir).data(), link, 1023);
+                  }
+              }
+              if (result > 0)
+              {
+                  link[result] = 0;
+                  if (link[0] == '/')
+                      dir = QFile::decodeName(link);
+                  else
+                      dir = QDir::cleanDirPath(dir+QFile::decodeName(link));
+              }
           }
           const_cast<KStandardDirs *>(this)->addResourceDir("socket", dir+'/');
         }

@@ -114,7 +114,7 @@ static int openSocket()
   socklen_t socklen;
   int s;
   struct sockaddr_un server;
-#define MAX_SOCK_FILE 255
+#define MAX_SOCK_FILE 1024
   char sock_file[MAX_SOCK_FILE];
   const char *home_dir = getenv("HOME");
   const char *kde_home = getenv("KDEHOME");
@@ -122,37 +122,44 @@ static int openSocket()
 
   sock_file[0] = 0;
 
-  if (!kde_home || !kde_home[0])
+#ifdef XDG_COMPAT
+  if (getenv("XDG_RUNTIME_DIR") && strlen(getenv("XDG_RUNTIME_DIR")) < MAX_SOCK_FILE - 1 && access(getenv("XDG_RUNTIME_DIR"), W_OK) == 0) {
+      strcat(sock_file, getenv("XDG_RUNTIME_DIR"));
+  } else
+#endif
   {
-     kde_home = "~/.kde/";
-  }
+      if (!kde_home || !kde_home[0])
+      {
+          kde_home = "~/.kde/";
+      }
 
-  if (kde_home[0] == '~')
-  {
-     if (!home_dir || !home_dir[0])
-     {
-        fprintf(stderr, "Aborting. $HOME not set!");
-        exit(255);
-     }
-     if (strlen(home_dir) > (MAX_SOCK_FILE-100))
-     {
-        fprintf(stderr, "Aborting. Home directory path too long!");
-        exit(255);
-     }
-     kde_home++;
-     strcat(sock_file, home_dir);
-  }
-  strcat(sock_file, kde_home);
+      if (kde_home[0] == '~')
+      {
+          if (!home_dir || !home_dir[0])
+          {
+              fprintf(stderr, "Aborting. $HOME not set!");
+              exit(255);
+          }
+          if (strlen(home_dir) > (MAX_SOCK_FILE-100))
+          {
+              fprintf(stderr, "Aborting. Home directory path too long!");
+              exit(255);
+          }
+          kde_home++;
+          strcat(sock_file, home_dir);
+      }
+      strcat(sock_file, kde_home);
 
-  /** Strip trailing '/' **/
-  if ( sock_file[strlen(sock_file)-1] == '/')
-     sock_file[strlen(sock_file)-1] = 0;
-  
-  strcat(sock_file, "/socket-");
-  if (gethostname(sock_file+strlen(sock_file), MAX_SOCK_FILE - strlen(sock_file) - 1) != 0)
-  {
-     perror("Aborting. Could not determine hostname: ");
-     exit(255);
+      /** Strip trailing '/' **/
+      if ( sock_file[strlen(sock_file)-1] == '/')
+          sock_file[strlen(sock_file)-1] = 0;
+
+      strcat(sock_file, "/socket-");
+      if (gethostname(sock_file+strlen(sock_file), MAX_SOCK_FILE - strlen(sock_file) - 1) != 0)
+      {
+          perror("Aborting. Could not determine hostname: ");
+          exit(255);
+      }
   }
 
   /* append $DISPLAY */
