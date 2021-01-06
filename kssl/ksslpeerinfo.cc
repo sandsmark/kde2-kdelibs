@@ -95,6 +95,9 @@ bool KSSLPeerInfo::certMatchesAddress(const QString &hostname) {
      if (cnre.match(host.lower()) >= 0) return true;
      kdDebug(7029) << "Matching CN=" << cn << " to " << hostname << endl;
      if (!hostname.isEmpty() && cnre.match(hostname.lower()) >= 0) return true;
+     if (cn.startsWith("*.")) {
+         if (!hostname.isEmpty() && cnre.match(("www." + hostname).lower()) >= 0) return true;
+     }
   } else {
      if (!hostname.isEmpty() && cn.lower() == hostname.lower()) {
         return true;
