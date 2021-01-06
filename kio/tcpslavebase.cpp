@@ -640,7 +640,7 @@ int TCPSlaveBase::verifyCertificate()
       setMetaData("ssl_action", "accept");
    }
 
-   _IPmatchesCN = d->kssl->peerInfo().certMatchesAddress();
+   _IPmatchesCN = d->kssl->peerInfo().certMatchesAddress(d->host);
 
    //kdDebug(7029) << "SSL HTTP frame the parent? " << metaData("main_frame_request") << endl;
    if (!hasMetaData("main_frame_request") || metaData("main_frame_request") == "TRUE") {

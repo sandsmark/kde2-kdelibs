@@ -217,7 +217,7 @@ KSSLCertificate::KSSLValidation KSSLCertificate::validate() {
     struct stat sb;
     QString _j = (*j)+"caroot/ca-bundle.crt";
     if (-1 == stat(_j.ascii(), &sb)) continue;
-    //kdDebug(7029) << "KSSL Certificate Root directory found: " << _j << endl;
+    kdDebug(7029) << "KSSL Certificate Root directory found: " << _j << endl;
 
     certStore = d->kossl->X509_STORE_new();
     if (!certStore)
@@ -227,7 +227,7 @@ KSSLCertificate::KSSLValidation KSSLCertificate::validate() {
 
     certLookup = d->kossl->X509_STORE_add_lookup(certStore, d->kossl->X509_LOOKUP_file());
     if (!certLookup) {
-      // kdDebug(7029) << "KSSL error adding lookup file" << endl;
+      kdDebug(7029) << "KSSL error adding lookup file" << endl;
       ksslv = KSSLCertificate::Unknown;
       d->kossl->X509_STORE_free(certStore);
       continue;

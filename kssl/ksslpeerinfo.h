@@ -36,7 +36,7 @@ public:
   ~KSSLPeerInfo();
 
   KSSLCertificate& getPeerCertificate();
-  bool certMatchesAddress();
+  bool certMatchesAddress(const QString &hostname = QString::null);
   QString getPeerAddress();
   
   void setProxying(bool active, QString realHost = QString::null);

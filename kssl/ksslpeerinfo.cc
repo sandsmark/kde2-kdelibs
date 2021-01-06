@@ -68,7 +68,7 @@ void KSSLPeerInfo::setPeerAddress(KInetSocketAddress& addr) {
 }
 
 
-bool KSSLPeerInfo::certMatchesAddress() {
+bool KSSLPeerInfo::certMatchesAddress(const QString &hostname) {
 #ifdef HAVE_SSL
   KSSLX509Map certinfo(m_cert.getSubject());
   QString cn = certinfo.getValue("CN");
@@ -93,7 +93,13 @@ bool KSSLPeerInfo::certMatchesAddress() {
 
      kdDebug(7029) << "Matching CN=" << cn << " to " << host << endl;
      if (cnre.match(host.lower()) >= 0) return true;
+     kdDebug(7029) << "Matching CN=" << cn << " to " << hostname << endl;
+     if (!hostname.isEmpty() && cnre.match(hostname.lower()) >= 0) return true;
   } else {
+     if (!hostname.isEmpty() && cn.lower() == hostname.lower()) {
+        return true;
+     }
+
      int err = 0;
      QList<KAddressInfo> cns = KExtendedSocket::lookup(cn.latin1(), 0, 0, &err);
      if (err != 0) {
@@ -102,9 +108,9 @@ bool KSSLPeerInfo::certMatchesAddress() {
      }
      cns.setAutoDelete(true);
 
-//     kdDebug(7029) << "The original ones were: " << d->host->nodeName()
-//                   << " and: " << certinfo.getValue("CN").latin1()
-//                   << endl;
+     kdDebug(7029) << "The original ones were: " << d->host->nodeName()
+                   << " and: " << certinfo.getValue("CN").latin1()
+                   << endl;
 
      for (KAddressInfo *x = cns.first(); x; x = cns.next()) {
         if ((*x).address()->isCoreEqual(d->host)) {
