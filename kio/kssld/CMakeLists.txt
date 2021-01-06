@@ -33,15 +33,19 @@ qt2_wrap_cpp(kssld_SOURCES
         kssld.h
     )
 
+kde2_kidl(kssld_SOURCES
+    SOURCES
+        kssld.h
+    )
+
 kde2_module(libkded_kssld
     SOURCES
         ${kssld_SOURCES}
+        kssld_skel.cpp
     LIBS
         kde2::ksycoca
-    ALLOW_UNDEFINED
+        kde2::kdedmodule
     )
-
-kde2_kidl(kssld.h)
 
 install(
     FILES kssld.desktop
