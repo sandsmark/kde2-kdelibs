@@ -75,6 +75,10 @@ kde2_library(libkssl
         ${kssl_SOURCES}
     LIBS
         kde2::kdeui
+        OpenSSL::SSL
+        OpenSSL::Crypto
+    COMPILE_DEFINITIONS
+        -DOPENSSL_API_COMPAT=0x10000000L
     )
 
 install(FILES ${kssl_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kssl)

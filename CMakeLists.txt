@@ -191,7 +191,7 @@ find_package(Cups)
 
 find_package(OpenSSL)
 if(OpenSSL_FOUND)
-    #set(HAVE_SSL ON)
+    set(HAVE_SSL ON)
 endif()
 
 create_kde2_config_header()
