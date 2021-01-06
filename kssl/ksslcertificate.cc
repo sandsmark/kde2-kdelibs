@@ -206,16 +206,27 @@ KSSLCertificate::KSSLValidation KSSLCertificate::validate() {
 
   QStringList qsl = KGlobal::dirs()->resourceDirs("kssl");
 
+#ifdef KDE2_CA_CERT_PATH
+  qsl.append(KDE2_CA_CERT_PATH);
+#else
   if (qsl.isEmpty()) {
     return KSSLCertificate::NoCARoot;
   }
+#endif
 
   KSSLCertificate::KSSLValidation ksslv = Unknown;
 
   for (QValueListIterator<QString> j = qsl.begin();
                                    j != qsl.end(); ++j) {
     struct stat sb;
+#ifdef KDE2_CA_CERT_PATH
+    QString _j = (*j);
+    if (_j != KDE2_CA_CERT_PATH) {
+        _j += "caroot/ca-bundle.crt";
+    }
+#else
     QString _j = (*j)+"caroot/ca-bundle.crt";
+#endif
     if (-1 == stat(_j.ascii(), &sb)) continue;
     kdDebug(7029) << "KSSL Certificate Root directory found: " << _j << endl;
 

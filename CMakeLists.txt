@@ -51,6 +51,7 @@ set(KDE2_TEMPLATESDIR ${CMAKE_INSTALL_FULL_DATADIR}/templates CACHE STRING "KDE2
 set(KDE2_WALLPAPERDIR ${CMAKE_INSTALL_FULL_DATADIR}/wallpapers CACHE STRING "KDE2 wallpapers dir")
 set(KDE2_HTMLDIR ${CMAKE_INSTALL_FULL_DOCDIR}/HTML CACHE STRING "KDE2 Doc dir")
 set(KDE2_INCLUDEDIR ${CMAKE_INSTALL_FULL_INCLUDEDIR}/kde2 CACHE STRING "KDE2 include dir")
+set(KDE2_CA_CERT_PATH "${CMAKE_INSTALL_FULL_SYSCONFDIR}/ssl/cert.pem" CACHE STRING "Path to certificate authority database")
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(cmake/kdelibs2Config.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/kdelibs2Config.cmake

@@ -521,6 +521,8 @@
 /* what C++ computer were used for compilation */
 #cmakedefine KDE_COMPILER_VERSION "@CMAKE_CXX_COMPILER_VERSION@"
 
+#cmakedefine KDE2_CA_CERT_PATH "@KDE2_CA_CERT_PATH@"
+
 /* what OS used for compilation */
 #cmakedefine KDE_COMPILING_OS "@CMAKE_HOST_SYSTEM_NAME@"
 
