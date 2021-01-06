@@ -24,6 +24,9 @@
 #ifndef _kde_ksslcallback_c
 #define _kde_ksslcallback_c
 
+#include <openssl/ossl_typ.h>
+#include <openssl/x509_vfy.h>
+
 extern "C" {
 static int X509Callback(int ok, X509_STORE_CTX *ctx) {
  
