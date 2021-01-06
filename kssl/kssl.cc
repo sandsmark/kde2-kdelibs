@@ -161,7 +161,7 @@ bool KSSL::initialize() {
   d->lastInitTLS = false;
 
   if (m_cfg->sslv2() && m_cfg->sslv3())
-    d->m_meth = d->kossl->SSLv23_client_method();
+    d->m_meth = d->kossl->TLS_client_method();
   else if (m_cfg->sslv3())
     d->m_meth = d->kossl->SSLv3_client_method();
   else

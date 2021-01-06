@@ -46,7 +46,7 @@ static int (*K_RAND_egd)        (const char *) = NULL;
 static SSL_METHOD * (*K_TLSv1_client_method) () = NULL;
 static SSL_METHOD * (*K_SSLv2_client_method) () = NULL;
 static SSL_METHOD * (*K_SSLv3_client_method) () = NULL;
-static SSL_METHOD * (*K_SSLv23_client_method) () = NULL;
+static SSL_METHOD * (*K_TLS_client_method) () = NULL;
 static X509 * (*K_SSL_get_peer_certificate) (SSL *) = NULL;
 static int (*K_SSL_CIPHER_get_bits) (SSL_CIPHER *,int *) = NULL;
 static char * (*K_SSL_CIPHER_get_version) (SSL_CIPHER *) = NULL;
@@ -320,7 +320,7 @@ KConfig *cfg;
       K_TLSv1_client_method = (SSL_METHOD *(*)()) _sslLib->symbol("TLSv1_client_method");
       K_SSLv2_client_method = (SSL_METHOD *(*)()) _sslLib->symbol("SSLv2_client_method");
       K_SSLv3_client_method = (SSL_METHOD *(*)()) _sslLib->symbol("SSLv3_client_method");
-      K_SSLv23_client_method = (SSL_METHOD *(*)()) _sslLib->symbol("SSLv23_client_method");
+      K_TLS_client_method = (SSL_METHOD *(*)()) _sslLib->symbol("TLS_client_method");
       K_SSL_get_peer_certificate = (X509 *(*)(SSL *)) _sslLib->symbol("SSL_get_peer_certificate");
       K_SSL_CIPHER_get_bits = (int (*)(SSL_CIPHER *,int *)) _sslLib->symbol("SSL_CIPHER_get_bits");
       K_SSL_CIPHER_get_version = (char * (*)(SSL_CIPHER *)) _sslLib->symbol("SSL_CIPHER_get_version");
@@ -492,8 +492,8 @@ SSL_METHOD *KOpenSSLProxy::SSLv3_client_method() {
 }
 
 
-SSL_METHOD *KOpenSSLProxy::SSLv23_client_method() {
-   if (K_SSLv23_client_method) return (K_SSLv23_client_method)();
+SSL_METHOD *KOpenSSLProxy::TLS_client_method() {
+   if (K_TLS_client_method) return (K_TLS_client_method)();
    return NULL;
 }
 

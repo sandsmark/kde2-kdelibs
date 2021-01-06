@@ -132,7 +132,7 @@ QString clist = "";
 
 
     if (m_bUseSSLv2 && m_bUseSSLv3)
-      meth = d->kossl->SSLv23_client_method();
+      meth = d->kossl->TLS_client_method();
     else if (m_bUseSSLv3)
       meth = d->kossl->SSLv3_client_method();
     else

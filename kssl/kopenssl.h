@@ -41,12 +41,35 @@ class KOpenSSLProxyPrivate;
 #include <openssl/pkcs12.h>
 #include <openssl/evp.h>
 #include <openssl/stack.h>
+#include <openssl/bn.h>
 #undef crypt
+
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER)
+#define STACK OPENSSL_STACK
+#else
 #if OPENSSL_VERSION_NUMBER >= 0x10000000L
 #define STACK _STACK
 #endif
 #endif
+#endif
 
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L && OPENSSL_API_COMPAT < 0x10100000L
+#  undef sk_dup
+#  undef sk_free
+#  undef sk_new
+#  undef sk_num
+#  undef sk_pop
+#  undef sk_push
+#  undef sk_value
+#  undef X509_STORE_CTX_set_chain
+#  undef TLS_client_method
+#endif
+
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
+typedef int (*X509_STORE_CTX_verify_cb)(int, X509_STORE_CTX *);
+typedef int X509_LOOKUP_TYPE;
+#endif
 class KOpenSSLProxy {
 public:
 
@@ -186,9 +209,9 @@ public:
 
 
    /*
-    *   SSLv23_client_method - return a SSLv23 client method object
+    *   TLS_client_method - return client method object
     */
-   SSL_METHOD *SSLv23_client_method();
+   SSL_METHOD *TLS_client_method();
 
 
    /*
@@ -439,9 +462,7 @@ public:
     */
    void sk_free(STACK *s);
 
-#if OPENSSL_VERSION_NUMBER >= 0x10000000L
    void sk_free(void *s) { return sk_free(reinterpret_cast<STACK*>(s)); }
-#endif
 
 
    /* 

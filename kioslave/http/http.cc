@@ -357,7 +357,7 @@ HTTPProtocol::HTTPProtocol( KIO::Connection *_conn, const QCString &protocol )
 void HTTPProtocol::initSSL() {
   m_bUseSSL2=true; m_bUseSSL3=true; m_bUseTLS1=false;
   if (m_bUseSSL2 && m_bUseSSL3)
-    meth=SSLv23_client_method();
+    meth=TLS_client_method();
   else if (m_bUseSSL3)
     meth=SSLv3_client_method();
   else
