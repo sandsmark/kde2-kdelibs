@@ -272,6 +272,7 @@ KConfig *cfg;
                 X509**, STACK_OF(X509)**)) _cryptoLib->symbol("PKCS12_parse");
       K_EVP_PKEY_free = (void (*) (EVP_PKEY *)) _cryptoLib->symbol("EVP_PKEY_free");
       K_X509_STORE_CTX_set_chain = (void (*)(X509_STORE_CTX *, STACK_OF(X509)*)) _cryptoLib->symbol("X509_STORE_CTX_set_chain");
+      if (!K_X509_STORE_CTX_set_chain) K_X509_STORE_CTX_set_chain = (void (*)(X509_STORE_CTX *, STACK_OF(X509)*)) _cryptoLib->symbol("X509_STORE_CTX_set0_untrusted");
       K_sk_free = (void (*) (STACK *)) _cryptoLib->symbol("OPENSSL_sk_free");
       if (!K_sk_free) K_sk_free = (void (*) (STACK *)) _cryptoLib->symbol("sk_free");
       assert(K_sk_free);
