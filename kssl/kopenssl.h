@@ -42,6 +42,9 @@ class KOpenSSLProxyPrivate;
 #include <openssl/evp.h>
 #include <openssl/stack.h>
 #undef crypt
+#if OPENSSL_VERSION_NUMBER >= 0x10000000L
+#define STACK _STACK
+#endif
 #endif
 
 class KOpenSSLProxy {
@@ -368,10 +371,12 @@ public:
    int PEM_write_bio_X509(BIO *bp, X509 *x);
 
 
+#if OPENSSL_VERSION_NUMBER < 0x10000000L
    /*
     *   X509_asn1_meth - used for netscape output
     */
    ASN1_METHOD *X509_asn1_meth();
+#endif
 
 
    /*
@@ -434,17 +439,25 @@ public:
     */
    void sk_free(STACK *s);
 
+#if OPENSSL_VERSION_NUMBER >= 0x10000000L
+   void sk_free(void *s) { return sk_free(reinterpret_cast<STACK*>(s)); }
+#endif
+
 
    /* 
     *  Number of elements in the stack
     */
    int sk_num(STACK *s);
 
-
    /* 
     *  Value of element n in the stack
     */
    char *sk_value(STACK *s, int n);
+
+#if OPENSSL_VERSION_NUMBER >= 0x10000000L
+   char *sk_value(void *s, int n) { return sk_value(reinterpret_cast<STACK*>(s), n); }
+#endif
+
 
 
    /* 
@@ -457,6 +470,10 @@ public:
     *  Add an element to the stack
     */
    int sk_push(STACK *s, char *d);
+ 
+#if OPENSSL_VERSION_NUMBER >= 0x10000000L
+   int sk_push(void *s, void *d) { return sk_push(reinterpret_cast<STACK*>(s), reinterpret_cast<char*>(d)); }
+#endif
 
 
    /* 

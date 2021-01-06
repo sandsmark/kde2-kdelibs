@@ -223,7 +223,7 @@ KConfig *cfg;
 #endif
 
    if (_cryptoLib) {
-#ifdef HAVE_SSL 
+#ifdef HAVE_SSL
       K_X509_free = (void (*) (X509 *)) _cryptoLib->symbol("X509_free");
       K_RAND_egd = (int (*)(const char *)) _cryptoLib->symbol("RAND_egd");
       K_CRYPTO_free = (void (*) (void *)) _cryptoLib->symbol("CRYPTO_free");
@@ -246,11 +246,11 @@ KConfig *cfg;
       K_BIO_new_fp = (BIO* (*)(FILE*, int)) _cryptoLib->symbol("BIO_new_fp");
       K_BIO_free = (int (*)(BIO*)) _cryptoLib->symbol("BIO_free");
       K_PEM_ASN1_write_bio = (int (*)(int (*)(), const char *,BIO*, char*, const EVP_CIPHER *, unsigned char *, int, pem_password_cb *, void *)) _cryptoLib->symbol("PEM_ASN1_write_bio");
-      K_X509_asn1_meth = (ASN1_METHOD* (*)(void)) _cryptoLib->symbol("X509_asn1_meth");
 #if OPENSSL_VERSION_NUMBER >= 0x10000000L
       K_ASN1_item_i2d_fp = (int (*)(ASN1_ITEM *, FILE*, unsigned char *)) _cryptoLib->symbol("ASN1_item_i2d_fp");
       K_NETSCAPE_X509_it = (ASN1_ITEM *) _cryptoLib->symbol("NETSCAPE_X509_it");
 #else
+      K_X509_asn1_meth = (ASN1_METHOD* (*)(void)) _cryptoLib->symbol("X509_asn1_meth");
       K_ASN1_i2d_fp = (int (*)(int (*)(), FILE*, unsigned char *)) _cryptoLib->symbol("ASN1_i2d_fp");
       K_i2d_ASN1_HEADER = (int (*)(ASN1_HEADER *, unsigned char **)) _cryptoLib->symbol("i2d_ASN1_HEADER");
       K_X509_print_fp = (int (*)(FILE*, X509*)) _cryptoLib->symbol("X509_print_fp");
@@ -648,7 +648,13 @@ int KOpenSSLProxy::PEM_write_bio_X509(BIO *bp, X509 *x) {
    else return -1;
 }
 
-
+#if OPENSSL_VERSION_NUMBER >= 0x1000000NULL
+int KOpenSSLProxy::ASN1_i2d_fp(FILE *out,unsigned char *x) {
+   if (K_ASN1_item_i2d_fp && K_NETSCAPE_X509_it)
+        return (K_ASN1_item_i2d_fp)(K_NETSCAPE_X509_it, out, x);
+   return -1;
+}
+#else
 ASN1_METHOD *KOpenSSLProxy::X509_asn1_meth(void) {
    if (K_X509_asn1_meth) return (K_X509_asn1_meth)();
    else return NULL;
@@ -660,7 +666,7 @@ int KOpenSSLProxy::ASN1_i2d_fp(FILE *out,unsigned char *x) {
         return (K_ASN1_i2d_fp)((int (*)())K_i2d_ASN1_HEADER, out, x);
    else return -1;
 }
-
+#endif
 
 int KOpenSSLProxy::X509_print(FILE *fp, X509 *x) {
    if (K_X509_print_fp) return (K_X509_print_fp)(fp, x);
