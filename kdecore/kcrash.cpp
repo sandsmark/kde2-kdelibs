@@ -72,7 +72,7 @@ KCrash::setEmergencySaveFunction (HandlerType saveFunction)
 void
 KCrash::setCrashHandler (HandlerType handler)
 {
-  if (!handler)
+  if (!handler || getenv("KDE_DEBUG"))
     handler = SIG_DFL;
 
   sigset_t mask;
