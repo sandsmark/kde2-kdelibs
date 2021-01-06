@@ -136,9 +136,7 @@ SlaveBase::SlaveBase( const QCString &protocol,
       mPoolSocket( QFile::decodeName(pool_socket)),
       mAppSocket( QFile::decodeName(app_socket))
 {
-    if (getenv("KDE_DEBUG"))
-        signal(6, SIG_DFL);
-    else
+    if (!getenv("KDE_DEBUG")) {
         KCrash::setCrashHandler( sigsegv_handler );
     signal( SIGPIPE, sigpipe_handler );
 
@@ -166,6 +164,7 @@ SlaveBase::SlaveBase( const QCString &protocol,
 #ifdef SIGXFSZ
    signal(SIGXFSZ, &genericsig_handler);
 #endif
+    }
    globalSlave=this;
 
     appconn = new Connection();
