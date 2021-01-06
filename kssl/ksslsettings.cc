@@ -122,6 +122,7 @@ bool KSSLSettings::tlsv1() const {
 //        since OpenSSL seems to just choose any old thing if it's given an
 //        empty list.  This behaviour is not confirmed though.
 QString KSSLSettings::getCipherList() {
+    puts("------------------ getting cipher list ----------------------------");
 QString clist = "";
 #ifdef HAVE_SSL
     QString tcipher;
@@ -161,9 +162,9 @@ QString clist = "";
 			else delete xx;
 		} // if
 	} // for   i
-	d->kossl->SSL_free(ssl);
-	d->kossl->SSL_CTX_free(ctx);
         }
+    d->kossl->SSL_free(ssl);
+    d->kossl->SSL_CTX_free(ctx);
 
     // Hack time
     // ---------

@@ -174,6 +174,9 @@ public:
     */
    SSL_CIPHER *SSL_get_current_cipher(SSL *ssl);
 
+   /* SSL_set_options - manipulate SSL engine options */
+    long _SSL_set_options(SSL *ssl, long options);
+
    /*
     *   SSL_set_options - manipulate SSL engine options
     *   Note: These are all mapped to SSL_ctrl so call them as the comment
@@ -181,8 +184,8 @@ public:
     *         so they will map to the one in this class if called as a
     *         member function of this class.
     */
-    long _SSL_set_options(SSL *ssl, long options);
-   long    SSL_ctrl(SSL *ssl,int cmd, long larg, char *parg);
+   /* long SSL_set_options(SSL *ssl, long options); */
+   long    SSL_ctrl(SSL *ssl,int cmd, long larg, void *parg);
 
    /*
     *   RAND_egd - set the path to the EGD
@@ -520,7 +523,7 @@ public:
    /* 
     *  Duplicate the stack
     */
-   STACK *sk_dup(STACK *s);
+   STACK *sk_dup(const STACK *s);
 
 
 
