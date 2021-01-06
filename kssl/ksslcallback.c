@@ -36,7 +36,7 @@ static int X509Callback(int ok, X509_STORE_CTX *ctx) {
   // back will not be threadsafe ofcourse.
  
   if (!ok) {
-    switch (ctx->error) {
+    switch (KOSSL::self()->X509_STORE_CTX_get_error(ctx)) {
       case X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT:
       case X509_V_ERR_UNABLE_TO_GET_CRL:
       case X509_V_ERR_UNABLE_TO_DECRYPT_CERT_SIGNATURE:

@@ -41,9 +41,35 @@ class KOpenSSLProxyPrivate;
 #include <openssl/pkcs12.h>
 #include <openssl/evp.h>
 #include <openssl/stack.h>
+#include <openssl/bn.h>
 #undef crypt
+
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER)
+#define STACK OPENSSL_STACK
+#else
+#if OPENSSL_VERSION_NUMBER >= 0x10000000L
+#define STACK _STACK
+#endif
+#endif
 #endif
 
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L && OPENSSL_API_COMPAT < 0x10100000L
+#  undef sk_dup
+#  undef sk_free
+#  undef sk_new
+#  undef sk_num
+#  undef sk_pop
+#  undef sk_push
+#  undef sk_value
+#  undef X509_STORE_CTX_set_chain
+#  undef SSLv23_client_method
+#endif
+
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
+typedef int (*X509_STORE_CTX_verify_cb)(int, X509_STORE_CTX *);
+typedef int X509_LOOKUP_TYPE;
+#endif
 class KOpenSSLProxy {
 public:
 
@@ -148,6 +174,9 @@ public:
     */
    SSL_CIPHER *SSL_get_current_cipher(SSL *ssl);
 
+   /* SSL_set_options - manipulate SSL engine options */
+    long _SSL_set_options(SSL *ssl, long options);
+
    /*
     *   SSL_set_options - manipulate SSL engine options
     *   Note: These are all mapped to SSL_ctrl so call them as the comment
@@ -156,7 +185,7 @@ public:
     *         member function of this class.
     */
    /* long SSL_set_options(SSL *ssl, long options); */
-   long    SSL_ctrl(SSL *ssl,int cmd, long larg, char *parg);
+   long    SSL_ctrl(SSL *ssl,int cmd, long larg, void *parg);
 
    /*
     *   RAND_egd - set the path to the EGD
@@ -183,9 +212,9 @@ public:
 
 
    /*
-    *   SSLv23_client_method - return a SSLv23 client method object
+    *   TLS_client_method - return client method object
     */
-   SSL_METHOD *SSLv23_client_method();
+   SSL_METHOD *TLS_client_method();
 
 
    /*
@@ -255,6 +284,12 @@ public:
 
 
    /*
+    *   X509_subject_name_cmp - compare subject name of two X509 objects
+    */
+   int X509_subject_name_cmp(const X509 *a, const X509 *b);
+
+
+   /*
     *   X509_dup - duplicate an X509 object
     */
    X509 *X509_dup(X509 *x509);
@@ -270,6 +305,18 @@ public:
     *   X509_STORE_CTX_free - free up an X509 store context
     */
    void X509_STORE_CTX_free(X509_STORE_CTX *v);
+
+
+   /*
+    *
+    */
+   X509 *X509_STORE_CTX_get_current_cert(X509_STORE_CTX *ctx);
+
+
+   /*
+    *
+    */
+   int X509_STORE_CTX_get_error(X509_STORE_CTX *ctx);
 
 
    /*
@@ -368,10 +415,12 @@ public:
    int PEM_write_bio_X509(BIO *bp, X509 *x);
 
 
+#if OPENSSL_VERSION_NUMBER < 0x10000000L
    /*
     *   X509_asn1_meth - used for netscape output
     */
    ASN1_METHOD *X509_asn1_meth();
+#endif
 
 
    /*
@@ -434,17 +483,25 @@ public:
     */
    void sk_free(STACK *s);
 
+   void sk_free(void *s) { return sk_free(reinterpret_cast<STACK*>(s)); }
+
 
    /* 
     *  Number of elements in the stack
     */
    int sk_num(STACK *s);
 
+   int sk_num(void *s) { return OPENSSL_sk_num(reinterpret_cast<STACK*>(s)); }
 
    /* 
     *  Value of element n in the stack
     */
    char *sk_value(STACK *s, int n);
+
+#if OPENSSL_VERSION_NUMBER >= 0x10000000L
+   char *sk_value(void *s, int n) { return sk_value(reinterpret_cast<STACK*>(s), n); }
+#endif
+
 
 
    /* 
@@ -457,12 +514,28 @@ public:
     *  Add an element to the stack
     */
    int sk_push(STACK *s, char *d);
+ 
+#if OPENSSL_VERSION_NUMBER >= 0x10000000L
+   int sk_push(void *s, void *d) { return sk_push(reinterpret_cast<STACK*>(s), reinterpret_cast<char*>(d)); }
+#endif
 
 
    /* 
     *  Duplicate the stack
     */
-   STACK *sk_dup(STACK *s);
+   STACK *sk_dup(const STACK *s);
+
+
+
+   /*
+    *
+    */
+   void X509_STORE_CTX_set_error(X509_STORE_CTX *ctx, int s);
+   /* retrieve the latest error */
+   unsigned long ERR_get_error();
+
+   /* get list of available SSL_CIPHER's sorted by preference */
+   STACK_OF(SSL_CIPHER) *SSL_get_ciphers(const SSL* ssl);
 
 #endif
 

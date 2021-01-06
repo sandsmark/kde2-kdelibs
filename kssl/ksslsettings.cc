@@ -128,56 +128,42 @@ QString clist = "";
     bool firstcipher = true;
     SSL_METHOD *meth;
     QSortedList<CipherNode> cipherSort;
-                            cipherSort.setAutoDelete(true);
+    cipherSort.setAutoDelete(true);
 
 
     if (m_bUseSSLv2 && m_bUseSSLv3)
-      meth = d->kossl->SSLv23_client_method();
+        meth = d->kossl->TLS_client_method();
     else if (m_bUseSSLv3)
-      meth = d->kossl->SSLv3_client_method();
+        meth = d->kossl->SSLv3_client_method();
     else
-      meth = d->kossl->SSLv2_client_method();
- 
-    // The user might have v2 and v3 enabled so we start with an
-    // empty buffer and add v2 if needed, then v3 if needed.
-    // we assume that the config file will have consecutive entries.
-    for (int k = 0; k < 2; k++) {
- 
-      if (k == 0) {                   // do v2, then v3
-        if (!m_bUseSSLv2) continue;
-        m_cfg->setGroup("SSLv2");
-      } else {
-        if (!m_bUseSSLv3) continue;
-        m_cfg->setGroup("SSLv3");
-      }
- 
-      // I always thought that OpenSSL negotiated the best possible
-      // cipher for the connection based on the list provided.  Boy
-      // was I ever wrong.  There have been many complaints over the
-      // fact that we do not care about the order of ciphers we submit
-      // to OpenSSL for use, and thus 40 bit is sometimes used.  Ok,
-      // that's fine, but choosing more bits does not mean it's more
-      // secure.  Infact, it could be quite the opposite sometimes!!
-      // DO NOT TRUST THIS TO MAKE IT MORE SECURE.  It is here only
-      // for peace of mind of the users.  Eventually it would be best
-      // to set an internal preference order based on accepted strength
-      // analyses of the various algorithms INCLUDING the key length.
+        meth = d->kossl->SSLv2_client_method();
 
-      for(int i = 0;; i++) {
-        SSL_CIPHER *sc = (meth->get_cipher)(i);
-        if (!sc) break;;
-        tcipher.sprintf("cipher_%s", sc->name);
-        int bits = d->kossl->SSL_CIPHER_get_bits(sc, NULL);
- 
-        if (m_cfg->readBoolEntry(tcipher, bits >= 56)) {
-          CipherNode *xx = new CipherNode(sc->name,bits);
-          if (!cipherSort.contains(xx))
-             cipherSort.inSort(xx);
-          else delete xx;
-        } // if
-      } // for  i
+    SSL_CTX *ctx = d->kossl->SSL_CTX_new(meth);
+    SSL* ssl = d->kossl->SSL_new(ctx);
+    STACK_OF(SSL_CIPHER)* sk = d->kossl->SSL_get_ciphers(ssl);
+    int cnt = d->kossl->sk_num(sk);
+    for (int i=0; i< cnt; i++) {
+        SSL_CIPHER *sc = reinterpret_cast<SSL_CIPHER*>(d->kossl->sk_value(sk,i));
+        if (!sc) break;
 
-    } // for    k
+        if(!strcmp("SSLv2", d->kossl->SSL_CIPHER_get_version(sc))) {
+            m_cfg->setGroup("SSLv2");
+        } else {
+            m_cfg->setGroup("SSLv3");
+
+            tcipher.sprintf("cipher_%s", d->kossl->SSL_CIPHER_get_name(sc));
+            int bits = d->kossl->SSL_CIPHER_get_bits(sc, NULL);
+
+            if (m_cfg->readBoolEntry(tcipher, bits >= 56)) {
+                CipherNode *xx = new CipherNode(d->kossl->SSL_CIPHER_get_name(sc),bits);
+                if (!cipherSort.contains(xx))
+                    cipherSort.inSort(xx);
+                else delete xx;
+            } // if
+        } // for   i
+    }
+    d->kossl->SSL_free(ssl);
+    d->kossl->SSL_CTX_free(ctx);
 
     // Hack time
     // ---------

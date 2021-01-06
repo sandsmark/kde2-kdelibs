@@ -161,7 +161,7 @@ bool KSSL::initialize() {
   d->lastInitTLS = false;
 
   if (m_cfg->sslv2() && m_cfg->sslv3())
-    d->m_meth = d->kossl->SSLv23_client_method();
+    d->m_meth = d->kossl->TLS_client_method();
   else if (m_cfg->sslv3())
     d->m_meth = d->kossl->SSLv3_client_method();
   else
@@ -241,11 +241,13 @@ int KSSL::connect(int sock) {
     return -1;
 
   if (!d->lastInitTLS)
-    d->kossl->SSL_set_options(d->m_ssl, SSL_OP_NO_TLSv1);
-  d->kossl->SSL_set_options(d->m_ssl, SSL_OP_ALL);
+    d->kossl->_SSL_set_options(d->m_ssl, SSL_OP_NO_TLSv1);
+  d->kossl->_SSL_set_options(d->m_ssl, SSL_OP_ALL);
 
   rc = d->kossl->SSL_set_fd(d->m_ssl, sock);
-  if (rc == 0) return rc;
+  if (rc == 0) {
+      return rc;
+  }
 
   rc = d->kossl->SSL_connect(d->m_ssl);
   if (rc == 1) {
