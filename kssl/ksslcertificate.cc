@@ -127,7 +127,7 @@ QString rc = "";
   char *t = d->kossl->X509_NAME_oneline(d->kossl->X509_get_subject_name(d->m_cert), 0, 0);
   if (!t) return rc;
   rc = t;
-  d->kossl->OPENSSL_free(t);
+  d->kossl->CRYPTO_free(t);
 #endif
 return rc;
 }
@@ -140,7 +140,7 @@ QString rc = "";
   char *t = d->kossl->X509_NAME_oneline(d->kossl->X509_get_issuer_name(d->m_cert), 0, 0);
   if (!t) return rc;
   rc = t;
-  d->kossl->OPENSSL_free(t);
+	d->kossl->CRYPTO_free(t);
 #endif
 
 return rc;
@@ -263,9 +263,9 @@ KSSLCertificate::KSSLValidation KSSLCertificate::validate() {
     //   +----->  Note that this is for 0.9.6 or better ONLY!
 
     //kdDebug(7029) << "KSSL verifying.............." << endl;
-    certStoreCTX->error = X509_V_OK;
+    d->kossl->X509_STORE_CTX_set_error(certStoreCTX, X509_V_OK);
     rc = d->kossl->X509_verify_cert(certStoreCTX);
-    int errcode = certStoreCTX->error;
+    int errcode = d->kossl->X509_STORE_CTX_get_error(certStoreCTX);
     //kdDebug(7029) << "KSSL freeing" << endl;
     d->kossl->X509_STORE_CTX_free(certStoreCTX);
     d->kossl->X509_STORE_free(certStore);
@@ -535,15 +535,37 @@ return qba;
 
 
 #define NETSCAPE_CERT_HDR     "certificate"
+#ifdef HAVE_SSL
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER)
+typedef struct NETSCAPE_X509_st
+{
+	ASN1_OCTET_STRING *header;
+	X509 *cert;
+} NETSCAPE_X509;
+#endif
+#endif
 
 // what a piece of crap this is
 QByteArray KSSLCertificate::toNetscape() {
 QByteArray qba;
 #ifdef HAVE_SSL
+#if OPENSSL_VERSION_NUMBER >= 0x10000000L
+	NETSCAPE_X509 nx;
+	ASN1_OCTET_STRING hdr;
+#else
       ASN1_HEADER ah;
       ASN1_OCTET_STRING os;
+#endif
       KTempFile ktf;
  
+#if OPENSSL_VERSION_NUMBER >= 0x10000000L
+	hdr.data = (unsigned char *)NETSCAPE_CERT_HDR;
+	hdr.length = strlen(NETSCAPE_CERT_HDR);
+	nx.header = &hdr;
+	nx.cert = getCert();
+
+	d->kossl->ASN1_i2d_fp(ktf.fstream(),(unsigned char *)&nx);
+#else
       os.data=(unsigned char *)NETSCAPE_CERT_HDR;
       os.length=strlen(NETSCAPE_CERT_HDR);
       ah.header= &os;
@@ -551,6 +573,7 @@ QByteArray qba;
       ah.meth=d->kossl->X509_asn1_meth();
  
       d->kossl->ASN1_i2d_fp(ktf.fstream(),(unsigned char *)&ah);
+#endif
 
       ktf.close();
       QFile qf(ktf.name());

@@ -41,6 +41,7 @@ static void (*K_SSL_CTX_set_verify)(SSL_CTX *, int,
                          int (*)(int, X509_STORE_CTX *)) = NULL;
 static int (*K_SSL_use_certificate)(SSL *, X509 *) = NULL;
 static SSL_CIPHER *(*K_SSL_get_current_cipher)(SSL *) = NULL;
+static long (*K_SSL_set_options)(SSL *ssl, long options) = NULL;
 static long (*K_SSL_ctrl)      (SSL *,int, long, char *) = NULL;
 static int (*K_RAND_egd)        (const char *) = NULL;
 static SSL_METHOD * (*K_TLSv1_client_method) () = NULL;
@@ -55,6 +56,7 @@ static char * (*K_SSL_CIPHER_description) (SSL_CIPHER *, char *, int) = NULL;
 static X509 * (*K_d2i_X509) (X509 **,unsigned char **,long) = NULL;
 static int (*K_i2d_X509) (X509 *,unsigned char **) = NULL;
 static int (*K_X509_cmp) (X509 *, X509 *) = NULL;
+static int (*K_X509_subject_name_cmp) (const X509 *, const X509 *) = NULL;
 static void (*K_X509_STORE_CTX_free) (X509_STORE_CTX *) = NULL;
 static int (*K_X509_verify_cert) (X509_STORE_CTX *) = NULL;
 static X509_STORE_CTX *(*K_X509_STORE_CTX_new) (void) = NULL;
@@ -103,6 +105,10 @@ static char* (*K_sk_value) (STACK*, int) = NULL;
 static STACK* (*K_sk_new) (int (*)()) = NULL;
 static int (*K_sk_push) (STACK*, char*) = NULL;
 static STACK* (*K_sk_dup) (STACK *) = NULL;
+static STACK_OF(SSL_CIPHER) *(*K_SSL_get_ciphers)(const SSL *ssl) = NULL;
+static X509* (*K_X509_STORE_CTX_get_current_cert)(X509_STORE_CTX *ctx) = NULL;
+static int (*K_X509_STORE_CTX_get_error)(X509_STORE_CTX *ctx) = NULL;
+static void (*K_X509_STORE_CTX_set_error)(X509_STORE_CTX *ctx, int s) = NULL;
 #endif    
 };
 
@@ -230,6 +236,7 @@ KConfig *cfg;
       K_d2i_X509 = (X509 * (*)(X509 **,unsigned char **,long)) _cryptoLib->symbol("d2i_X509");
       K_i2d_X509 = (int (*)(X509 *,unsigned char **)) _cryptoLib->symbol("i2d_X509");
       K_X509_cmp = (int (*)(X509 *, X509 *)) _cryptoLib->symbol("X509_cmp");
+      K_X509_subject_name_cmp = (int (*)(const X509 *, const X509 *)) _cryptoLib->symbol("X509_subject_name_cmp");
       K_X509_STORE_CTX_new = (X509_STORE_CTX * (*) (void)) _cryptoLib->symbol("X509_STORE_CTX_new");
       K_X509_STORE_CTX_free = (void (*) (X509_STORE_CTX *)) _cryptoLib->symbol("X509_STORE_CTX_free");
       K_X509_verify_cert = (int (*) (X509_STORE_CTX *)) _cryptoLib->symbol("X509_verify_cert");
@@ -270,6 +277,9 @@ KConfig *cfg;
       K_sk_new = (STACK* (*) (int (*)())) _cryptoLib->symbol("sk_new");
       K_sk_push = (int (*) (STACK*, char*)) _cryptoLib->symbol("sk_push");
       K_sk_dup = (STACK* (*) (STACK *)) _cryptoLib->symbol("sk_dup");
+      K_X509_STORE_CTX_get_current_cert = (X509* (*)(X509_STORE_CTX *ctx)) _cryptoLib->symbol("X509_STORE_CTX_get_current_cert");
+      K_X509_STORE_CTX_get_error = (int (*)(X509_STORE_CTX *ctx)) _cryptoLib->symbol("X509_STORE_CTX_get_error");
+      K_X509_STORE_CTX_set_error = (void (*)(X509_STORE_CTX *ctx, int s)) _cryptoLib->symbol("X509_STORE_CTX_set_error");
 #endif
    }
 
@@ -315,6 +325,7 @@ KConfig *cfg;
                                   _sslLib->symbol("SSL_CTX_use_certificate");
       K_SSL_get_current_cipher = (SSL_CIPHER *(*)(SSL *)) 
                                   _sslLib->symbol("SSL_get_current_cipher");
+      K_SSL_set_options = (long (*)(SSL *ssl, long options)) _sslLib->symbol("SSL_set_options");
       K_SSL_ctrl = (long (*)(SSL * ,int, long, char *))
                                   _sslLib->symbol("SSL_ctrl");
       K_TLSv1_client_method = (SSL_METHOD *(*)()) _sslLib->symbol("TLSv1_client_method");
@@ -330,6 +341,7 @@ KConfig *cfg;
       K_SSL_CTX_use_certificate = (int (*)(SSL_CTX*, X509*)) _sslLib->symbol("SSL_CTX_use_certificate");
       K_SSL_get_error = (int (*)(SSL*, int)) _sslLib->symbol("SSL_get_error");
       K_SSL_get_peer_cert_chain = (STACK_OF(X509)* (*)(SSL*)) _sslLib->symbol("SSL_get_peer_cert_chain");
+      K_SSL_get_ciphers = (STACK_OF(SSL_CIPHER) *(*)(const SSL*)) _sslLib->symbol("SSL_get_ciphers");
 #endif
 
 
@@ -462,6 +474,13 @@ SSL_CIPHER *KOpenSSLProxy::SSL_get_current_cipher(SSL *ssl) {
 }
 
 
+long KOpenSSLProxy::_SSL_set_options(SSL *ssl, long options) {
+   if (K_SSL_set_options) return (K_SSL_set_options)(ssl, options);
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+   return this->SSL_set_options(ssl, options);
+#endif
+   else return -1;
+}
 long KOpenSSLProxy::SSL_ctrl(SSL *ssl,int cmd, long larg, char *parg) {
    if (K_SSL_ctrl) return (K_SSL_ctrl)(ssl, cmd, larg, parg);
    return -1;
@@ -542,6 +561,12 @@ int KOpenSSLProxy::i2d_X509(X509 *a,unsigned char **pp) {
 
 int KOpenSSLProxy::X509_cmp(X509 *a, X509 *b) {
    if (K_X509_cmp) return (K_X509_cmp)(a,b);
+   return 0;
+}
+
+
+int KOpenSSLProxy::X509_subject_name_cmp(const X509 *a, const X509 *b) {
+   if (K_X509_subject_name_cmp) return (K_X509_subject_name_cmp)(a, b);
    return 0;
 }
 
@@ -648,7 +673,7 @@ int KOpenSSLProxy::PEM_write_bio_X509(BIO *bp, X509 *x) {
    else return -1;
 }
 
-#if OPENSSL_VERSION_NUMBER >= 0x1000000NULL
+#if OPENSSL_VERSION_NUMBER >= 0x1000000L
 int KOpenSSLProxy::ASN1_i2d_fp(FILE *out,unsigned char *x) {
    if (K_ASN1_item_i2d_fp && K_NETSCAPE_X509_it)
         return (K_ASN1_item_i2d_fp)(K_NETSCAPE_X509_it, out, x);
@@ -778,6 +803,37 @@ int KOpenSSLProxy::sk_push(STACK* s, char* d) {
    else return -1;
 }
 
+STACK_OF(SSL_CIPHER) *KOpenSSLProxy::SSL_get_ciphers(const SSL* ssl) {
+  if (K_SSL_get_ciphers) return (K_SSL_get_ciphers)(ssl);
+  else return NULL;
+}
 
+X509* KOpenSSLProxy::X509_STORE_CTX_get_current_cert(X509_STORE_CTX *ctx) {
+  if (K_X509_STORE_CTX_get_current_cert) return (K_X509_STORE_CTX_get_current_cert)(ctx);
+#if OPENSSL_VERSION_NUMBER < 0x1010000L
+  return ctx->current_cert;
+#endif
+  else return NULL;
+}
+
+int KOpenSSLProxy::X509_STORE_CTX_get_error(X509_STORE_CTX *ctx) {
+  if (K_X509_STORE_CTX_get_error) return (K_X509_STORE_CTX_get_error)(ctx);
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+  return ctx->error;
+#endif
+  else return -1;
+}
+
+
+void KOpenSSLProxy::X509_STORE_CTX_set_error(X509_STORE_CTX *ctx, int s) {
+  if (K_X509_STORE_CTX_set_error) {
+    (K_X509_STORE_CTX_set_error)(ctx, s);
+    return;
+  }
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+  ctx->error = s;
+  return;
+#endif
+}
 #endif
 

@@ -62,7 +62,7 @@ class KOpenSSLProxyPrivate;
 #  undef sk_push
 #  undef sk_value
 #  undef X509_STORE_CTX_set_chain
-#  undef TLS_client_method
+#  undef SSLv23_client_method
 #endif
 
 
@@ -181,7 +181,7 @@ public:
     *         so they will map to the one in this class if called as a
     *         member function of this class.
     */
-   /* long SSL_set_options(SSL *ssl, long options); */
+    long _SSL_set_options(SSL *ssl, long options);
    long    SSL_ctrl(SSL *ssl,int cmd, long larg, char *parg);
 
    /*
@@ -281,6 +281,12 @@ public:
 
 
    /*
+    *   X509_subject_name_cmp - compare subject name of two X509 objects
+    */
+   int X509_subject_name_cmp(const X509 *a, const X509 *b);
+
+
+   /*
     *   X509_dup - duplicate an X509 object
     */
    X509 *X509_dup(X509 *x509);
@@ -296,6 +302,18 @@ public:
     *   X509_STORE_CTX_free - free up an X509 store context
     */
    void X509_STORE_CTX_free(X509_STORE_CTX *v);
+
+
+   /*
+    *
+    */
+   X509 *X509_STORE_CTX_get_current_cert(X509_STORE_CTX *ctx);
+
+
+   /*
+    *
+    */
+   int X509_STORE_CTX_get_error(X509_STORE_CTX *ctx);
 
 
    /*
@@ -470,6 +488,8 @@ public:
     */
    int sk_num(STACK *s);
 
+   int sk_num(void *s) { return OPENSSL_sk_num(reinterpret_cast<STACK*>(s)); }
+
    /* 
     *  Value of element n in the stack
     */
@@ -501,6 +521,18 @@ public:
     *  Duplicate the stack
     */
    STACK *sk_dup(STACK *s);
+
+
+
+   /*
+    *
+    */
+   void X509_STORE_CTX_set_error(X509_STORE_CTX *ctx, int s);
+   /* retrieve the latest error */
+   unsigned long ERR_get_error();
+
+   /* get list of available SSL_CIPHER's sorted by preference */
+   STACK_OF(SSL_CIPHER) *SSL_get_ciphers(const SSL* ssl);
 
 #endif
 

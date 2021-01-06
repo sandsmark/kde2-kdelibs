@@ -241,11 +241,13 @@ int KSSL::connect(int sock) {
     return -1;
 
   if (!d->lastInitTLS)
-    d->kossl->SSL_set_options(d->m_ssl, SSL_OP_NO_TLSv1);
-  d->kossl->SSL_set_options(d->m_ssl, SSL_OP_ALL);
+    d->kossl->_SSL_set_options(d->m_ssl, SSL_OP_NO_TLSv1);
+  d->kossl->_SSL_set_options(d->m_ssl, SSL_OP_ALL);
 
   rc = d->kossl->SSL_set_fd(d->m_ssl, sock);
-  if (rc == 0) return rc;
+  if (rc == 0) {
+      return rc;
+  }
 
   rc = d->kossl->SSL_connect(d->m_ssl);
   if (rc == 1) {
