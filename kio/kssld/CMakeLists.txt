@@ -44,7 +44,7 @@ kde2_module(libkded_kssld
         kssld_skel.cpp
     LIBS
         kde2::ksycoca
-    ALLOW_UNDEFINED
+        kde2::kdedmodule
     )
 
 install(
