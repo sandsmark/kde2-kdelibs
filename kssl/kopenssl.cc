@@ -271,12 +271,18 @@ KConfig *cfg;
                 X509**, STACK_OF(X509)**)) _cryptoLib->symbol("PKCS12_parse");
       K_EVP_PKEY_free = (void (*) (EVP_PKEY *)) _cryptoLib->symbol("EVP_PKEY_free");
       K_X509_STORE_CTX_set_chain = (void (*)(X509_STORE_CTX *, STACK_OF(X509)*)) _cryptoLib->symbol("X509_STORE_CTX_set_chain");
-      K_sk_free = (void (*) (STACK *)) _cryptoLib->symbol("sk_free");
-      K_sk_num = (int (*) (STACK *)) _cryptoLib->symbol("sk_num");
-      K_sk_value = (char* (*) (STACK *, int)) _cryptoLib->symbol("sk_value");
-      K_sk_new = (STACK* (*) (int (*)())) _cryptoLib->symbol("sk_new");
-      K_sk_push = (int (*) (STACK*, char*)) _cryptoLib->symbol("sk_push");
-      K_sk_dup = (STACK* (*) (STACK *)) _cryptoLib->symbol("sk_dup");
+      K_sk_free = (void (*) (STACK *)) _cryptoLib->symbol("OPENSSL_sk_free");
+      if (!K_sk_free) K_sk_free = (void (*) (STACK *)) _cryptoLib->symbol("sk_free");
+      K_sk_num = (int (*) (STACK *)) _cryptoLib->symbol("OPENSSL_sk_num");
+      if (!K_sk_num) K_sk_num = (int (*) (STACK *)) _cryptoLib->symbol("sk_num");
+      K_sk_value = (char* (*) (STACK *, int)) _cryptoLib->symbol("OPENSSL_sk_value");
+      if (!K_sk_value) K_sk_value = (char* (*) (STACK *, int)) _cryptoLib->symbol("sk_value");
+      K_sk_new = (STACK* (*) (int (*)())) _cryptoLib->symbol("OPENSSL_sk_new");
+      if (!K_sk_new) K_sk_new = (STACK* (*) (int (*)())) _cryptoLib->symbol("sk_new");
+      K_sk_push = (int (*) (STACK*, char*)) _cryptoLib->symbol("OPENSSL_sk_push");
+      if (!K_sk_push) K_sk_push = (int (*) (STACK*, char*)) _cryptoLib->symbol("sk_push");
+      K_sk_dup = (STACK* (*) (const STACK *)) _cryptoLib->symbol("OPENSSL_sk_dup");
+      if (!K_sk_dup) K_sk_dup = (STACK* (*) (const STACK *)) _cryptoLib->symbol("sk_dup");
       K_X509_STORE_CTX_get_current_cert = (X509* (*)(X509_STORE_CTX *ctx)) _cryptoLib->symbol("X509_STORE_CTX_get_current_cert");
       K_X509_STORE_CTX_get_error = (int (*)(X509_STORE_CTX *ctx)) _cryptoLib->symbol("X509_STORE_CTX_get_error");
       K_X509_STORE_CTX_set_error = (void (*)(X509_STORE_CTX *ctx, int s)) _cryptoLib->symbol("X509_STORE_CTX_set_error");
@@ -332,6 +338,7 @@ KConfig *cfg;
       K_SSLv2_client_method = (SSL_METHOD *(*)()) _sslLib->symbol("SSLv2_client_method");
       K_SSLv3_client_method = (SSL_METHOD *(*)()) _sslLib->symbol("SSLv3_client_method");
       K_TLS_client_method = (SSL_METHOD *(*)()) _sslLib->symbol("TLS_client_method");
+      if (!K_TLS_client_method) K_TLS_client_method = (SSL_METHOD *(*)()) _sslLib->symbol("SSLv23_client_method");
       K_SSL_get_peer_certificate = (X509 *(*)(SSL *)) _sslLib->symbol("SSL_get_peer_certificate");
       K_SSL_CIPHER_get_bits = (int (*)(SSL_CIPHER *,int *)) _sslLib->symbol("SSL_CIPHER_get_bits");
       K_SSL_CIPHER_get_version = (char * (*)(SSL_CIPHER *)) _sslLib->symbol("SSL_CIPHER_get_version");
@@ -351,10 +358,28 @@ KConfig *cfg;
       if (_cryptoLib) {
          if (x) ((int (*)())x)();
          x = _cryptoLib->symbol("OpenSSL_add_all_algorithms");
+         if (!x)
+            x = _cryptoLib->symbol("OPENSSL_add_all_algorithms");
          if (x) ((void (*)())x)();
+         else {
+           x = _cryptoLib->symbol("OpenSSL_add_all_algorithms_conf");
+           if (!x)
+              x = _cryptoLib->symbol("OPENSSL_add_all_algorithms_conf");
+           if (x) {
+             ((void (*)())x)();
+           } else {
+             x = _cryptoLib->symbol("OpenSSL_add_all_algorithms_noconf");
+             if (!x)
+                x = _cryptoLib->symbol("OPENSSL_add_all_algorithms_noconf");
+             if (x)
+               ((void (*)())x)();
+           }
+         }
          x = _cryptoLib->symbol("OpenSSL_add_all_ciphers");
+         if (!x) x = _cryptoLib->symbol("OPENSSL_add_all_ciphers");
          if (x) ((void (*)())x)();
          x = _cryptoLib->symbol("OpenSSL_add_all_digests");
+         if (!x) x = _cryptoLib->symbol("OPENSSL_add_all_digests");
          if (x) ((void (*)())x)();
       }
    }
