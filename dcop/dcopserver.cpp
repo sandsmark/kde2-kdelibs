@@ -453,7 +453,6 @@ static void fprintfhex (FILE *fp, unsigned int len, char *cp)
 static void
 write_iceauth (FILE *addfp, FILE *removefp, IceAuthDataEntry *entry)
 {
-    puts("Adding to iceauthority");
     fprintf (addfp,
 	     "add %s \"\" %s %s ",
 	     entry->protocol_name,
@@ -517,6 +516,10 @@ Status SetAuthentication_local (int count, IceListenObj *listenObjs)
     for (i = 0; i < count; i ++) {
 	char *prot = IceGetListenConnectionString(listenObjs[i]);
 	if (!prot) continue;
+        if (strncmp(prot, "unix", strlen("unix")) != 0 && strncmp(prot, "local", strlen("local")) != 0) {
+            free(prot);
+            continue;
+        }
 	char *host = strchr(prot, '/');
 	char *sock = 0;
 	if (host) {
@@ -594,6 +597,13 @@ SetAuthentication (int count, IceListenObj *_listenObjs,
     for (i = 0; i < numTransports * 2; i += 2) {
 	(*_authDataEntries)[i].network_id =
 	    IceGetListenConnectionString (_listenObjs[i/2]);
+
+        if(strncmp((*_authDataEntries)[i].network_id, "local", strlen("local")) != 0 &&
+                strncmp((*_authDataEntries)[i].network_id, "unix", strlen("unix")) != 0
+          ) {
+            continue;
+        }
+
 	(*_authDataEntries)[i].protocol_name = const_cast<char *>("ICE");
 	(*_authDataEntries)[i].auth_name = const_cast<char *>("MIT-MAGIC-COOKIE-1");
 
@@ -1049,6 +1059,18 @@ DCOPServer::DCOPServer(bool _only_local, bool _suicide)
 	    fprintf (stderr, "%s\n", errormsg);
 	    exit (1);
 	} else {
+            IceListenObj localObjs[numTransports];
+            int localTransports = 0;
+            for (int i=0; i<numTransports; i++) {
+                char *prot = IceGetListenConnectionString(listenObjs[i]);
+                if (strncmp(prot, "unix", strlen("unix")) != 0 && strncmp(prot, "local", strlen("local")) != 0) {
+                    printf("Skipping %s\n", prot);
+                    free(prot);
+                    continue;
+                }
+                free(prot);
+                localObjs[localTransports++] = listenObjs[i];
+            }
 	    (void) umask(orig_umask);
 	    // publish available transports.
 	    QCString fName = dcopServerFile();
@@ -1058,7 +1080,7 @@ DCOPServer::DCOPServer(bool _only_local, bool _suicide)
 			 fName.data(), ::strerror(errno));
 		exit(1);
 	    }
-	    char *idlist = IceComposeNetworkIdList(numTransports, listenObjs);
+	    char *idlist = IceComposeNetworkIdList(localTransports, localObjs);
 	    if (idlist != 0) {
 	        fprintf(f, idlist);
 		free(idlist);
