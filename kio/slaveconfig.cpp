@@ -57,6 +57,9 @@ static void readConfig(KConfig *config, const QString & group, MetaData *metaDat
 class SlaveConfigPrivate
 {
   public:
+     SlaveConfigPrivate() {
+         protocol.setAutoDelete(true);
+     }
      void readGlobalConfig();
      SlaveConfigProtocol *readProtocolConfig(const QString &_protocol);
      SlaveConfigProtocol *findProtocolConfig(const QString &_protocol);
