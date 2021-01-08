@@ -359,13 +359,13 @@ QCString dcopServerFile()
    QCString fName = ::getenv("HOME");
    if (fName.isEmpty())
    {
-      fprintf(stderr, "Aborting. $HOME is not set.\n");
+      fprintf(stderr, "DCOPServer: Aborting. $HOME is not set.\n");
       exit(1);
    }
    QCString disp = getenv("DISPLAY");
    if (disp.isEmpty())
    {
-      fprintf(stderr, "Aborting. $DISPLAY is not set.\n");
+      fprintf(stderr, "DCOPServer: Aborting. $DISPLAY is not set.\n");
       exit(1);
    }
    int i;
@@ -1076,7 +1076,7 @@ DCOPServer::DCOPServer(bool _only_local, bool _suicide)
 	    QCString fName = dcopServerFile();
 	    FILE *f;
 	    if(!(f = ::fopen(fName.data(), "w+"))) {
-	        fprintf (stderr, "Can not create file %s: %s\n", 
+	        fprintf (stderr, "DCOPServer: Can not create file %s: %s\n", 
 			 fName.data(), ::strerror(errno));
 		exit(1);
 	    }
