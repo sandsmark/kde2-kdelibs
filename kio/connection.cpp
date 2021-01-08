@@ -182,7 +182,10 @@ bool Connection::sendnow( int _cmd, const QByteArray &data )
 	return false;
     }
 
-    n = fwrite( data.data(), 1, data.size(), f_out );
+    if (data.size() > 0)
+        n = fwrite( data.data(), 1, data.size(), f_out );
+    else
+        n = 0;
 
     if ( n != data.size() ) {
 	kdError(7017) << "Could not write data" << endl;
