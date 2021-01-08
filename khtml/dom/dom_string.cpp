@@ -271,6 +271,10 @@ bool DOM::operator==( const DOMString &a, const DOMString &b )
 
     if( l != b.length() ) return false;
 
+    if (a.unicode() == NULL) {
+        return b.unicode() == NULL;
+    }
+
     if(!memcmp(a.unicode(), b.unicode(), l*sizeof(QChar)))
 	return true;
     return false;
@@ -281,6 +285,10 @@ bool DOM::operator==( const DOMString &a, const QString &b )
     unsigned int l = a.length();
 
     if( l != b.length() ) return false;
+
+    if (a.unicode() == NULL) {
+        return b.unicode() == NULL;
+    }
 
     if(!memcmp(a.unicode(), b.unicode(), l*sizeof(QChar)))
 	return true;
