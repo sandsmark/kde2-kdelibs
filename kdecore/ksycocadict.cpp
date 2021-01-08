@@ -187,7 +187,7 @@ calcDiversity(KSycocaDictStringList *d, int pos, int sz)
       for(string_entry *entry=d->first(); entry; entry = d->next())
       {
          register int l = entry->length;
-         if (pos < l)
+         if (pos < l && pos != 0)
          {
             register uint hash = ((entry->hash * 13) + (entry->key[l-pos].cell() % 29)) & 0x3ffffff;
             matrix[ hash % usz ] = true;
