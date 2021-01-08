@@ -27,7 +27,7 @@
 bison_target(MyParser
     grammar.y
     ${CMAKE_CURRENT_BINARY_DIR}/grammar.cpp
-    COMPILE_FLAGS "-y -d -p kjsyy"
+    COMPILE_FLAGS "-d -p kjsyy"
     )
 
 set(libkjs_SOURCES

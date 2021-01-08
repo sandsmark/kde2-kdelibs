@@ -150,6 +150,8 @@ using namespace KJS;
 %type <eli>   Elision ElisionOpt
 %type <elm>   ElementList
 
+%destructor { delete $$; $$ = NULL; } STRING IDENT
+
 %%
 
 Literal:
@@ -227,7 +229,7 @@ CallExpr:
     MemberExpr Arguments           { $$ = new FunctionCallNode($1, $2); }
   | CallExpr Arguments             { $$ = new FunctionCallNode($1, $2); }
   | CallExpr '[' Expr ']'          { $$ = new AccessorNode1($1, $3); }
-  | CallExpr '.' IDENT             { $$ = new AccessorNode2($1, $3); }
+  | CallExpr '.' IDENT             { $$ = new AccessorNode2($1, $3); delete $3; }
 ;
 
 Arguments:

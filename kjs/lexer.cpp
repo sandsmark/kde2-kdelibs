@@ -457,7 +457,6 @@ int Lexer::lex()
     return token;
   case Identifier:
     if ((token = Lookup::find(&mainTable, buffer16, pos16)) < 0) {
-      /* TODO: close leak on parse error. same holds true for String */
       kjsyylval.ustr = new UString(buffer16, pos16);
       return IDENT;
     }
