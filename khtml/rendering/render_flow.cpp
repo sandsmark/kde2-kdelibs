@@ -69,6 +69,10 @@ RenderFlow::RenderFlow()
     m_haveAnonymous = false;
 
     specialObjects = 0;
+
+    firstLine = false;
+    m_pre = false;
+    m_clearStatus = CNONE;
 }
 
 void RenderFlow::setStyle(RenderStyle *_style)
