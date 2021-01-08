@@ -65,14 +65,14 @@ extern "C" {
     }
 }
 
-static const int max_buf = 8192;
-static const int max_consumingtime = 500;
+static const int max_buf = 32768;
+static const int max_consumingtime = 2000;
 
 struct khtml_jpeg_source_mgr : public jpeg_source_mgr {
     JOCTET buffer[max_buf];
 
     int valid_buffer_len;
-    unsigned int skip_input_bytes;
+    size_t skip_input_bytes;
     int ateof;
     QTime decoder_timestamp;
     bool final_pass;
@@ -106,12 +106,12 @@ extern "C" {
             src->buffer[1] = (JOCTET) JPEG_EOI;
             src->bytes_in_buffer = 2;
 #ifdef BUFFER_DEBUG
-            qDebug("...returning TRUE!");
+            qDebug("...returning true!");
 #endif
-            return TRUE;
+            return true;
         }
         else
-            return FALSE;  /* I/O suspension mode */
+            return false;  /* I/O suspension mode */
     }
 
     static
@@ -137,7 +137,7 @@ extern "C" {
 #endif
 
         if(skipbytes < src->bytes_in_buffer)
-            memcpy(src->buffer, src->next_input_byte+skipbytes, src->bytes_in_buffer - skipbytes);
+            memmove(src->buffer, src->next_input_byte+skipbytes, src->bytes_in_buffer - skipbytes);
 
         src->bytes_in_buffer -= skipbytes;
         src->valid_buffer_len = src->bytes_in_buffer;
@@ -450,8 +450,8 @@ int KJPEGFormat::decode(QImage& image, QImageConsumer* consumer, const uchar* bu
     qDebug("bytes_in_buffer is now %d", jsrc.bytes_in_buffer);
     qDebug("consumed %d bytes", consumed);
 #endif
-    if(jsrc.bytes_in_buffer)
-        memcpy(jsrc.buffer, jsrc.next_input_byte, jsrc.bytes_in_buffer);
+    if(jsrc.bytes_in_buffer && jsrc.buffer != jsrc.next_input_byte)
+        memmove(jsrc.buffer, jsrc.next_input_byte, jsrc.bytes_in_buffer);
     jsrc.valid_buffer_len = jsrc.bytes_in_buffer;
     return consumed;
 }
