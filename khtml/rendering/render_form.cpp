@@ -799,6 +799,7 @@ RenderSelect::RenderSelect(QScrollView *view, HTMLSelectElementImpl *element)
     m_multiple = element->multiple();
     m_size = element->size();
     m_useListBox = (m_multiple || m_size > 1);
+    m_selectionChanged = false;
 
     if(m_useListBox)
         setQWidget(createListBox());
