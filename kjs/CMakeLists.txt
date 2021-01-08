@@ -93,11 +93,12 @@ install(FILES ${libkjs_HEADERS} DESTINATION ${KDE2_INCLUDEDIR}/kjs)
 kde2_library(libkjs
     SOURCES
         ${libkjs_SOURCES}
-    LIBS
-        ${PCRE_LIBRARIES}
     VERSION
         1.0.0
     )
+if (HAVE_PCREPOSIX)
+    target_link_libraries(libkjs PkgConfig::libpcreposix)
+endif()
 
 add_executable(testkjs testkjs.cpp)
 target_link_libraries(testkjs kde2::kjs)

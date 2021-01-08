@@ -98,12 +98,10 @@ find_package(PkgConfig REQUIRED)
 
 find_package(Qt2 REQUIRED)
 
-## There's probably some linking order or something, regcomp leads to a buffer overflow
-set(HAVE_PCREPOSIX OFF)
-#pkg_search_module(libpcreposix libpcreposix)
-#if (libpcreposix_FOUND)
-#    set(HAVE_PCREPOSIX ON)
-#endif()
+pkg_search_module(libpcreposix IMPORTED_TARGET libpcreposix)
+if (libpcreposix_FOUND)
+    set(HAVE_PCREPOSIX ON)
+endif()
 
 if(ENABLE_XFT)
     pkg_search_module(XFT REQUIRED xft)
