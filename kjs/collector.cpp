@@ -76,12 +76,12 @@ void* Collector::allocate(size_t s)
       softLimit *= 2;
   }
 
-  void *m = malloc(s);
+  void *m = calloc(1, s);
 
   // hack to ensure obj is protected from GC before any constructors are run
   // (prev = marked, next = gcallowed)
-  static_cast<Imp*>(m)->prev = 0;
-  static_cast<Imp*>(m)->next = 0;
+  //static_cast<Imp*>(m)->prev = 0;
+  //static_cast<Imp*>(m)->next = 0;
 
   if (!root) {
     root = new CollectorBlock(BlockSize);
