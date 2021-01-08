@@ -70,8 +70,13 @@ void KSSLPeerInfo::setPeerAddress(KInetSocketAddress& addr) {
 
 bool KSSLPeerInfo::certMatchesAddress(const QString &hostname) {
 #ifdef HAVE_SSL
+  QStringList names = m_cert.subjAltNames();
   KSSLX509Map certinfo(m_cert.getSubject());
-  QString cn = certinfo.getValue("CN");
+  names.append(certinfo.getValue("CN"));
+
+  QStringList::Iterator it = names.begin();
+  while (it != names.end()) {
+      QString cn = *it;
 
   if (d->proxying) {
 	if (cn.startsWith("*")) {
@@ -120,6 +125,7 @@ bool KSSLPeerInfo::certMatchesAddress(const QString &hostname) {
            return true;
         }
      }
+  }
   }
 
 #endif

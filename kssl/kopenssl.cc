@@ -106,6 +106,9 @@ static char* (*K_sk_value) (STACK*, int) = NULL;
 static STACK* (*K_sk_new) (int (*)()) = NULL;
 static int (*K_sk_push) (STACK*, char*) = NULL;
 static STACK* (*K_sk_dup) (const STACK *) = NULL;
+static void *(*K_X509_get_ext_d2i)(X509*, int, int*, int*) = NULL;
+static unsigned char *(*K_ASN1_STRING_data)(ASN1_STRING*) = NULL;
+static int (*K_ASN1_STRING_length)(ASN1_STRING*) = NULL;
 static STACK_OF(SSL_CIPHER) *(*K_SSL_get_ciphers)(const SSL *ssl) = NULL;
 static X509* (*K_X509_STORE_CTX_get_current_cert)(X509_STORE_CTX *ctx) = NULL;
 static int (*K_X509_STORE_CTX_get_error)(X509_STORE_CTX *ctx) = NULL;
@@ -291,6 +294,9 @@ KConfig *cfg;
       K_sk_dup = (STACK* (*) (const STACK *)) _cryptoLib->symbol("OPENSSL_sk_dup");
       if (!K_sk_dup) K_sk_dup = (STACK* (*) (const STACK *)) _cryptoLib->symbol("sk_dup");
       assert(K_sk_dup);
+      K_X509_get_ext_d2i = (void* (*)(X509*,int,int*,int*)) _cryptoLib->symbol("X509_get_ext_d2i");
+      K_ASN1_STRING_data = (unsigned char *(*)(ASN1_STRING*)) _cryptoLib->symbol("ASN1_STRING_data");
+      K_ASN1_STRING_length = (int (*)(ASN1_STRING*)) _cryptoLib->symbol("ASN1_STRING_length");
       K_X509_STORE_CTX_get_current_cert = (X509* (*)(X509_STORE_CTX *ctx)) _cryptoLib->symbol("X509_STORE_CTX_get_current_cert");
       K_X509_STORE_CTX_get_error = (int (*)(X509_STORE_CTX *ctx)) _cryptoLib->symbol("X509_STORE_CTX_get_error");
       K_X509_STORE_CTX_set_error = (void (*)(X509_STORE_CTX *ctx, int s)) _cryptoLib->symbol("X509_STORE_CTX_set_error");
@@ -836,6 +842,20 @@ STACK* KOpenSSLProxy::sk_new(int (*cmp)()) {
 int KOpenSSLProxy::sk_push(STACK* s, char* d) {
    if (K_sk_push) return (K_sk_push)(s,d);
    else return -1;
+}
+
+void *KOpenSSLProxy::X509_get_ext_d2i(X509 *x, int nid, int *crit, int *idx) {
+   if (K_X509_get_ext_d2i) return (K_X509_get_ext_d2i)(x,nid,crit,idx);
+   else return NULL;
+}
+
+unsigned char *KOpenSSLProxy::ASN1_STRING_data(ASN1_STRING *x) {
+   if (K_ASN1_STRING_data) return (K_ASN1_STRING_data)(x);
+   else return NULL;
+}
+int KOpenSSLProxy::ASN1_STRING_length(ASN1_STRING *x) {
+   if (K_ASN1_STRING_length) return (K_ASN1_STRING_length)(x);
+   return 0;
 }
 
 STACK_OF(SSL_CIPHER) *KOpenSSLProxy::SSL_get_ciphers(const SSL* ssl) {

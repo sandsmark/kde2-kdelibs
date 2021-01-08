@@ -497,6 +497,9 @@ public:
     *  Value of element n in the stack
     */
    char *sk_value(STACK *s, int n);
+   unsigned char *ASN1_STRING_data(ASN1_STRING *x);
+   int ASN1_STRING_length(ASN1_STRING *x);
+   void *X509_get_ext_d2i(X509 *x, int nid, int *crit, int *idx);
 
 #if OPENSSL_VERSION_NUMBER >= 0x10000000L
    char *sk_value(void *s, int n) { return sk_value(reinterpret_cast<STACK*>(s), n); }

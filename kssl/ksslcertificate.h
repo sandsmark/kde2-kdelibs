@@ -40,6 +40,7 @@
 //
 
 #include <qcstring.h>
+#include <qstringlist.h>
 
 class QString;
 class QCString;
@@ -104,6 +105,7 @@ public:
   // get public key ??
 
   bool isValid();
+  QStringList subjAltNames() const;
   KSSLValidation validate();
   KSSLValidation revalidate();
   KSSLCertChain& chain();
