@@ -78,54 +78,54 @@ bool KSSLPeerInfo::certMatchesAddress(const QString &hostname) {
   while (it != names.end()) {
       QString cn = *it;
 
-  if (d->proxying) {
-	if (cn.startsWith("*")) {
-		QRegExp cnre(cn.lower(), false, true);
-		if (cnre.match(d->proxyHost.lower()) >= 0) return true;
-	} else {
-		if (cn.lower() == d->proxyHost.lower()) return true;
-	}
-	return false;
-  }
+      if (d->proxying) {
+          if (cn.startsWith("*")) {
+              QRegExp cnre(cn.lower(), false, true);
+              if (cnre.match(d->proxyHost.lower()) >= 0) return true;
+          } else {
+              if (cn.lower() == d->proxyHost.lower()) return true;
+          }
+          return false;
+      }
 
 
-  if (cn.startsWith("*")) {   // stupid wildcard cn
-     QRegExp cnre(cn.lower(), false, true);
-     QString host, port;
+      if (cn.startsWith("*")) {   // stupid wildcard cn
+          QRegExp cnre(cn.lower(), false, true);
+          QString host, port;
 
-     if (KExtendedSocket::resolve(d->host, host, port, NI_NAMEREQD) != 0) 
-        host = d->host->nodeName();
+          if (KExtendedSocket::resolve(d->host, host, port, NI_NAMEREQD) != 0) 
+              host = d->host->nodeName();
 
-     kdDebug(7029) << "Matching CN=" << cn << " to " << host << endl;
-     if (cnre.match(host.lower()) >= 0) return true;
-     kdDebug(7029) << "Matching CN=" << cn << " to " << hostname << endl;
-     if (!hostname.isEmpty() && cnre.match(hostname.lower()) >= 0) return true;
-     if (cn.startsWith("*.")) {
-         if (!hostname.isEmpty() && cnre.match(("www." + hostname).lower()) >= 0) return true;
-     }
-  } else {
-     if (!hostname.isEmpty() && cn.lower() == hostname.lower()) {
-        return true;
-     }
+          kdDebug(7029) << "Matching CN=" << cn << " to " << host << endl;
+          if (cnre.match(host.lower()) >= 0) return true;
+          kdDebug(7029) << "Matching CN=" << cn << " to " << hostname << endl;
+          if (!hostname.isEmpty() && cnre.match(hostname.lower()) >= 0) return true;
+          if (cn.startsWith("*.")) {
+              if (!hostname.isEmpty() && cnre.match(("www." + hostname).lower()) >= 0) return true;
+          }
+      } else {
+          if (!hostname.isEmpty() && cn.lower() == hostname.lower()) {
+              return true;
+          }
 
-     int err = 0;
-     QList<KAddressInfo> cns = KExtendedSocket::lookup(cn.latin1(), 0, 0, &err);
-     if (err != 0) {
-       kdDebug(7029) << "Address lookup failed! -- " << err << endl;
-       return false;
-     }
-     cns.setAutoDelete(true);
+          int err = 0;
+          QList<KAddressInfo> cns = KExtendedSocket::lookup(cn.latin1(), 0, 0, &err);
+          if (err != 0) {
+              kdDebug(7029) << "Address lookup failed! -- " << err << endl;
+              return false;
+          }
+          cns.setAutoDelete(true);
 
-     kdDebug(7029) << "The original ones were: " << d->host->nodeName()
-                   << " and: " << certinfo.getValue("CN").latin1()
-                   << endl;
+          kdDebug(7029) << "The original ones were: " << d->host->nodeName()
+              << " and: " << certinfo.getValue("CN").latin1()
+              << endl;
 
-     for (KAddressInfo *x = cns.first(); x; x = cns.next()) {
-        if ((*x).address()->isCoreEqual(d->host)) {
-           return true;
-        }
-     }
-  }
+          for (KAddressInfo *x = cns.first(); x; x = cns.next()) {
+              if ((*x).address()->isCoreEqual(d->host)) {
+                  return true;
+              }
+          }
+      }
   }
 
 #endif
