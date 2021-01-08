@@ -128,6 +128,10 @@ RenderTable::RenderTable()
 
 RenderTable::~RenderTable()
 {
+    RenderObject* next;
+    for(RenderObject* n = firstChild(); n; n = next ) {
+        n->setTable(NULL);
+    }
     for ( unsigned int r = 0; r < allocRows; r++ )
         delete [] cells[r];
     delete [] cells;
