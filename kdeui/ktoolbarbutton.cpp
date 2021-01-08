@@ -444,19 +444,19 @@ void KToolBarButton::enterEvent(QEvent *)
 bool KToolBarButton::eventFilter(QObject *o, QEvent *ev)
 {
   // From Kai-Uwe Sattler <kus@iti.CS.Uni-Magdeburg.De>
-  if ((KToolBarButton *)o == this && ev->type() == QEvent::MouseButtonDblClick)
+  if (o == this && ev->type() == QEvent::MouseButtonDblClick)
   {
     emit doubleClicked(d->m_id);
     return true;
   }
 
-  if ((KToolBarButton *) o == this)
+  if ( o == this)
     if ((ev->type() == QEvent::MouseButtonPress ||
          ev->type() == QEvent::MouseButtonRelease ||
          ev->type() == QEvent::MouseButtonDblClick) && d->m_isRadio && isOn())
       return true;
 
-  if ((QPopupMenu *) o != d->m_popup)
+  if ( o != d->m_popup)
     return false; // just in case
 
   switch (ev->type())

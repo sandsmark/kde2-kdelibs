@@ -463,11 +463,11 @@ KLibFactory* KLibLoader::factory( const char* name )
 
 void KLibLoader::slotLibraryDestroyed()
 {
-  const KLibrary *lib = static_cast<const KLibrary *>( sender() );
+  const void *lib = static_cast<const void *>( sender() );
 
   QAsciiDictIterator<KLibWrapPrivate> it( m_libs );
   for (; it.current(); ++it )
-    if ( it.current()->lib == lib )
+    if ( (void*)it.current()->lib == lib )
     {
       KLibWrapPrivate *wrap = it.current();
       wrap->lib = 0;  /* the KLibrary object is already away */
