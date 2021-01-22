@@ -616,7 +616,7 @@ pid_t KDEDesktopMimeType::runApplication( const KURL& , const QString & _service
     if (s.terminal())
       cmd = QString("konsole2 %1 -e su %2 -c %3").arg(opts).arg(user).arg(cmd);
     else
-      cmd = QString("kdesu -u %1 -- %2").arg(user).arg(cmd);
+      cmd = QString("kdesu2 -u %1 -- %2").arg(user).arg(cmd);
   } else if (s.terminal())
     cmd = QString("konsole2 %1 -e %2").arg(opts).arg(cmd);
   else
