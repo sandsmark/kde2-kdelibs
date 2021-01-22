@@ -129,7 +129,7 @@ RenderTable::RenderTable()
 RenderTable::~RenderTable()
 {
     RenderObject* next;
-    for(RenderObject* n = firstChild(); n; n = next ) {
+    for(RenderObject* n = firstChild(); n; n = n->nextSibling() ) {
         n->setTable(NULL);
     }
     for ( unsigned int r = 0; r < allocRows; r++ )
