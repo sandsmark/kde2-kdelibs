@@ -63,6 +63,7 @@ public:
   KSSL *kssl;
   bool usingTLS;
   KSSLCertificateCache *cc;
+  KExtendedSocket *ks;
   QString host;
   QString ip;
   DCOPClient *dcc;
@@ -119,6 +120,7 @@ void TCPSlaveBase::doConstructorStuff()
     d->status = -1;
     d->timeout = -1;
     d->block = false;
+    d->ks = new KExtendedSocket; // handles KSock and buffering for us
     d->useSSLTunneling = false;
 }
 
@@ -128,6 +130,7 @@ TCPSlaveBase::~TCPSlaveBase()
     if (d->usingTLS) delete d->kssl;
     if (d->dcc) delete d->dcc;
     if (d->pkcs) delete d->pkcs;
+    delete d->ks;
     delete d;
 }
 
@@ -139,7 +142,7 @@ ssize_t TCPSlaveBase::Write(const void *data, ssize_t len)
             (void) doSSLHandShake( true );
         return d->kssl->write(data, len);
     }
-    return KSocks::self()->write(m_iSock, data, len);
+    return d->ks->writeBlock((const char*)data, len);
 }
 
 ssize_t TCPSlaveBase::Read(void *data, ssize_t len)
@@ -150,7 +153,7 @@ ssize_t TCPSlaveBase::Read(void *data, ssize_t len)
             (void) doSSLHandShake( true );
         return d->kssl->read(data, len);
     }
-    return KSocks::self()->read(m_iSock, data, len);
+    return d->ks->readBlock((char*)data, len);
 }
 
 ssize_t TCPSlaveBase::ReadLine(char *data, ssize_t len)
@@ -162,21 +165,21 @@ ssize_t TCPSlaveBase::ReadLine(char *data, ssize_t len)
     // ugliness alert!!  calling read() so many times can't be good...
     int clen = 0;
     char *buf = data;
-    while (clen < len) {
-        int rc;
-        if ( (m_bIsSSL || d->usingTLS) && !d->useSSLTunneling ) {
+    if ( (m_bIsSSL || d->usingTLS) && !d->useSSLTunneling ) {
+        while (clen < len) {
+            int rc;
             if ( d->needSSLHandShake )
                 (void) doSSLHandShake( true );
             rc = d->kssl->read(buf, 1);
         }
-        else
-            rc = KSocks::self()->read(m_iSock, buf, 1);
-            if (rc < 0) return -1;
-                clen++;
-            if (*buf++ == '\n')
-                break;
+        *buf = 0;
+    } else {
+        clen = d->ks->readLine(buf, len);
+        if (clen > 0) {
+            clen--;
+            buf[clen] = 0;
+        }
     }
-    *buf = 0;
     return clen;
 }
 
@@ -211,7 +214,6 @@ bool TCPSlaveBase::ConnectToHost( const QString &host,
                                   bool sendError )
 {
     unsigned short int port;
-    KExtendedSocket ks;
 
    //  - leaving SSL - warn before we even connect
    if (metaData("ssl_activate_warnings") == "TRUE" &&
@@ -236,13 +238,13 @@ bool TCPSlaveBase::ConnectToHost( const QString &host,
     d->host = host;
     d->needSSLHandShake = m_bIsSSL;
     port = GetPort(_port);
-    ks.setAddress(host, port);
+    d->ks->setAddress(host, port);
     if ( d->timeout > -1 )
-        ks.setTimeout( d->timeout );
+        d->ks->setTimeout( d->timeout );
 
-    if (ks.connect() < 0)
+    if (d->ks->connect() < 0)
     {
-        d->status = ks.status();
+        d->status = d->ks->status();
         if ( sendError )
         {
             if (d->status == IO_LookupError)
@@ -253,16 +255,14 @@ bool TCPSlaveBase::ConnectToHost( const QString &host,
         return false;
     }
 
-    m_iSock = ks.fd();
+    m_iSock = d->ks->fd();
 
     // store the IP for later
-    const KSocketAddress *sa = ks.peerAddress();
+    const KSocketAddress *sa = d->ks->peerAddress();
     d->ip = sa->nodeName();
 
-    ks.release();		// KExtendedSocket no longer applicable
-
-    if ( d->block != ks.blockingMode() )
-        ks.setBlockingMode( d->block );
+    if ( d->block != d->ks->blockingMode() )
+        d->ks->setBlockingMode( d->block );
 
     m_iPort=port;
 
@@ -286,6 +286,7 @@ bool TCPSlaveBase::ConnectToHost( const QString &host,
 
 void TCPSlaveBase::CloseDescriptor()
 {
+    d->ks->release();		// KExtendedSocket no longer applicable
     stopTLS();
     if (fp) {
         fclose(fp);
@@ -934,6 +935,9 @@ bool TCPSlaveBase::isConnectionValid()
 {
     if ( m_iSock == -1 )
       return false;
+    if (!d->ks) {
+        return false;
+    }
 
     fd_set rdfs;
     FD_ZERO(&rdfs);
