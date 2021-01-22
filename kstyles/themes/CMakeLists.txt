@@ -25,13 +25,9 @@
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 install(FILES
-    qtplatinum.themerc qtmotifplus.themerc qtsgi.themerc system.themerc
-    systemalt.themerc highcolor.themerc mega.themerc kstep.themerc
-    marble.themerc default.themerc b3.themerc
+    qtplatinum.themerc qtcde.themerc qtmotif.themerc qtwindows.themerc qtmotifplus.themerc
+    qtsgi.themerc system.themerc systemalt.themerc highcolor.themerc mega.themerc
+    kstep.themerc marble.themerc default.themerc b3.themerc
     DESTINATION ${KDE2_DATADIR}/kstyle/themes
     )
 
-# Conflicts with plasma-workspace
-install(FILES qtcde.themerc DESTINATION ${KDE2_DATADIR}/kstyle/themes RENAME qtcde2.themerc)
-install(FILES qtmotif.themerc DESTINATION ${KDE2_DATADIR}/kstyle/themes RENAME qtmotif2.themerc)
-install(FILES qtwindows.themerc DESTINATION ${KDE2_DATADIR}/kstyle/themes RENAME qtwindows2.themerc)
