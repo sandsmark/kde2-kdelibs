@@ -231,7 +231,7 @@ bool KSSL::setVerificationLogic() {
 
 int KSSL::connect(int sock) {
 #ifdef HAVE_SSL
-  // kdDebug(7029) << "KSSL connect" << endl;
+   kdDebug(7029) << "KSSL connect " << d->proxyPeer << endl;
   int rc;
   if (!m_bInit) return -1;
   d->m_ssl = d->kossl->SSL_new(d->m_ctx);
@@ -349,8 +349,14 @@ void KSSL::setPeerInfo(int sock) {
 
     if (rc != -1) {
       QString haddr;
-      KInetSocketAddress x(&sa, nl);
-      m_pi.setPeerAddress(x);
+      if (sa.sin_family == AF_INET6) {
+          // sue me
+          KInetSocketAddress x((sockaddr_in6*)&sa, nl);
+          m_pi.setPeerAddress(x);
+      } else {
+          KInetSocketAddress x(&sa, nl);
+          m_pi.setPeerAddress(x);
+      }
     }
   } else {
     m_pi.setProxying(d->proxying, d->proxyPeer);
