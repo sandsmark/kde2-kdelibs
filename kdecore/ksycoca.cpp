@@ -136,15 +136,17 @@ KSycoca::KSycoca( bool /* dummy */ )
    _self = this;
 }
 
+static KSycoca *s_sycoca_instance;
 static void delete_ksycoca_self() {
-  delete KSycoca::self();
+  delete s_sycoca_instance;
 }
 
 KSycoca * KSycoca::self()
 {
     if (!_self) {
-        qAddPostRoutine(delete_ksycoca_self);
         _self = new KSycoca();
+        s_sycoca_instance = _self;
+        qAddPostRoutine(delete_ksycoca_self);
     }
   return _self;
 }
