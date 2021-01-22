@@ -39,6 +39,7 @@ public:
   KInetSocketAddress *host;
   bool proxying;
   QString proxyHost;
+  QString hostname;
 };
 
 
@@ -60,6 +61,17 @@ void KSSLPeerInfo::setProxying(bool active, QString realHost) {
 	d->proxyHost = realHost;
 }
 
+void KSSLPeerInfo::setHostName(const QString &hostname) {
+    d->hostname = hostname;
+}
+
+QString KSSLPeerInfo::hostName() const {
+    if (d->hostname.isEmpty())
+        return d->host->nodeName();
+
+    return d->hostname;
+}
+
 void KSSLPeerInfo::setPeerAddress(KInetSocketAddress& addr) {
   if (!d->host)
     d->host = new KInetSocketAddress(addr);
@@ -68,7 +80,7 @@ void KSSLPeerInfo::setPeerAddress(KInetSocketAddress& addr) {
 }
 
 
-bool KSSLPeerInfo::certMatchesAddress(const QString &hostname) {
+bool KSSLPeerInfo::certMatchesAddress() {
 #ifdef HAVE_SSL
   QStringList names = m_cert.subjAltNames();
   KSSLX509Map certinfo(m_cert.getSubject());
@@ -98,13 +110,13 @@ bool KSSLPeerInfo::certMatchesAddress(const QString &hostname) {
 
           kdDebug(7029) << "Matching CN=" << cn << " to " << host << endl;
           if (cnre.match(host.lower()) >= 0) return true;
-          kdDebug(7029) << "Matching CN=" << cn << " to " << hostname << endl;
-          if (!hostname.isEmpty() && cnre.match(hostname.lower()) >= 0) return true;
+          kdDebug(7029) << "Matching CN=" << cn << " to " << d->hostname << endl;
+          if (!d->hostname.isEmpty() && cnre.match(d->hostname.lower()) >= 0) return true;
           if (cn.startsWith("*.")) {
-              if (!hostname.isEmpty() && cnre.match(("www." + hostname).lower()) >= 0) return true;
+              if (!d->hostname.isEmpty() && cnre.match(("www." + d->hostname).lower()) >= 0) return true;
           }
       } else {
-          if (!hostname.isEmpty() && cn.lower() == hostname.lower()) {
+          if (!d->hostname.isEmpty() && cn.lower() == d->hostname.lower()) {
               return true;
           }
 

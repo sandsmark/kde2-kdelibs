@@ -234,6 +234,8 @@ bool TCPSlaveBase::ConnectToHost( const QString &host,
 
     d->status = -1;
     d->host = host;
+    d->kssl->peerInfo().setHostName(d->host);
+
     d->needSSLHandShake = m_bIsSSL;
     port = GetPort(_port);
     ks.setAddress(host, port);
@@ -640,7 +642,8 @@ int TCPSlaveBase::verifyCertificate()
       setMetaData("ssl_action", "accept");
    }
 
-   _IPmatchesCN = d->kssl->peerInfo().certMatchesAddress(d->host);
+   d->kssl->peerInfo().setHostName(d->host);
+   _IPmatchesCN = d->kssl->peerInfo().certMatchesAddress();
 
    //kdDebug(7029) << "SSL HTTP frame the parent? " << metaData("main_frame_request") << endl;
    if (!hasMetaData("main_frame_request") || metaData("main_frame_request") == "TRUE") {

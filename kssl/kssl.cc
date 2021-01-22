@@ -249,7 +249,7 @@ int KSSL::connect(int sock) {
       return rc;
   }
 
-  d->kossl->SSL_set_tlsext_host_name(d->m_ssl, d->proxyPeer.ascii());
+  d->kossl->SSL_set_tlsext_host_name(d->m_ssl, m_pi.hostName().ascii());
 
   rc = d->kossl->SSL_connect(d->m_ssl);
   if (rc == 1) {
