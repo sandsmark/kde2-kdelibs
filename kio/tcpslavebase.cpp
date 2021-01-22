@@ -234,7 +234,9 @@ bool TCPSlaveBase::ConnectToHost( const QString &host,
 
     d->status = -1;
     d->host = host;
-    d->kssl->peerInfo().setHostName(d->host);
+
+    if (m_bIsSSL)
+        d->kssl->peerInfo().setHostName(d->host);
 
     d->needSSLHandShake = m_bIsSSL;
     port = GetPort(_port);
@@ -309,6 +311,7 @@ bool TCPSlaveBase::InitializeSSL()
     if (m_bIsSSL) {
         if (KSSL::doesSSLWork()) {
             d->kssl = new KSSL;
+            d->kssl->peerInfo().setHostName(d->host);
             return true;
         }
         else
@@ -350,6 +353,7 @@ int TCPSlaveBase::startTLS()
 	d->kssl = NULL;
         return -1;
     }
+    d->kssl->peerInfo().setHostName(d->host);
 
     certificatePrompt();
 
