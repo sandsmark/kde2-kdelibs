@@ -21,7 +21,9 @@
 class KArrowButton::Private
 {
 	public:
-		Private() {}
+		Private() {
+                    arrow = Qt::DownArrow;
+                }
 
 		Qt::ArrowType arrow;
 };
