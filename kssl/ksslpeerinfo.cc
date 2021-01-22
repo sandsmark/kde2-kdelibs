@@ -66,9 +66,6 @@ void KSSLPeerInfo::setHostName(const QString &hostname) {
 }
 
 QString KSSLPeerInfo::hostName() const {
-    if (d->hostname.isEmpty())
-        return d->host->nodeName();
-
     return d->hostname;
 }
 
@@ -77,6 +74,10 @@ void KSSLPeerInfo::setPeerAddress(KInetSocketAddress& addr) {
     d->host = new KInetSocketAddress(addr);
   else
     (*d->host) = addr;
+
+  if (d->hostname.isEmpty())
+      return d->host->nodeName();
+
 }
 
 
@@ -89,6 +90,7 @@ bool KSSLPeerInfo::certMatchesAddress() {
   QStringList::Iterator it = names.begin();
   while (it != names.end()) {
       QString cn = *it;
+      it++;
 
       if (d->proxying) {
           if (cn.startsWith("*")) {
