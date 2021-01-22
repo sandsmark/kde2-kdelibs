@@ -41,6 +41,6 @@ kde2_module(webstyle
 
 install(FILES
     web.themerc
-    DESTINATION ${KDE2_DATADIR}/kstyle/themes
+    DESTINATION ${KDE2_DATADIR}/kstyle2/themes
     )
 

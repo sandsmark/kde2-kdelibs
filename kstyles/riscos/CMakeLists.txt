@@ -32,11 +32,11 @@ install(FILES
     radio.png radio_down.png raised_border.png scrollborder.png slider.png
     sunk_border.png tab_up.png vscrollback.png vscrollbar.png vscrollbar_down.png
     vscrollborder.png vtab.png
-    DESTINATION ${KDE2_DATADIR}/kstyle/pixmaps/riscos
+    DESTINATION ${KDE2_DATADIR}/kstyle2/pixmaps/riscos
     )
 
 install(FILES
     riscos.themerc
-    DESTINATION ${KDE2_DATADIR}/kstyle/themes
+    DESTINATION ${KDE2_DATADIR}/kstyle2/themes
     )
 

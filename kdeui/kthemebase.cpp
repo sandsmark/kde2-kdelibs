@@ -285,7 +285,7 @@ void KThemeBase::readConfig(Qt::GUIStyle /*style*/)
 KThemeBase::KThemeBase(const QString & configFile)
     :KStyle(), configFileName(configFile)
 {
-    KGlobal::dirs()->addResourceType("kstyle_pixmap", KStandardDirs::kde_default("data") + "kstyle/pixmaps/");
+    KGlobal::dirs()->addResourceType("kstyle_pixmap", KStandardDirs::kde_default("data") + "kstyle2/pixmaps/");
     readConfig(Qt::WindowsStyle);
     cache = new KThemeCache(cacheSize);
 }

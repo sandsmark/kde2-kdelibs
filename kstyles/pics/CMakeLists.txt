@@ -37,6 +37,6 @@ install(FILES
     sysborder.png sysborderdown.png sysarrow_idown.png sysarrow_iup.png sysarrow_ileft.png
     sysarrow_iright.png sysarrow_sdown.png sysarrow_sup.png sysarrow_sleft.png sysarrow_sright.png
     sbdeco_elec_small.png sbdeco_elec_smalldown.png darkgraytexture.png
-    DESTINATION ${KDE2_DATADIR}/kstyle/pixmaps
+    DESTINATION ${KDE2_DATADIR}/kstyle2/pixmaps
     )
 

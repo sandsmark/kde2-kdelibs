@@ -1101,7 +1101,7 @@ void KApplication::parseCommandLine( )
 
     if (args->isSet("style"))
     {
-       KGlobal::dirs()->addResourceType("kstylefile", KStandardDirs::kde_default("data") + "kstyle/themes");
+       KGlobal::dirs()->addResourceType("kstylefile", KStandardDirs::kde_default("data") + "kstyle2/themes");
        QString style(args->getOption("style"));
 
        QString styleExtension(".themerc");
