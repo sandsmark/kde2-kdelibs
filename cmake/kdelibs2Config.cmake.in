@@ -30,6 +30,7 @@ if(@HAVE_SSL@)
 endif()
 
 if(@ENABLE_OPENGL@)
+    set(OpenGL_GL_PREFERENCE "LEGACY")
     find_package(OpenGL REQUIRED COMPONENTS OpenGL)
     find_package(GLUT REQUIRED)
 endif()
