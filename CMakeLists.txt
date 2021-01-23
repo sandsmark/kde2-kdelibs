@@ -250,9 +250,12 @@ install(FILES
     cmake/kde2_utils.cmake
     cmake/kde2_libtool_lib_template.la.in
     cmake/kde2_libtool_template.la.in
-    cmake/Findkdelibs2.cmake
-    cmake/Findarts.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kdelibs2)
+
+install(FILES
+    cmake/artsConfig.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/arts
+    )
 
 install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/config.h
