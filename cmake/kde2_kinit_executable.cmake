@@ -1,3 +1,5 @@
+set(kde2_kinit__internal_dir ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "")
+
 function(kde2_kinit_executable library_name)
     include(GNUInstallDirs)
     include(CMakeParseArguments)
@@ -80,7 +82,7 @@ function(kde2_kinit_executable library_name)
     get_filename_component(LAPROP_SONAME ${output_name} NAME)
     get_target_property(LAPROP_DEPENDENCY_LIBS kinit_${library_name} INTERFACE_LINK_LIBRARIES)
 
-    configure_file(${PROJECT_SOURCE_DIR}/cmake/kde2_libtool_template.la.in
+    configure_file(${kde2_kinit__internal_dir}/kde2_libtool_template.la.in
         ${CMAKE_CURRENT_BINARY_DIR}/${output_name}.la
         @ONLY
         )

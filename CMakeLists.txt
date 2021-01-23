@@ -246,4 +246,11 @@ install(FILES
     cmake/kde2_module.cmake
     cmake/kde2_kinit_executable.cmake
     cmake/kde2_utils.cmake
+    cmake/kde2_libtool_lib_template.la.in
+    cmake/kde2_libtool_template.la.in
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kdelibs2)
+
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+    DESTINATION ${KDE2_INCLUDEDIR}
+    )
