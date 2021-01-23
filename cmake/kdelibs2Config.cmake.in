@@ -60,6 +60,10 @@ if(@HAVE_BZIP2_SUPPORT@)
     endif()
 endif()
 
+if(@HAVE_LIBZ@)
+    find_package(ZLIB REQUIRED)
+endif()
+
 if(@HAVE_LIBAUDIOFILE@)
     pkg_search_module(audiofile IMPORTED_TARGET audiofile REQUIRED)
 endif()
