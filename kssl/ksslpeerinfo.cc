@@ -74,10 +74,6 @@ void KSSLPeerInfo::setPeerAddress(KInetSocketAddress& addr) {
     d->host = new KInetSocketAddress(addr);
   else
     (*d->host) = addr;
-
-  if (d->hostname.isEmpty())
-      return d->host->nodeName();
-
 }
 
 
