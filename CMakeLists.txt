@@ -53,10 +53,6 @@ set(KDE2_HTMLDIR ${CMAKE_INSTALL_FULL_DOCDIR}/HTML CACHE STRING "KDE2 Doc dir")
 set(KDE2_INCLUDEDIR ${CMAKE_INSTALL_FULL_INCLUDEDIR}/kde2 CACHE STRING "KDE2 include dir")
 set(KDE2_CA_CERT_PATH "${CMAKE_INSTALL_FULL_SYSCONFDIR}/ssl/cert.pem" CACHE STRING "Path to certificate authority database")
 
-include(CMakePackageConfigHelpers)
-configure_package_config_file(cmake/kdelibs2Config.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/kdelibs2Config.cmake
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kdelibs2)
-
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -150,7 +146,9 @@ endif()
 
 find_package(TIFF)
 if(TIFF_FOUND)
-    set(HAVE_LIBTIFF ON)
+    set(HAVE_LIBTIFF TRUE)
+else()
+    set(HAVE_LIBTIFF FALSE)
 endif()
 
 find_package(ALSA)
@@ -182,20 +180,30 @@ if(NOT TARGET BZip2::BZip2)
 endif()
 
 if(BZIP2_FOUND)
-    set(HAVE_BZIP2_SUPPORT ON)
+    set(HAVE_BZIP2_SUPPORT TRUE)
+else()
+    set(HAVE_BZIP2_SUPPORT FALSE)
 endif()
 
 pkg_search_module(audiofile IMPORTED_TARGET audiofile)
 if (audiofile_FOUND)
-    set(HAVE_LIBAUDIOFILE ON)
+    set(HAVE_LIBAUDIOFILE TRUE)
+else()
+    set(HAVE_LIBAUDIOFILE FALSE)
 endif()
 
 find_package(Cups)
 
 find_package(OpenSSL)
 if(OpenSSL_FOUND)
-    set(HAVE_SSL ON)
+    set(HAVE_SSL TRUE)
+else()
+    set(HAVE_SSL FALSE)
 endif()
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(cmake/kdelibs2Config.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/kdelibs2Config.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kdelibs2)
 
 create_kde2_config_header()
 

@@ -17,4 +17,48 @@ set(KDE2_WALLPAPERDIR "@KDE2_WALLPAPERDIR@")
 set(KDE2_HTMLDIR "@KDE2_HTMLDIR@")
 set(KDE2_INCLUDEDIR "@KDE2_INCLUDEDIR@")
 
+find_package(X11 REQUIRED)
 find_package(Qt2 REQUIRED)
+find_package(LibXml2 REQUIRED)
+find_package(LibXslt REQUIRED)
+find_package(ALSA)
+
+find_package(PkgConfig REQUIRED)
+
+if(@HAVE_SSL@)
+    find_package(OpenSSL REQUIRED)
+endif()
+
+if(@ENABLE_OPENGL@)
+    find_package(OpenGL REQUIRED COMPONENTS OpenGL)
+    find_package(GLUT REQUIRED)
+endif()
+
+if(@SYSTEM_JPEG@)
+    find_package(JPEG REQUIRED)
+    pkg_search_module(XMU xmu REQUIRED)
+endif()
+
+if(@HAVE_LIBTIFF@)
+    find_package(TIFF REQUIRED)
+endif()
+
+
+pkg_search_module(PCRE libpcre REQUIRED)
+
+if(@ENABLE_THREAD_SUPPORT@)
+    find_package(Threads REQUIRED)
+endif()
+
+if(@HAVE_BZIP2_SUPPORT@)
+    find_package(BZip2 REQUIRED)
+    if(NOT TARGET BZip2::BZip2)
+        add_library(BZip2::BZip2 UNKNOWN IMPORTED)
+        set_target_properties(BZip2::BZip2 PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${BZIP2_INCLUDE_DIRS}")
+        set_property(TARGET BZip2::BZip2 APPEND PROPERTY IMPORTED_LOCATION "${BZIP2_LIBRARY}")
+    endif()
+endif()
+
+if(@HAVE_LIBAUDIOFILE@)
+    pkg_search_module(audiofile IMPORTED_TARGET audiofile REQUIRED)
+endif()
