@@ -8,6 +8,3 @@ find_package(soundserver REQUIRED)
 find_package(artscbackend REQUIRED)
 find_package(artswavplayobject REQUIRED)
 find_package(x11globalcomm REQUIRED)
-
-find_package(Qt2 REQUIRED)
-find_package(qtmcop REQUIRED)
