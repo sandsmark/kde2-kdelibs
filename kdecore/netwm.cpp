@@ -99,6 +99,8 @@ static Atom net_wm_state_skip_taskbar = 0;
 static Atom net_wm_state_skip_pager   = 0;
 static Atom net_wm_state_stays_on_top = 0;
 
+static Atom net_wm_state_fullscreen   = 0;
+
 // used to determine whether application window is managed or not
 static Atom xa_wm_state = 0;
 
@@ -187,7 +189,7 @@ static int wcmp(const void *a, const void *b) {
 }
 
 
-static const int netAtomCount = 47;
+static const int netAtomCount = 48;
 static void create_atoms(Display *d) {
     static const char *names[netAtomCount] =
     {
@@ -236,6 +238,8 @@ static void create_atoms(Display *d) {
 	    "_NET_WM_STATE_SKIP_TASKBAR",
 	    "_NET_WM_STATE_SKIP_PAGER",
 	    "_NET_WM_STATE_STAYS_ON_TOP",
+
+	    "_NET_WM_STATE_FULLSCREEN",
 
 	    "_KDE_NET_SYSTEM_TRAY_WINDOWS",
 	    "_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR",
@@ -292,6 +296,8 @@ static void create_atoms(Display *d) {
 	    &net_wm_state_skip_taskbar,
 	    &net_wm_state_skip_pager,
 	    &net_wm_state_stays_on_top,
+
+	    &net_wm_state_fullscreen,
 
 	    &kde_net_system_tray_windows,
 	    &kde_net_wm_system_tray_window_for,
@@ -907,6 +913,7 @@ void NETRootInfo::setSupported(unsigned long pr) {
 	atoms[pnum++] = net_wm_state_skip_taskbar;
 	atoms[pnum++] = net_wm_state_skip_pager;
 	atoms[pnum++] = net_wm_state_stays_on_top;
+	atoms[pnum++] = net_wm_state_fullscreen;
     }
 
     if (p->protocols & WMStrut)
@@ -1945,6 +1952,14 @@ void NETWinInfo::setState(unsigned long state, unsigned long mask) {
 	    XSendEvent(p->display, p->root, False, netwm_sendevent_mask, &e);
 	}
 
+	if ((mask & Fullscreen) && ((p->state & Fullscreen) != (state & Fullscreen))) {
+	    e.xclient.data.l[0] = (state & Fullscreen) ? 1 : 0;
+	    e.xclient.data.l[1] = net_wm_state_fullscreen;
+	    e.xclient.data.l[2] = 0l;
+
+	    XSendEvent(p->display, p->root, False, netwm_sendevent_mask, &e);
+	}
+
 	if ((mask & Max) && (( (p->state&mask) & Max) != (state & Max))) {
 
 	    unsigned long wishstate = (p->state & ~mask) | (state & mask);
@@ -2034,6 +2049,7 @@ void NETWinInfo::setState(unsigned long state, unsigned long mask) {
 	if (p->state & Sticky) data[count++] = net_wm_state_sticky;
 	if (p->state & SkipTaskbar) data[count++] = net_wm_state_skip_taskbar;
 	if (p->state & SkipPager) data[count++] = net_wm_state_skip_pager;
+	if (p->state & Fullscreen) data[count++] = net_wm_state_fullscreen;
 
 #ifdef NETWMDEBUG
 	fprintf(stderr, "NETWinInfo::setState: setting state property (%d)\n", count);
@@ -2339,6 +2355,8 @@ unsigned long NETWinInfo::event(XEvent *event) {
 		    mask |= SkipPager;
 		else if ((Atom) event->xclient.data.l[i] == net_wm_state_stays_on_top)
 		    mask |= StaysOnTop;
+		else if ((Atom) event->xclient.data.l[i] == net_wm_state_fullscreen)
+		    mask |= Fullscreen;
 	    }
 
 	    // when removing, we just leave newstate == 0
@@ -2524,6 +2542,8 @@ void NETWinInfo::update(unsigned long dirty) {
 			p->state |= SkipPager;
 		    else if ((Atom) states[count] == net_wm_state_stays_on_top)
 			p->state |= StaysOnTop;
+		    else if ((Atom) states[count] == net_wm_state_fullscreen)
+			p->state |= Fullscreen;
 		}
 	    }
 	    if ( data_ret )

@@ -257,7 +257,9 @@ public:
 	Shaded       = 1<<4,
 	SkipTaskbar  = 1<<5,
 	StaysOnTop   = 1<<6,
-	SkipPager    = 1<<7
+	SkipPager    = 1<<7,
+	Fullscreen   = 1<<8,
+
     };
 
     /**
